@@ -145,8 +145,7 @@ flutter run
 bash run_emulator_flutter_flow.sh
 ```
 
-> `run_emulator_flutter_flow.sh`의 `WORKDIR`는 현재 절대경로로 고정되어 있습니다.  
-> TODO: 저장소 상대경로 기반으로 일반화.
+> 기본값은 스크립트 위치(저장소 루트)이며, 필요 시 `WORKDIR` 환경변수로 재정의할 수 있습니다.
 
 ## 9) 환경변수(`--dart-define`) 정리
 
