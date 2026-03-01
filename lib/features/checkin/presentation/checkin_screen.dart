@@ -30,6 +30,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
   }
 
   @override
+  /// Purpose: Render check-in inputs and weekly trend in a scrollable layout.
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final state = ref.watch(checkInControllerProvider);
@@ -151,6 +152,7 @@ class _ScoreSlider extends StatelessWidget {
   final ValueChanged<int> onChanged;
 
   @override
+  /// Purpose: Render one bounded score slider row for mood/energy input.
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,6 +177,7 @@ class _TrendRow extends StatelessWidget {
   final DailyCheckInEntry entry;
 
   @override
+  /// Purpose: Render one date row with mood/energy mini trend bars.
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Padding(
@@ -221,19 +224,32 @@ class _TrendBar extends StatelessWidget {
   final Color color;
 
   @override
+  /// Purpose: Render adaptive trend bar without fixed-width overflow.
   Widget build(BuildContext context) {
-    final ratio = value / CheckInConfig.scoreMax;
-    final width = ratio * CheckInConfig.trendBarMaxWidth;
+    final ratio = (value / CheckInConfig.scoreMax).clamp(0.0, 1.0);
 
     return Row(
       children: [
-        SizedBox(width: 48, child: Text(label)),
-        Container(
-          height: 10,
-          width: width,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(6),
+        Flexible(
+          flex: 2,
+          child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          flex: 5,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: FractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              widthFactor: ratio,
+              child: Container(
+                height: 10,
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+              ),
+            ),
           ),
         ),
         const SizedBox(width: 8),

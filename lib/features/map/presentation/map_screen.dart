@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:vibemental_app/core/config/app_env.dart';
+import 'package:vibemental_app/core/config/layout_config.dart';
 import 'package:vibemental_app/core/config/map_config.dart';
 import 'package:vibemental_app/core/platform/external_action_providers.dart';
 import 'package:vibemental_app/core/result/app_result.dart';
@@ -36,6 +37,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   }
 
   @override
+  /// Purpose: Render nearby clinic map, status, and fallback cards.
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
@@ -185,6 +187,7 @@ class _ClinicCard extends ConsumerWidget {
   final Clinic clinic;
 
   @override
+  /// Purpose: Render clinic summary card with adaptive action layout.
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
 
@@ -194,32 +197,80 @@ class _ClinicCard extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(clinic.name, style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              clinic.name,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 6),
-            Text('${clinic.distanceLabel} · ${clinic.category}'),
+            Text(
+              '${clinic.distanceLabel} · ${clinic.category}',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
             if (clinic.address != null && clinic.address!.isNotEmpty) ...[
               const SizedBox(height: 4),
-              Text(clinic.address!),
+              Text(
+                clinic.address!,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
             ],
             const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: FilledButton.tonal(
-                    onPressed: clinic.phone == null
-                        ? null
-                        : () => _callClinic(context, ref, clinic.phone!),
-                    child: Text(l10n.buttonCallClinic),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => _openDirections(context, ref, clinic),
-                    child: Text(l10n.buttonDirections),
-                  ),
-                ),
-              ],
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final textScale = MediaQuery.textScalerOf(context).scale(1);
+                final useCompactLayout =
+                    constraints.maxWidth <
+                        LayoutConfig.compactMapActionWidthThreshold ||
+                    textScale > LayoutConfig.compactTextScaleThreshold;
+
+                if (useCompactLayout) {
+                  return Column(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: FilledButton.tonal(
+                          onPressed: clinic.phone == null
+                              ? null
+                              : () => _callClinic(context, ref, clinic.phone!),
+                          child: Text(l10n.buttonCallClinic),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () =>
+                              _openDirections(context, ref, clinic),
+                          child: Text(l10n.buttonDirections),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
+                return Row(
+                  children: [
+                    Expanded(
+                      child: FilledButton.tonal(
+                        onPressed: clinic.phone == null
+                            ? null
+                            : () => _callClinic(context, ref, clinic.phone!),
+                        child: Text(l10n.buttonCallClinic),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => _openDirections(context, ref, clinic),
+                        child: Text(l10n.buttonDirections),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ],
         ),
