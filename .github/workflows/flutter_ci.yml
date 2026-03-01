@@ -1,0 +1,76 @@
+name: Flutter CI
+
+# CI only workflow. Deployment (CD) is intentionally excluded.
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: flutter-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-check:
+    name: Quality Check (format/analyze/test)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Dart format check
+        run: dart format --output=none --set-exit-if-changed lib test
+
+      - name: Flutter analyze
+        run: flutter analyze
+
+      - name: Flutter test
+        run: flutter test
+
+  release-pr-gate:
+    name: Release PR Gate (develop -> main)
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.base_ref == 'main' &&
+      github.head_ref == 'develop'
+    needs: [quality-check]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Re-run analyze for release branch gate
+        run: flutter analyze
+
+      - name: Re-run tests for release branch gate
+        run: flutter test
+
+      - name: Confirm CI-only policy
+        run: echo "CI passed. No CD/deployment job configured by policy."
