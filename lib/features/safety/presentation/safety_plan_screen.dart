@@ -5,6 +5,7 @@ import 'package:vibemental_app/core/config/safety_plan_config.dart';
 import 'package:vibemental_app/core/platform/external_action_providers.dart';
 import 'package:vibemental_app/core/result/app_result.dart';
 import 'package:vibemental_app/core/theme/app_semantic_colors.dart';
+import 'package:vibemental_app/core/config/layout_config.dart';
 import 'package:vibemental_app/features/safety/application/safety_providers.dart';
 import 'package:vibemental_app/features/safety/domain/trusted_contact.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
@@ -42,6 +43,7 @@ class _SafetyPlanScreenState extends ConsumerState<SafetyPlanScreen> {
   }
 
   @override
+  /// Purpose: Render safety plan editor and trusted-contact actions.
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final state = ref.watch(safetyControllerProvider);
@@ -127,23 +129,59 @@ class _SafetyPlanScreenState extends ConsumerState<SafetyPlanScreen> {
             child: Text(l10n.safetyPlanSaveButton),
           ),
           const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  l10n.safetyPlanContactsTitle,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-              OutlinedButton.icon(
-                onPressed:
-                    state.contacts.length >= SafetyPlanConfig.maxTrustedContacts
-                    ? null
-                    : () => _showAddContactDialog(context),
-                icon: const Icon(Icons.person_add_alt_1),
-                label: Text(l10n.safetyPlanAddContact),
-              ),
-            ],
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final textScale = MediaQuery.textScalerOf(context).scale(1);
+              final useCompactLayout =
+                  constraints.maxWidth <
+                      LayoutConfig.compactScreenWidthThreshold ||
+                  textScale > LayoutConfig.compactTextScaleThreshold;
+
+              if (useCompactLayout) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.safetyPlanContactsTitle,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed:
+                            state.contacts.length >=
+                                SafetyPlanConfig.maxTrustedContacts
+                            ? null
+                            : () => _showAddContactDialog(context),
+                        icon: const Icon(Icons.person_add_alt_1),
+                        label: Text(l10n.safetyPlanAddContact),
+                      ),
+                    ),
+                  ],
+                );
+              }
+
+              return Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      l10n.safetyPlanContactsTitle,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed:
+                        state.contacts.length >=
+                            SafetyPlanConfig.maxTrustedContacts
+                        ? null
+                        : () => _showAddContactDialog(context),
+                    icon: const Icon(Icons.person_add_alt_1),
+                    label: Text(l10n.safetyPlanAddContact),
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 8),
           if (state.contacts.isEmpty)

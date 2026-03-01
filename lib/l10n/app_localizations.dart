@@ -107,7 +107,7 @@ abstract class AppLocalizations {
   /// No description provided for @notDiagnosis.
   ///
   /// In en, this message translates to:
-  /// **'This app is a screening tool, not a diagnosis.'**
+  /// **'This app is for screening only.'**
   String get notDiagnosis;
 
   /// No description provided for @homeTitle.
@@ -443,7 +443,7 @@ abstract class AppLocalizations {
   /// No description provided for @checkInSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'This is a daily wellbeing log, not a diagnosis.'**
+  /// **'This is a daily wellbeing log for screening support.'**
   String get checkInSubtitle;
 
   /// No description provided for @checkInMoodLabel.

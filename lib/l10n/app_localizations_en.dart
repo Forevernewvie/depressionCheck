@@ -12,7 +12,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Mind Check';
 
   @override
-  String get notDiagnosis => 'This app is a screening tool, not a diagnosis.';
+  String get notDiagnosis => 'This app is for screening only.';
 
   @override
   String get homeTitle => 'Let\'s check in on your mood today.';
@@ -195,7 +195,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checkInSubtitle =>
-      'This is a daily wellbeing log, not a diagnosis.';
+      'This is a daily wellbeing log for screening support.';
 
   @override
   String get checkInMoodLabel => 'Mood';

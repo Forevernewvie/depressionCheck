@@ -1,7 +1,7 @@
 {
   "@@locale": "en",
   "appTitle": "Mind Check",
-  "notDiagnosis": "This app is a screening tool, not a diagnosis.",
+  "notDiagnosis": "This app is for screening only.",
   "homeTitle": "Let's check in on your mood today.",
   "homeSubtitle": "A 2-step depression screening flow for ages 13-49.",
   "homeStart": "Start Mild Screen",
@@ -57,7 +57,7 @@
   "buttonCallClinic": "Call Clinic",
   "buttonDirections": "Directions",
   "checkInTitle": "Daily Check-in",
-  "checkInSubtitle": "This is a daily wellbeing log, not a diagnosis.",
+  "checkInSubtitle": "This is a daily wellbeing log for screening support.",
   "checkInMoodLabel": "Mood",
   "checkInEnergyLabel": "Energy",
   "checkInNoteLabel": "Short note (optional)",

@@ -23,6 +23,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   @override
+  /// Purpose: Render multi-step onboarding with overflow-safe page content.
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final pages = [
@@ -33,7 +34,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${l10n.onboardingLabel} ${_index + 1}/3'),
+        title: Text(
+          '${l10n.onboardingLabel} ${_index + 1}/3',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
         actions: [
           TextButton(onPressed: _finish, child: Text(l10n.onboardingSkip)),
         ],
@@ -52,20 +57,22 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   return Card(
                     child: Padding(
                       padding: const EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            data.title,
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                          const SizedBox(height: 14),
-                          Text(
-                            data.body,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              data.title,
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            const SizedBox(height: 14),
+                            Text(
+                              data.body,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
