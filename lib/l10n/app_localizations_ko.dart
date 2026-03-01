@@ -12,7 +12,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get appTitle => '마음체크';
 
   @override
-  String get notDiagnosis => '이 앱은 진단이 아닌 선별 도구입니다.';
+  String get notDiagnosis => '이 앱은 선별 전용 도구입니다.';
 
   @override
   String get homeTitle => '오늘의 마음 상태를 확인해볼까요?';
@@ -181,7 +181,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get checkInTitle => '데일리 체크인';
 
   @override
-  String get checkInSubtitle => '이 기능은 진단이 아닌 일상 상태 기록용입니다.';
+  String get checkInSubtitle => '이 기능은 선별 지원을 위한 일상 상태 기록용입니다.';
 
   @override
   String get checkInMoodLabel => '기분';

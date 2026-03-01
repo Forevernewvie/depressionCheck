@@ -1,7 +1,7 @@
 {
   "@@locale": "ko",
   "appTitle": "마음체크",
-  "notDiagnosis": "이 앱은 진단이 아닌 선별 도구입니다.",
+  "notDiagnosis": "이 앱은 선별 전용 도구입니다.",
   "homeTitle": "오늘의 마음 상태를 확인해볼까요?",
   "homeSubtitle": "13-49세를 위한 2단계 우울 선별 흐름입니다.",
   "homeStart": "경도 검사 시작",
@@ -57,7 +57,7 @@
   "buttonCallClinic": "병원 전화",
   "buttonDirections": "길찾기",
   "checkInTitle": "데일리 체크인",
-  "checkInSubtitle": "이 기능은 진단이 아닌 일상 상태 기록용입니다.",
+  "checkInSubtitle": "이 기능은 선별 지원을 위한 일상 상태 기록용입니다.",
   "checkInMoodLabel": "기분",
   "checkInEnergyLabel": "에너지",
   "checkInNoteLabel": "짧은 메모 (선택)",
