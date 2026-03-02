@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibemental_app/core/ads/ad_providers.dart';
+import 'package:vibemental_app/core/config/ad_config.dart';
 import 'package:vibemental_app/core/config/app_routes.dart';
 import 'package:vibemental_app/core/config/screening_labels.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
-class ModulesScreen extends StatelessWidget {
+class ModulesScreen extends ConsumerWidget {
   const ModulesScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  /// Purpose: Render instrument module overview and a non-critical ad placement.
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final adService = ref.watch(adServiceProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.modulesTitle)),
@@ -47,6 +52,8 @@ class ModulesScreen extends StatelessWidget {
             onPressed: () => context.push(AppRoutes.clinician),
             child: Text(l10n.moduleClinicianButton),
           ),
+          const SizedBox(height: 12),
+          adService.buildBanner(placement: AdPlacement.modulesBottomBanner),
         ],
       ),
     );

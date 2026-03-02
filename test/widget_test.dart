@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vibemental_app/app/app.dart';
+import 'package:vibemental_app/core/ads/ad_providers.dart';
 import 'package:vibemental_app/core/settings/app_settings.dart';
 import 'package:vibemental_app/core/settings/data/app_preferences_repository.dart';
 import 'package:vibemental_app/features/onboarding/presentation/splash_screen.dart';
 import 'fakes/fake_app_preferences_repository.dart';
+import 'fakes/fake_ad_service.dart';
 
 void main() {
   late FakeAppPreferencesRepository repository;
@@ -32,6 +34,7 @@ void main() {
       ProviderScope(
         overrides: [
           appPreferencesRepositoryProvider.overrideWithValue(repository),
+          adServiceProvider.overrideWithValue(FakeAdService()),
           splashDurationProvider.overrideWithValue(Duration.zero),
         ],
         child: const MindCheckApp(),
