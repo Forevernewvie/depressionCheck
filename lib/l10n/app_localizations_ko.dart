@@ -27,6 +27,18 @@ class AppLocalizationsKo extends AppLocalizations {
   String get homeSafetyNote => '안전 위험이 감지되면 즉시 응급 안내를 표시합니다.';
 
   @override
+  String get homeHowItWorksTitle => '처음 사용자를 위한 진행 안내';
+
+  @override
+  String get homeHowItWorksStep1 => '경도 선별(PHQ-2)을 먼저 진행합니다.';
+
+  @override
+  String get homeHowItWorksStep2 => '필요 시 중등도 선별(PHQ-9)로 자동 이어집니다.';
+
+  @override
+  String get homeHowItWorksStep3 => '결과에 따라 일상 관리 또는 주변 진료기관 안내를 제공합니다.';
+
+  @override
   String get homeWellnessToolsTitle => '일상 지원 도구';
 
   @override
@@ -102,6 +114,18 @@ class AppLocalizationsKo extends AppLocalizations {
   String get phq2Title => 'PHQ-2 경도 선별';
 
   @override
+  String get phq2FlowTitle => '1단계 빠른 선별';
+
+  @override
+  String get phq2FlowStepLabel => '1/2 단계';
+
+  @override
+  String get phq2FlowEstimate => '예상 1분';
+
+  @override
+  String get phq2FlowDescription => '응답 결과에 따라 바로 결과를 안내하거나 2단계 선별로 이어집니다.';
+
+  @override
   String get phq2Question1 =>
       '지난 2주 동안, 기분이 가라앉거나 우울하거나 희망이 없다고 느낀 빈도는 어느 정도였나요?';
 
@@ -110,6 +134,19 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get phq9Title => 'PHQ-9 / PHQ-A 중등도 선별';
+
+  @override
+  String get phq9FlowTitle => '2단계 심화 선별';
+
+  @override
+  String get phq9FlowStepLabel => '2/2 단계';
+
+  @override
+  String get phq9FlowEstimate => '예상 2-3분';
+
+  @override
+  String get phq9FlowDescription =>
+      '1단계 결과를 바탕으로 권장된 단계입니다. 9문항에 응답하면 맞춤 안내를 제공합니다.';
 
   @override
   String get phq9Intro => '9개 문항에 모두 응답해주세요. 위험도가 높으면 즉시 도움과 주변 병원을 안내합니다.';
@@ -333,7 +370,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get mapNoLocation =>
-      'MVP 안내: 실시간 지도 연동은 추후 추가 가능하며, 현재는 주변 기관 카드를 우선 제공합니다.';
+      '위치 권한을 허용하면 가까운 진료기관을 먼저 표시하고, 권한이 없으면 기본 목록을 안내합니다.';
 
   @override
   String get mapUseMyLocation => '내 위치로 검색';

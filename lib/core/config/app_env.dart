@@ -76,4 +76,17 @@ class AppEnv {
     'ENABLE_REMOTE_CLINIC_LOOKUP',
     defaultValue: true,
   );
+
+  /// Purpose: Configure AdMob app identifier for platform initialization
+  /// alignment across build environments.
+  static const String adMobAppId = String.fromEnvironment(
+    'ADMOB_APP_ID',
+    defaultValue: 'ca-app-pub-9780094598585299~4755644674',
+  );
+
+  /// Purpose: Configure AdMob banner unit used for release placement rendering.
+  static const String adMobBannerAdUnitId = String.fromEnvironment(
+    'ADMOB_BANNER_AD_UNIT_ID',
+    defaultValue: 'ca-app-pub-9780094598585299/5932994973',
+  );
 }

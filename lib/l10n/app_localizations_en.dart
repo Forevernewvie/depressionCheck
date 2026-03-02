@@ -29,6 +29,20 @@ class AppLocalizationsEn extends AppLocalizations {
       'If safety risk is detected, emergency guidance appears immediately.';
 
   @override
+  String get homeHowItWorksTitle => 'Quick guide for first-time users';
+
+  @override
+  String get homeHowItWorksStep1 => 'Start with mild screening (PHQ-2).';
+
+  @override
+  String get homeHowItWorksStep2 =>
+      'If needed, continue automatically to moderate screening (PHQ-9).';
+
+  @override
+  String get homeHowItWorksStep3 =>
+      'Based on results, receive daily-care guidance or nearby care options.';
+
+  @override
   String get homeWellnessToolsTitle => 'Daily Support Tools';
 
   @override
@@ -109,6 +123,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phq2Title => 'PHQ-2 Mild Screen';
 
   @override
+  String get phq2FlowTitle => 'Stage 1 quick screening';
+
+  @override
+  String get phq2FlowStepLabel => 'Step 1 of 2';
+
+  @override
+  String get phq2FlowEstimate => '~1 min';
+
+  @override
+  String get phq2FlowDescription =>
+      'Based on your responses, you\'ll either see results now or continue to stage 2.';
+
+  @override
   String get phq2Question1 =>
       'Over the last 2 weeks, how often have you felt down, depressed, or hopeless?';
 
@@ -118,6 +145,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phq9Title => 'PHQ-9 / PHQ-A Moderate Screen';
+
+  @override
+  String get phq9FlowTitle => 'Stage 2 detailed screening';
+
+  @override
+  String get phq9FlowStepLabel => 'Step 2 of 2';
+
+  @override
+  String get phq9FlowEstimate => '~2-3 min';
+
+  @override
+  String get phq9FlowDescription =>
+      'This stage is recommended from stage 1 responses. Answer all 9 items for tailored guidance.';
 
   @override
   String get phq9Intro =>
@@ -354,7 +394,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapNoLocation =>
-      'MVP note: live map integration can be added later. This screen currently shows nearby provider cards.';
+      'Allow location to prioritize nearby clinics. Without permission, a fallback list is shown.';
 
   @override
   String get mapUseMyLocation => 'Use My Location';

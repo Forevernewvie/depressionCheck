@@ -134,6 +134,30 @@ abstract class AppLocalizations {
   /// **'If safety risk is detected, emergency guidance appears immediately.'**
   String get homeSafetyNote;
 
+  /// No description provided for @homeHowItWorksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick guide for first-time users'**
+  String get homeHowItWorksTitle;
+
+  /// No description provided for @homeHowItWorksStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with mild screening (PHQ-2).'**
+  String get homeHowItWorksStep1;
+
+  /// No description provided for @homeHowItWorksStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'If needed, continue automatically to moderate screening (PHQ-9).'**
+  String get homeHowItWorksStep2;
+
+  /// No description provided for @homeHowItWorksStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on results, receive daily-care guidance or nearby care options.'**
+  String get homeHowItWorksStep3;
+
   /// No description provided for @homeWellnessToolsTitle.
   ///
   /// In en, this message translates to:
@@ -284,6 +308,30 @@ abstract class AppLocalizations {
   /// **'PHQ-2 Mild Screen'**
   String get phq2Title;
 
+  /// No description provided for @phq2FlowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stage 1 quick screening'**
+  String get phq2FlowTitle;
+
+  /// No description provided for @phq2FlowStepLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 1 of 2'**
+  String get phq2FlowStepLabel;
+
+  /// No description provided for @phq2FlowEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'~1 min'**
+  String get phq2FlowEstimate;
+
+  /// No description provided for @phq2FlowDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on your responses, you\'ll either see results now or continue to stage 2.'**
+  String get phq2FlowDescription;
+
   /// No description provided for @phq2Question1.
   ///
   /// In en, this message translates to:
@@ -301,6 +349,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PHQ-9 / PHQ-A Moderate Screen'**
   String get phq9Title;
+
+  /// No description provided for @phq9FlowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stage 2 detailed screening'**
+  String get phq9FlowTitle;
+
+  /// No description provided for @phq9FlowStepLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 2 of 2'**
+  String get phq9FlowStepLabel;
+
+  /// No description provided for @phq9FlowEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'~2-3 min'**
+  String get phq9FlowEstimate;
+
+  /// No description provided for @phq9FlowDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This stage is recommended from stage 1 responses. Answer all 9 items for tailored guidance.'**
+  String get phq9FlowDescription;
 
   /// No description provided for @phq9Intro.
   ///
@@ -737,7 +809,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapNoLocation.
   ///
   /// In en, this message translates to:
-  /// **'MVP note: live map integration can be added later. This screen currently shows nearby provider cards.'**
+  /// **'Allow location to prioritize nearby clinics. Without permission, a fallback list is shown.'**
   String get mapNoLocation;
 
   /// No description provided for @mapUseMyLocation.

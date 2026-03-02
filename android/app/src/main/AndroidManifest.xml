@@ -7,6 +7,9 @@
         android:label="vibemental_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9780094598585299~4755644674" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

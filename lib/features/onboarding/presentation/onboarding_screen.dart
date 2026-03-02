@@ -23,7 +23,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   @override
-  /// Purpose: Render multi-step onboarding with overflow-safe page content.
+  /// Purpose: Render localized onboarding pages with responsive-safe layout.
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final pages = [
@@ -35,7 +35,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${l10n.onboardingLabel} ${_index + 1}/3',
+          '${l10n.onboardingLabel} ${_index + 1}/${pages.length}',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
@@ -53,29 +53,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 onPageChanged: (next) => setState(() => _index = next),
                 itemCount: pages.length,
                 itemBuilder: (context, i) {
-                  final data = pages[i];
-                  return Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              data.title,
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
-                            const SizedBox(height: 14),
-                            Text(
-                              data.body,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                  return _buildOnboardingCard(context, pages[i]);
                 },
               ),
             ),
@@ -121,6 +99,39 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  /// Purpose: Build one onboarding page card that avoids text overflow on small screens.
+  Widget _buildOnboardingCard(BuildContext context, _OnboardingData data) {
+    return Card(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      data.title,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    const SizedBox(height: 14),
+                    Text(
+                      data.body,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

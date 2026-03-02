@@ -32,7 +32,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       if (!mounted) {
         return;
       }
-      _loadNearby(showLoadingIndicator: false);
+      _loadNearby();
     });
   }
 

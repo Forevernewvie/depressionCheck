@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibemental_app/core/ads/ad_providers.dart';
+import 'package:vibemental_app/core/config/ad_config.dart';
 import 'package:vibemental_app/core/config/app_routes.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  /// Purpose: Render first-entry home with primary screening and support tools.
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final adService = ref.watch(adServiceProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -36,36 +41,7 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 12),
           Text(l10n.homeSubtitle, style: Theme.of(context).textTheme.bodyLarge),
           const SizedBox(height: 16),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                l10n.notDiagnosis,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _levelChip(context, l10n.levelNormal),
-              _levelChip(context, l10n.levelMild),
-              _levelChip(context, l10n.levelModerate),
-              _levelChip(context, l10n.levelHighRisk),
-            ],
-          ),
-          const SizedBox(height: 16),
-          FilledButton(
-            onPressed: () => context.go(AppRoutes.phq2),
-            child: Text(l10n.homeStart),
-          ),
-          const SizedBox(height: 8),
-          OutlinedButton(
-            onPressed: () => context.push(AppRoutes.modules),
-            child: Text(l10n.homeBrowseModules),
-          ),
+          _primaryFlowCard(context, l10n),
           const SizedBox(height: 20),
           Text(
             l10n.homeWellnessToolsTitle,
@@ -93,6 +69,8 @@ class HomeScreen extends StatelessWidget {
             l10n.homeSafetyNote,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
+          const SizedBox(height: 12),
+          adService.buildBanner(placement: AdPlacement.homeBottomBanner),
         ],
       ),
     );
@@ -143,13 +121,86 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Text(subtitle),
             const SizedBox(height: 10),
-            Align(
-              alignment: Alignment.centerRight,
+            SizedBox(
+              width: double.infinity,
               child: OutlinedButton(onPressed: onTap, child: Text(buttonLabel)),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  /// Purpose: Highlight the first recommended user journey in one actionable
+  /// card so users unfamiliar with features can start without confusion.
+  Widget _primaryFlowCard(BuildContext context, AppLocalizations l10n) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.homeHowItWorksTitle,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.notDiagnosis,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 12),
+            _guideStep(context, 1, l10n.homeHowItWorksStep1),
+            const SizedBox(height: 8),
+            _guideStep(context, 2, l10n.homeHowItWorksStep2),
+            const SizedBox(height: 8),
+            _guideStep(context, 3, l10n.homeHowItWorksStep3),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _levelChip(context, l10n.levelNormal),
+                _levelChip(context, l10n.levelMild),
+                _levelChip(context, l10n.levelModerate),
+                _levelChip(context, l10n.levelHighRisk),
+              ],
+            ),
+            const SizedBox(height: 14),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: () => context.go(AppRoutes.phq2),
+                child: Text(l10n.homeStart),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Purpose: Render one concise numbered guidance step on home.
+  Widget _guideStep(BuildContext context, int index, String text) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primaryContainer,
+            borderRadius: BorderRadius.circular(999),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            child: Text(
+              '$index',
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(child: Text(text)),
+      ],
     );
   }
 }
