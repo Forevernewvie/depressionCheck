@@ -396,6 +396,8 @@ class _ContactCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     '${contact.name} (${contact.relation})',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
