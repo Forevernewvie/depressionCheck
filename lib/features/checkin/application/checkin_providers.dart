@@ -1,17 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vibemental_app/core/logging/logging_providers.dart';
-import 'package:vibemental_app/core/settings/data/app_preferences_repository.dart';
 import 'package:vibemental_app/features/checkin/application/checkin_controller.dart';
+import 'package:vibemental_app/features/checkin/application/checkin_repository_factory.dart';
 import 'package:vibemental_app/features/checkin/application/checkin_state.dart';
 import 'package:vibemental_app/features/checkin/data/checkin_repository.dart';
-import 'package:vibemental_app/features/checkin/infrastructure/isar_checkin_repository.dart';
 
 /// Purpose: Provide check-in repository implementation through dependency
 /// inversion.
 final checkInRepositoryProvider = Provider<CheckInRepository>((ref) {
-  final isar = ref.watch(isarProvider);
-  final logger = ref.watch(appLoggerProvider);
-  return IsarCheckInRepository(isar, logger);
+  return createCheckInRepository(ref);
 });
 
 /// Purpose: Provide check-in controller state for presentation layer.
