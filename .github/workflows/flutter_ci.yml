@@ -20,6 +20,8 @@ jobs:
     name: Quality Check (format/analyze/test)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
 
     steps:
       - name: Checkout
@@ -35,13 +37,18 @@ jobs:
         run: flutter pub get
 
       - name: Dart format check
-        run: dart format --output=none --set-exit-if-changed lib test
+        run: dart format --output=none --set-exit-if-changed .
 
       - name: Flutter analyze
         run: flutter analyze
 
       - name: Flutter test
         run: flutter test
+
+      - name: Flutter web build (dry verification)
+        run: >-
+          flutter build web --release --no-wasm-dry-run
+          --dart-define=FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID:-mentalvibe}
 
   release-pr-gate:
     name: Release PR Gate (develop -> main)
@@ -52,6 +59,8 @@ jobs:
     needs: [quality-check]
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
 
     steps:
       - name: Checkout
@@ -71,6 +80,11 @@ jobs:
 
       - name: Re-run tests for release branch gate
         run: flutter test
+
+      - name: Re-run web build for release branch gate
+        run: >-
+          flutter build web --release --no-wasm-dry-run
+          --dart-define=FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID:-mentalvibe}
 
       - name: Confirm CI-only policy
         run: echo "CI passed. No CD/deployment job configured by policy."
