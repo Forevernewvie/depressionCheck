@@ -6,6 +6,7 @@ import 'package:vibemental_app/core/config/app_routes.dart';
 import 'package:vibemental_app/core/platform/external_action_providers.dart';
 import 'package:vibemental_app/core/result/app_result.dart';
 import 'package:vibemental_app/core/theme/app_semantic_colors.dart';
+import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
 import 'package:vibemental_app/features/common/widgets/severity_chip.dart';
 import 'package:vibemental_app/features/screening/domain/screening_result.dart';
 import 'package:vibemental_app/features/screening/domain/severity.dart';
@@ -22,95 +23,98 @@ class ResultScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.resultTitle)),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(l10n.resultScore),
-                  const SizedBox(height: 8),
-                  Text(
-                    '${result.totalScore}',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  const SizedBox(height: 8),
-                  SeverityChip(severity: result.severity),
-                  if (result.selfHarmPositive) ...[
-                    const SizedBox(height: 8),
-                    Text(
-                      l10n.selfHarmOverride,
-                      style: TextStyle(color: context.semanticColors.danger),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l10n.resultNextStep,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            _guidanceForSeverity(l10n, result.severity),
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          const SizedBox(height: 16),
-          if (result.urgentCare) ...[
+      body: PageContentContainer(
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
             Card(
-              color: context.semanticColors.emergencyBackground,
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      l10n.emergencyTitle,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: context.semanticColors.emergencyText,
-                      ),
-                    ),
+                    Text(l10n.resultScore),
                     const SizedBox(height: 8),
                     Text(
-                      l10n.emergencyBody,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: context.semanticColors.emergencyText,
-                      ),
+                      '${result.totalScore}',
+                      style: Theme.of(context).textTheme.headlineMedium,
                     ),
+                    const SizedBox(height: 8),
+                    SeverityChip(severity: result.severity),
+                    if (result.selfHarmPositive) ...[
+                      const SizedBox(height: 8),
+                      Text(
+                        l10n.selfHarmOverride,
+                        style: TextStyle(color: context.semanticColors.danger),
+                      ),
+                    ],
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 8),
-            FilledButton.icon(
-              onPressed: () => _callNumber(context, ref, AppEnv.emergencyPhone),
-              icon: const Icon(Icons.local_phone),
-              label: Text(l10n.buttonCallEmergency),
+            Text(
+              l10n.resultNextStep,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
-            FilledButton.tonalIcon(
-              onPressed: () => _callNumber(context, ref, AppEnv.crisisPhone),
-              icon: const Icon(Icons.support_agent),
-              label: Text(l10n.buttonCallCrisis),
+            Text(
+              _guidanceForSeverity(l10n, result.severity),
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
+            const SizedBox(height: 16),
+            if (result.urgentCare) ...[
+              Card(
+                color: context.semanticColors.emergencyBackground,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.emergencyTitle,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: context.semanticColors.emergencyText,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        l10n.emergencyBody,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: context.semanticColors.emergencyText,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              FilledButton.icon(
+                onPressed: () =>
+                    _callNumber(context, ref, AppEnv.emergencyPhone),
+                icon: const Icon(Icons.local_phone),
+                label: Text(l10n.buttonCallEmergency),
+              ),
+              const SizedBox(height: 8),
+              FilledButton.tonalIcon(
+                onPressed: () => _callNumber(context, ref, AppEnv.crisisPhone),
+                icon: const Icon(Icons.support_agent),
+                label: Text(l10n.buttonCallCrisis),
+              ),
+              const SizedBox(height: 8),
+            ],
+            if (result.severity == SeverityLevel.moderate || result.urgentCare)
+              FilledButton(
+                onPressed: () => context.push(AppRoutes.map),
+                child: Text(l10n.buttonFindClinics),
+              ),
             const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => context.go(AppRoutes.home),
+              child: Text(l10n.buttonBackHome),
+            ),
           ],
-          if (result.severity == SeverityLevel.moderate || result.urgentCare)
-            FilledButton(
-              onPressed: () => context.push(AppRoutes.map),
-              child: Text(l10n.buttonFindClinics),
-            ),
-          const SizedBox(height: 8),
-          TextButton(
-            onPressed: () => context.go(AppRoutes.home),
-            child: Text(l10n.buttonBackHome),
-          ),
-        ],
+        ),
       ),
     );
   }

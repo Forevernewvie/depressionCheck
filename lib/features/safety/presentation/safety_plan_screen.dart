@@ -6,6 +6,7 @@ import 'package:vibemental_app/core/platform/external_action_providers.dart';
 import 'package:vibemental_app/core/result/app_result.dart';
 import 'package:vibemental_app/core/theme/app_semantic_colors.dart';
 import 'package:vibemental_app/core/config/layout_config.dart';
+import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
 import 'package:vibemental_app/features/safety/application/safety_providers.dart';
 import 'package:vibemental_app/features/safety/domain/trusted_contact.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
@@ -50,155 +51,158 @@ class _SafetyPlanScreenState extends ConsumerState<SafetyPlanScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.safetyPlanTitle)),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Card(
-            color: context.semanticColors.emergencyBackground,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.safetyPlanEmergencyTitle,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: context.semanticColors.emergencyText,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: [
-                      FilledButton.tonalIcon(
-                        onPressed: () => _call(context, AppEnv.emergencyPhone),
-                        icon: const Icon(Icons.local_phone),
-                        label: Text(l10n.buttonCallEmergency),
-                      ),
-                      FilledButton.tonalIcon(
-                        onPressed: () => _call(context, AppEnv.crisisPhone),
-                        icon: const Icon(Icons.support_agent),
-                        label: Text(l10n.buttonCallCrisis),
-                      ),
-                      if (state.primaryContact != null)
-                        FilledButton.tonalIcon(
-                          onPressed: () =>
-                              _call(context, state.primaryContact!.phone),
-                          icon: const Icon(Icons.person_pin_circle_outlined),
-                          label: Text(l10n.safetyPlanCallPrimary),
-                        ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          _SectionField(
-            controller: _warningController,
-            label: l10n.safetyPlanWarningSigns,
-            onChanged: ref
-                .read(safetyControllerProvider.notifier)
-                .updateWarningSigns,
-          ),
-          _SectionField(
-            controller: _copingController,
-            label: l10n.safetyPlanCoping,
-            onChanged: ref
-                .read(safetyControllerProvider.notifier)
-                .updateCopingStrategies,
-          ),
-          _SectionField(
-            controller: _reasonsController,
-            label: l10n.safetyPlanReasons,
-            onChanged: ref
-                .read(safetyControllerProvider.notifier)
-                .updateReasonsToStaySafe,
-          ),
-          _SectionField(
-            controller: _emergencyController,
-            label: l10n.safetyPlanEmergencySteps,
-            onChanged: ref
-                .read(safetyControllerProvider.notifier)
-                .updateEmergencySteps,
-          ),
-          const SizedBox(height: 8),
-          FilledButton(
-            onPressed: state.isSaving ? null : () => _savePlan(context),
-            child: Text(l10n.safetyPlanSaveButton),
-          ),
-          const SizedBox(height: 20),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final textScale = MediaQuery.textScalerOf(context).scale(1);
-              final useCompactLayout =
-                  constraints.maxWidth <
-                      LayoutConfig.compactScreenWidthThreshold ||
-                  textScale > LayoutConfig.compactTextScaleThreshold;
-
-              if (useCompactLayout) {
-                return Column(
+      body: PageContentContainer(
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            Card(
+              color: context.semanticColors.emergencyBackground,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      l10n.safetyPlanContactsTitle,
-                      style: Theme.of(context).textTheme.titleLarge,
+                      l10n.safetyPlanEmergencyTitle,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: context.semanticColors.emergencyText,
+                      ),
                     ),
                     const SizedBox(height: 8),
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        onPressed:
-                            state.contacts.length >=
-                                SafetyPlanConfig.maxTrustedContacts
-                            ? null
-                            : () => _showAddContactDialog(context),
-                        icon: const Icon(Icons.person_add_alt_1),
-                        label: Text(l10n.safetyPlanAddContact),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        FilledButton.tonalIcon(
+                          onPressed: () =>
+                              _call(context, AppEnv.emergencyPhone),
+                          icon: const Icon(Icons.local_phone),
+                          label: Text(l10n.buttonCallEmergency),
+                        ),
+                        FilledButton.tonalIcon(
+                          onPressed: () => _call(context, AppEnv.crisisPhone),
+                          icon: const Icon(Icons.support_agent),
+                          label: Text(l10n.buttonCallCrisis),
+                        ),
+                        if (state.primaryContact != null)
+                          FilledButton.tonalIcon(
+                            onPressed: () =>
+                                _call(context, state.primaryContact!.phone),
+                            icon: const Icon(Icons.person_pin_circle_outlined),
+                            label: Text(l10n.safetyPlanCallPrimary),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            _SectionField(
+              controller: _warningController,
+              label: l10n.safetyPlanWarningSigns,
+              onChanged: ref
+                  .read(safetyControllerProvider.notifier)
+                  .updateWarningSigns,
+            ),
+            _SectionField(
+              controller: _copingController,
+              label: l10n.safetyPlanCoping,
+              onChanged: ref
+                  .read(safetyControllerProvider.notifier)
+                  .updateCopingStrategies,
+            ),
+            _SectionField(
+              controller: _reasonsController,
+              label: l10n.safetyPlanReasons,
+              onChanged: ref
+                  .read(safetyControllerProvider.notifier)
+                  .updateReasonsToStaySafe,
+            ),
+            _SectionField(
+              controller: _emergencyController,
+              label: l10n.safetyPlanEmergencySteps,
+              onChanged: ref
+                  .read(safetyControllerProvider.notifier)
+                  .updateEmergencySteps,
+            ),
+            const SizedBox(height: 8),
+            FilledButton(
+              onPressed: state.isSaving ? null : () => _savePlan(context),
+              child: Text(l10n.safetyPlanSaveButton),
+            ),
+            const SizedBox(height: 20),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final textScale = MediaQuery.textScalerOf(context).scale(1);
+                final useCompactLayout =
+                    constraints.maxWidth <
+                        LayoutConfig.compactScreenWidthThreshold ||
+                    textScale > LayoutConfig.compactTextScaleThreshold;
+
+                if (useCompactLayout) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.safetyPlanContactsTitle,
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
+                      const SizedBox(height: 8),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed:
+                              state.contacts.length >=
+                                  SafetyPlanConfig.maxTrustedContacts
+                              ? null
+                              : () => _showAddContactDialog(context),
+                          icon: const Icon(Icons.person_add_alt_1),
+                          label: Text(l10n.safetyPlanAddContact),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
+                return Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        l10n.safetyPlanContactsTitle,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ),
+                    OutlinedButton.icon(
+                      onPressed:
+                          state.contacts.length >=
+                              SafetyPlanConfig.maxTrustedContacts
+                          ? null
+                          : () => _showAddContactDialog(context),
+                      icon: const Icon(Icons.person_add_alt_1),
+                      label: Text(l10n.safetyPlanAddContact),
                     ),
                   ],
                 );
-              }
-
-              return Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      l10n.safetyPlanContactsTitle,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                  ),
-                  OutlinedButton.icon(
-                    onPressed:
-                        state.contacts.length >=
-                            SafetyPlanConfig.maxTrustedContacts
-                        ? null
-                        : () => _showAddContactDialog(context),
-                    icon: const Icon(Icons.person_add_alt_1),
-                    label: Text(l10n.safetyPlanAddContact),
-                  ),
-                ],
-              );
-            },
-          ),
-          const SizedBox(height: 8),
-          if (state.contacts.isEmpty)
-            Text(l10n.safetyPlanContactsEmpty)
-          else
-            for (final contact in state.contacts)
-              _ContactCard(
-                contact: contact,
-                onCall: () => _call(context, contact.phone),
-                onDelete: () => ref
-                    .read(safetyControllerProvider.notifier)
-                    .deleteContact(contact.id),
-                onSetPrimary: () => ref
-                    .read(safetyControllerProvider.notifier)
-                    .setPrimary(contact.id),
-              ),
-        ],
+              },
+            ),
+            const SizedBox(height: 8),
+            if (state.contacts.isEmpty)
+              Text(l10n.safetyPlanContactsEmpty)
+            else
+              for (final contact in state.contacts)
+                _ContactCard(
+                  contact: contact,
+                  onCall: () => _call(context, contact.phone),
+                  onDelete: () => ref
+                      .read(safetyControllerProvider.notifier)
+                      .deleteContact(contact.id),
+                  onSetPrimary: () => ref
+                      .read(safetyControllerProvider.notifier)
+                      .setPrimary(contact.id),
+                ),
+          ],
+        ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vibemental_app/core/config/checkin_config.dart';
 import 'package:vibemental_app/features/checkin/application/checkin_providers.dart';
 import 'package:vibemental_app/features/checkin/domain/daily_checkin_entry.dart';
+import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
 class CheckInScreen extends ConsumerStatefulWidget {
@@ -38,83 +39,85 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.checkInTitle)),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Text(
-            l10n.checkInSubtitle,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          const SizedBox(height: 12),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _ScoreSlider(
-                    label: l10n.checkInMoodLabel,
-                    value: state.mood,
-                    onChanged: controller.updateMood,
-                  ),
-                  const SizedBox(height: 8),
-                  _ScoreSlider(
-                    label: l10n.checkInEnergyLabel,
-                    value: state.energy,
-                    onChanged: controller.updateEnergy,
-                  ),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: _noteController,
-                    maxLength: CheckInConfig.maxNoteLength,
-                    decoration: InputDecoration(
-                      labelText: l10n.checkInNoteLabel,
-                      border: const OutlineInputBorder(),
+      body: PageContentContainer(
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            Text(
+              l10n.checkInSubtitle,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 12),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _ScoreSlider(
+                      label: l10n.checkInMoodLabel,
+                      value: state.mood,
+                      onChanged: controller.updateMood,
                     ),
-                    onChanged: controller.updateNote,
-                  ),
-                  const SizedBox(height: 6),
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      onPressed: state.isSaving
-                          ? null
-                          : () => _save(context, ref),
-                      child: Text(l10n.checkInSaveButton),
+                    const SizedBox(height: 8),
+                    _ScoreSlider(
+                      label: l10n.checkInEnergyLabel,
+                      value: state.energy,
+                      onChanged: controller.updateEnergy,
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _noteController,
+                      maxLength: CheckInConfig.maxNoteLength,
+                      decoration: InputDecoration(
+                        labelText: l10n.checkInNoteLabel,
+                        border: const OutlineInputBorder(),
+                      ),
+                      onChanged: controller.updateNote,
+                    ),
+                    const SizedBox(height: 6),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: state.isSaving
+                            ? null
+                            : () => _save(context, ref),
+                        child: Text(l10n.checkInSaveButton),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            l10n.checkInWeeklyTrendTitle,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 8),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: state.trend.entries.isEmpty
-                  ? Text(l10n.checkInNoTrendData)
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.checkInWeeklyAverage(
-                            state.trend.averageMood.toStringAsFixed(1),
-                            state.trend.averageEnergy.toStringAsFixed(1),
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        for (final entry in state.trend.entries)
-                          _TrendRow(entry: entry),
-                      ],
-                    ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.checkInWeeklyTrendTitle,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: state.trend.entries.isEmpty
+                    ? Text(l10n.checkInNoTrendData)
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.checkInWeeklyAverage(
+                              state.trend.averageMood.toStringAsFixed(1),
+                              state.trend.averageEnergy.toStringAsFixed(1),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          for (final entry in state.trend.entries)
+                            _TrendRow(entry: entry),
+                        ],
+                      ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:vibemental_app/core/config/layout_config.dart';
 import 'package:vibemental_app/core/config/map_config.dart';
 import 'package:vibemental_app/core/platform/external_action_providers.dart';
 import 'package:vibemental_app/core/result/app_result.dart';
+import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
 import 'package:vibemental_app/features/map/application/map_providers.dart';
 import 'package:vibemental_app/features/map/application/models/nearby_clinic_load_result.dart';
 import 'package:vibemental_app/features/map/domain/clinic.dart';
@@ -43,65 +44,67 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.mapTitle)),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.mapSubtitle,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(l10n.mapNoLocation),
-                  const SizedBox(height: 12),
-                  FilledButton.icon(
-                    onPressed: _isLoading ? null : _loadNearby,
-                    icon: const Icon(Icons.my_location),
-                    label: Text(l10n.mapUseMyLocation),
-                  ),
-                  if (_statusMessage != null) ...[
-                    const SizedBox(height: 10),
-                    Text(_statusMessage!),
-                  ],
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          if (_isLoading)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              child: Center(child: CircularProgressIndicator()),
-            ),
-          if (_currentLocation != null) ...[
-            SizedBox(
-              height: MapConfig.mapWidgetHeight,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: FlutterMap(
-                  options: MapOptions(
-                    initialCenter: _currentLocation!,
-                    initialZoom: MapConfig.defaultMapZoom,
-                  ),
+      body: PageContentContainer(
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TileLayer(
-                      urlTemplate: AppEnv.osmTileUrlTemplate,
-                      userAgentPackageName: AppEnv.mapUserAgentPackage,
+                    Text(
+                      l10n.mapSubtitle,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    MarkerLayer(markers: _buildMarkers()),
+                    const SizedBox(height: 8),
+                    Text(l10n.mapNoLocation),
+                    const SizedBox(height: 12),
+                    FilledButton.icon(
+                      onPressed: _isLoading ? null : _loadNearby,
+                      icon: const Icon(Icons.my_location),
+                      label: Text(l10n.mapUseMyLocation),
+                    ),
+                    if (_statusMessage != null) ...[
+                      const SizedBox(height: 10),
+                      Text(_statusMessage!),
+                    ],
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 12),
+            if (_isLoading)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12),
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            if (_currentLocation != null) ...[
+              SizedBox(
+                height: MapConfig.mapWidgetHeight,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: FlutterMap(
+                    options: MapOptions(
+                      initialCenter: _currentLocation!,
+                      initialZoom: MapConfig.defaultMapZoom,
+                    ),
+                    children: [
+                      TileLayer(
+                        urlTemplate: AppEnv.osmTileUrlTemplate,
+                        userAgentPackageName: AppEnv.mapUserAgentPackage,
+                      ),
+                      MarkerLayer(markers: _buildMarkers()),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+            ],
+            ..._clinics.map((clinic) => _ClinicCard(clinic: clinic)),
           ],
-          ..._clinics.map((clinic) => _ClinicCard(clinic: clinic)),
-        ],
+        ),
       ),
     );
   }
