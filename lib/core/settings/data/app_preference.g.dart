@@ -13,9 +13,9 @@ extension GetAppPreferenceCollection on Isar {
   IsarCollection<AppPreference> get appPreferences => this.collection();
 }
 
-const AppPreferenceSchema = CollectionSchema(
+final AppPreferenceSchema = CollectionSchema(
   name: r'AppPreference',
-  id: -632636125728214278,
+  id: int.parse('-632636125728214278'),
   properties: {
     r'languagePreference': PropertySchema(
       id: 0,

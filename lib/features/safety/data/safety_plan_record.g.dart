@@ -13,9 +13,9 @@ extension GetSafetyPlanRecordCollection on Isar {
   IsarCollection<SafetyPlanRecord> get safetyPlanRecords => this.collection();
 }
 
-const SafetyPlanRecordSchema = CollectionSchema(
+final SafetyPlanRecordSchema = CollectionSchema(
   name: r'SafetyPlanRecord',
-  id: 7285333413161372042,
+  id: int.parse('7285333413161372042'),
   properties: {
     r'copingStrategies': PropertySchema(
       id: 0,
@@ -50,7 +50,7 @@ const SafetyPlanRecordSchema = CollectionSchema(
   idName: r'id',
   indexes: {
     r'updatedAt': IndexSchema(
-      id: -6238191080293565125,
+      id: int.parse('-6238191080293565125'),
       name: r'updatedAt',
       unique: false,
       replace: false,

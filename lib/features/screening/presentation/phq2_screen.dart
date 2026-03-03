@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibemental_app/core/config/app_routes.dart';
+import 'package:vibemental_app/features/common/widgets/flow_header_card.dart';
 import 'package:vibemental_app/features/common/widgets/likert_question_card.dart';
 import 'package:vibemental_app/features/screening/domain/scoring.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
@@ -16,6 +17,7 @@ class _Phq2ScreenState extends State<Phq2Screen> {
   final List<int?> _answers = [null, null];
 
   @override
+  /// Purpose: Render stage-1 screening questionnaire with clear flow guidance.
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
@@ -24,6 +26,12 @@ class _Phq2ScreenState extends State<Phq2Screen> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
+          FlowHeaderCard(
+            title: l10n.phq2FlowTitle,
+            stepLabel: l10n.phq2FlowStepLabel,
+            estimateLabel: l10n.phq2FlowEstimate,
+            description: l10n.phq2FlowDescription,
+          ),
           LikertQuestionCard(
             question: l10n.phq2Question1,
             value: _answers[0],

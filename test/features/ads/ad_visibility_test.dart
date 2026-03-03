@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:vibemental_app/core/ads/ad_providers.dart';
-import 'package:vibemental_app/core/config/app_env.dart';
 import 'package:vibemental_app/core/errors/app_failure.dart';
 import 'package:vibemental_app/core/logging/app_logger.dart';
 import 'package:vibemental_app/core/logging/logging_providers.dart';
@@ -31,9 +30,6 @@ import 'package:vibemental_app/features/screening/presentation/phq9_screen.dart'
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
 import '../../fakes/fake_ad_service.dart';
-
-const int _scrollAttempts = 8;
-const double _scrollDragDistance = -500;
 
 class _SilentLogger implements AppLogger {
   @override
@@ -104,7 +100,7 @@ class _UnusedClinicRepository implements ClinicRepository {
   Future<AppResult<List<Clinic>>> getNearbyClinics({
     required double latitude,
     required double longitude,
-    int radiusMeters = AppEnv.defaultClinicSearchRadiusMeters,
+    int radiusMeters = 5000,
   }) async {
     return const AppSuccess(<Clinic>[]);
   }
@@ -137,8 +133,8 @@ Future<void> _scrollDownToBuildBottom(WidgetTester tester) async {
   if (scrollable.evaluate().isEmpty) {
     return;
   }
-  for (int attempt = 0; attempt < _scrollAttempts; attempt++) {
-    await tester.drag(scrollable.first, const Offset(0, _scrollDragDistance));
+  for (int attempt = 0; attempt < 8; attempt++) {
+    await tester.drag(scrollable.first, const Offset(0, -500));
     await tester.pumpAndSettle();
   }
 }

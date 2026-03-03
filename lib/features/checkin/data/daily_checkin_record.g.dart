@@ -14,9 +14,9 @@ extension GetDailyCheckInRecordCollection on Isar {
       this.collection();
 }
 
-const DailyCheckInRecordSchema = CollectionSchema(
+final DailyCheckInRecordSchema = CollectionSchema(
   name: r'DailyCheckInRecord',
-  id: 4096539654204961486,
+  id: int.parse('4096539654204961486'),
   properties: {
     r'createdAt': PropertySchema(
       id: 0,
@@ -39,7 +39,7 @@ const DailyCheckInRecordSchema = CollectionSchema(
   idName: r'id',
   indexes: {
     r'localDateKey': IndexSchema(
-      id: -4285120956082274571,
+      id: int.parse('-4285120956082274571'),
       name: r'localDateKey',
       unique: true,
       replace: false,
@@ -52,7 +52,7 @@ const DailyCheckInRecordSchema = CollectionSchema(
       ],
     ),
     r'createdAt': IndexSchema(
-      id: -3433535483987302584,
+      id: int.parse('-3433535483987302584'),
       name: r'createdAt',
       unique: false,
       replace: false,

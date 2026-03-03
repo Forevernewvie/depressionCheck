@@ -1,0 +1,69 @@
+{
+  "canvas": 320,
+  "outer_frame": {
+    "fill": "#EDF5FF",
+    "corner_radius": 72
+  },
+  "base": {
+    "x": 24,
+    "y": 24,
+    "size": 272,
+    "gradient": [
+      "#1D4ED8",
+      "#3B82F6"
+    ]
+  },
+  "rings": [
+    {
+      "x": 38,
+      "y": 38,
+      "size": 196,
+      "fill": "#60A5FA",
+      "opacity": 1.0
+    },
+    {
+      "x": 66,
+      "y": 66,
+      "size": 140,
+      "fill": "#DBEAFE",
+      "opacity": 1.0
+    },
+    {
+      "x": 168,
+      "y": 34,
+      "size": 68,
+      "fill": "#FFFFFF",
+      "opacity": 0.45
+    }
+  ],
+  "check": {
+    "points": [
+      [
+        94,
+        178
+      ],
+      [
+        118,
+        228
+      ],
+      [
+        154,
+        182
+      ],
+      [
+        188,
+        124
+      ],
+      [
+        204,
+        136
+      ],
+      [
+        136,
+        246
+      ]
+    ],
+    "stroke": "#1E3A8A",
+    "width": 10
+  }
+}

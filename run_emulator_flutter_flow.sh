@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 set -u
 
-EMULATOR_NAME="${EMULATOR_NAME:-Pixel_8_API_34_PlayStore_arm64-v8a}"
-MAX_WAIT_SEC="${MAX_WAIT_SEC:-300}"
-POLL_SEC="${POLL_SEC:-5}"
-DEVICE_TIMEOUT="${DEVICE_TIMEOUT:-120}"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-WORKDIR="${WORKDIR:-$SCRIPT_DIR}"
+EMULATOR_NAME="Pixel_8_API_34_PlayStore_arm64-v8a"
+MAX_WAIT_SEC=300
+POLL_SEC=5
+DEVICE_TIMEOUT=120
+WORKDIR="/Users/jaebinchoi/Desktop/VibeMental"
 cd "$WORKDIR" || { echo "[ERROR] Cannot cd to $WORKDIR"; exit 1; }
 
 TS="$(date +%Y%m%d_%H%M%S)"

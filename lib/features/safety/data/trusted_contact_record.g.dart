@@ -14,9 +14,9 @@ extension GetTrustedContactRecordCollection on Isar {
       this.collection();
 }
 
-const TrustedContactRecordSchema = CollectionSchema(
+final TrustedContactRecordSchema = CollectionSchema(
   name: r'TrustedContactRecord',
-  id: 4463156044087835489,
+  id: int.parse('4463156044087835489'),
   properties: {
     r'isPrimary': PropertySchema(
       id: 0,
@@ -48,7 +48,7 @@ const TrustedContactRecordSchema = CollectionSchema(
   idName: r'id',
   indexes: {
     r'name': IndexSchema(
-      id: 879695947855722453,
+      id: int.parse('879695947855722453'),
       name: r'name',
       unique: false,
       replace: false,
@@ -61,7 +61,7 @@ const TrustedContactRecordSchema = CollectionSchema(
       ],
     ),
     r'relation': IndexSchema(
-      id: 1540930648894627762,
+      id: int.parse('1540930648894627762'),
       name: r'relation',
       unique: false,
       replace: false,
@@ -74,7 +74,7 @@ const TrustedContactRecordSchema = CollectionSchema(
       ],
     ),
     r'phone': IndexSchema(
-      id: -6308098324157559207,
+      id: int.parse('-6308098324157559207'),
       name: r'phone',
       unique: true,
       replace: false,
@@ -87,7 +87,7 @@ const TrustedContactRecordSchema = CollectionSchema(
       ],
     ),
     r'isPrimary': IndexSchema(
-      id: -419999206349340363,
+      id: int.parse('-419999206349340363'),
       name: r'isPrimary',
       unique: false,
       replace: false,
@@ -100,7 +100,7 @@ const TrustedContactRecordSchema = CollectionSchema(
       ],
     ),
     r'sortOrder': IndexSchema(
-      id: -1119549396205841918,
+      id: int.parse('-1119549396205841918'),
       name: r'sortOrder',
       unique: false,
       replace: false,
@@ -113,7 +113,7 @@ const TrustedContactRecordSchema = CollectionSchema(
       ],
     ),
     r'updatedAt': IndexSchema(
-      id: -6238191080293565125,
+      id: int.parse('-6238191080293565125'),
       name: r'updatedAt',
       unique: false,
       replace: false,

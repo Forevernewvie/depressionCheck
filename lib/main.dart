@@ -19,26 +19,27 @@ import 'package:vibemental_app/infrastructure/ads/google_mobile_ads_service.dart
 /// Purpose: Initialize platform services, database, global error handlers,
 /// and dependency overrides before bootstrapping the Flutter app.
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   final logger = const DebugPrintAppLogger();
-  await runZonedGuarded<Future<void>>(
-    () async {
-      WidgetsFlutterBinding.ensureInitialized();
-      _configureGlobalErrorHandling(logger);
-      final adService = GoogleMobileAdsService(logger);
-      await adService.initialize();
+  _configureGlobalErrorHandling(logger);
+  final adService = GoogleMobileAdsService(logger);
+  await adService.initialize();
 
-      final dir = await getApplicationDocumentsDirectory();
-      final isar = await Isar.open(
-        [
-          AppPreferenceSchema,
-          DailyCheckInRecordSchema,
-          SafetyPlanRecordSchema,
-          TrustedContactRecordSchema,
-        ],
-        directory: dir.path,
-        inspector: kDebugMode,
-      );
+  final dir = await getApplicationDocumentsDirectory();
+  final isar = await Isar.open(
+    [
+      AppPreferenceSchema,
+      DailyCheckInRecordSchema,
+      SafetyPlanRecordSchema,
+      TrustedContactRecordSchema,
+    ],
+    directory: dir.path,
+    inspector: kDebugMode,
+  );
 
+  runZonedGuarded(
+    () {
       runApp(
         ProviderScope(
           overrides: [
