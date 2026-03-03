@@ -27,27 +27,37 @@ class ModulesScreen extends ConsumerWidget {
               title: l10n.modulePhq2Title,
               description: l10n.modulePhq2Desc,
               bands: ScreeningLabels.phq2Bands,
+              buttonLabel: l10n.moduleStartButton,
+              onTap: () => context.push(AppRoutes.phq2),
             ),
             _ModuleCard(
               title: l10n.modulePhq9Title,
               description: l10n.modulePhq9Desc,
               bands: ScreeningLabels.phq9Bands,
+              buttonLabel: l10n.moduleStartButton,
+              onTap: () => context.push(AppRoutes.phq9),
             ),
             _ModuleCard(
               title: l10n.moduleBdiTitle,
               description: l10n.moduleBdiDesc,
               bands: ScreeningLabels.bdi2Bands,
               note: l10n.moduleBdiNote,
+              buttonLabel: l10n.moduleStartButton,
+              onTap: () => context.push(AppRoutes.bdi2),
             ),
             _ModuleCard(
               title: l10n.moduleHadsTitle,
               description: l10n.moduleHadsDesc,
               bands: ScreeningLabels.hadsDBands,
+              buttonLabel: l10n.moduleStartButton,
+              onTap: () => context.push(AppRoutes.hadsD),
             ),
             _ModuleCard(
               title: l10n.moduleCesdTitle,
               description: l10n.moduleCesdDesc,
               bands: ScreeningLabels.cesDBands,
+              buttonLabel: l10n.moduleStartButton,
+              onTap: () => context.push(AppRoutes.cesD),
             ),
             const SizedBox(height: 12),
             OutlinedButton(
@@ -69,14 +79,19 @@ class _ModuleCard extends StatelessWidget {
     required this.description,
     required this.bands,
     this.note,
+    this.buttonLabel,
+    this.onTap,
   });
 
   final String title;
   final String description;
   final String bands;
   final String? note;
+  final String? buttonLabel;
+  final VoidCallback? onTap;
 
   @override
+  /// Purpose: Render one module summary card with optional entry CTA.
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
@@ -92,6 +107,16 @@ class _ModuleCard extends StatelessWidget {
             if (note != null) ...[
               const SizedBox(height: 8),
               Text(note!, style: Theme.of(context).textTheme.bodySmall),
+            ],
+            if (onTap != null && buttonLabel != null) ...[
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.tonal(
+                  onPressed: onTap,
+                  child: Text(buttonLabel!),
+                ),
+              ),
             ],
           ],
         ),

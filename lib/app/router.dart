@@ -4,6 +4,7 @@ import 'package:vibemental_app/core/config/app_routes.dart';
 import 'package:vibemental_app/features/clinician/presentation/clinician_screen.dart';
 import 'package:vibemental_app/features/home/presentation/home_screen.dart';
 import 'package:vibemental_app/features/instruments/presentation/modules_screen.dart';
+import 'package:vibemental_app/features/instruments/presentation/instrument_questionnaire_screen.dart';
 import 'package:vibemental_app/features/map/presentation/map_screen.dart';
 import 'package:vibemental_app/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:vibemental_app/features/onboarding/presentation/splash_screen.dart';
@@ -60,6 +61,24 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.modules,
         builder: (context, state) => const ModulesScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.hadsD,
+        builder: (context, state) => const InstrumentQuestionnaireScreen(
+          instrument: ScreeningInstrument.hadsD,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.cesD,
+        builder: (context, state) => const InstrumentQuestionnaireScreen(
+          instrument: ScreeningInstrument.cesD,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.bdi2,
+        builder: (context, state) => const InstrumentQuestionnaireScreen(
+          instrument: ScreeningInstrument.bdi2,
+        ),
       ),
       GoRoute(
         path: AppRoutes.clinician,

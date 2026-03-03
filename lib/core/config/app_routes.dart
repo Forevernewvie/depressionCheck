@@ -12,6 +12,9 @@ class AppRoutes {
   static const String map = '/map';
   static const String settings = '/settings';
   static const String modules = '/modules';
+  static const String hadsD = '/modules/hads-d';
+  static const String cesD = '/modules/ces-d';
+  static const String bdi2 = '/modules/bdi-ii';
   static const String clinician = '/clinician';
   static const String checkIn = '/check-in';
   static const String safetyPlan = '/safety-plan';

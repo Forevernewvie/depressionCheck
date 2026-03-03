@@ -156,6 +156,23 @@
   "moduleHadsDesc": "Depression-focused module often used in medical settings.",
   "moduleCesdTitle": "CES-D",
   "moduleCesdDesc": "Community screening focused on recent week symptoms.",
+  "moduleStartButton": "Start module",
+  "moduleHadsIntro": "This in-app HADS-D flow helps you self-check mood-related symptoms over the recent period. It is for screening support only.",
+  "moduleCesdIntro": "This in-app CES-D style flow helps you screen recent mood and daily-function symptoms. It is for screening support only.",
+  "moduleBdiIntro": "This in-app BDI-II style flow provides a structured self-screening path for mood and cognition. It is for screening support only.",
+  "moduleBdiInAppNotice": "Official BDI-II copyrighted item text requires a proper license. This app keeps in-app wording generic for safety and legal compliance.",
+  "moduleBackToModules": "Back to modules",
+  "moduleQuestionLabel": "{module} Item {index}",
+  "@moduleQuestionLabel": {
+    "placeholders": {
+      "module": {
+        "type": "String"
+      },
+      "index": {
+        "type": "int"
+      }
+    }
+  },
   "moduleBdiNote": "Licensed content required: do not expose full copyrighted items without rights.",
   "moduleClinicianButton": "Open Clinician-only HAM-D / MADRS",
   "clinicianTitle": "Clinician-only Module",
