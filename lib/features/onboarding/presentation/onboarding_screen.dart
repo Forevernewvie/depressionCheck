@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibemental_app/core/config/app_routes.dart';
 import 'package:vibemental_app/core/settings/onboarding_controller.dart';
+import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
@@ -43,61 +44,63 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           TextButton(onPressed: _finish, child: Text(l10n.onboardingSkip)),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Expanded(
-              child: PageView.builder(
-                controller: _controller,
-                onPageChanged: (next) => setState(() => _index = next),
-                itemCount: pages.length,
-                itemBuilder: (context, i) {
-                  return _buildOnboardingCard(context, pages[i]);
-                },
+      body: PageContentContainer(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Expanded(
+                child: PageView.builder(
+                  controller: _controller,
+                  onPageChanged: (next) => setState(() => _index = next),
+                  itemCount: pages.length,
+                  itemBuilder: (context, i) {
+                    return _buildOnboardingCard(context, pages[i]);
+                  },
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                pages.length,
-                (i) => AnimatedContainer(
-                  duration: const Duration(milliseconds: 180),
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  width: _index == i ? 22 : 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: _index == i
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.outline,
-                    borderRadius: BorderRadius.circular(6),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  pages.length,
+                  (i) => AnimatedContainer(
+                    duration: const Duration(milliseconds: 180),
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    width: _index == i ? 22 : 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: _index == i
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.outline,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 14),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: () {
-                  if (_index == pages.length - 1) {
-                    _finish();
-                    return;
-                  }
-                  _controller.nextPage(
-                    duration: const Duration(milliseconds: 240),
-                    curve: Curves.easeOut,
-                  );
-                },
-                child: Text(
-                  _index == pages.length - 1
-                      ? l10n.onboardingGetStarted
-                      : l10n.onboardingNext,
+              const SizedBox(height: 14),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () {
+                    if (_index == pages.length - 1) {
+                      _finish();
+                      return;
+                    }
+                    _controller.nextPage(
+                      duration: const Duration(milliseconds: 240),
+                      curve: Curves.easeOut,
+                    );
+                  },
+                  child: Text(
+                    _index == pages.length - 1
+                        ? l10n.onboardingGetStarted
+                        : l10n.onboardingNext,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

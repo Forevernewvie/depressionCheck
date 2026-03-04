@@ -63,5 +63,60 @@ void main() {
       expect(severityFromCesD(16), SeverityLevel.moderate);
       expect(severityFromCesD(24), SeverityLevel.highRisk);
     });
+
+    test('HADS-D scoring result and urgent flag', () {
+      final result = scoreHadsD([3, 2, 2, 2, 2, 2, 2]);
+      expect(result.totalScore, 15);
+      expect(result.severity, SeverityLevel.highRisk);
+      expect(result.urgentCare, isTrue);
+    });
+
+    test('CES-D scoring result and urgent flag', () {
+      final result = scoreCesD([3, 3, 3, 3, 2, 2, 2, 2, 2, 2]);
+      expect(result.totalScore, 24);
+      expect(result.severity, SeverityLevel.highRisk);
+      expect(result.urgentCare, isTrue);
+    });
+
+    test('BDI-II scoring result and urgent flag', () {
+      final result = scoreBdi2([
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+      ]);
+      expect(result.totalScore, 30);
+      expect(result.severity, SeverityLevel.highRisk);
+      expect(result.urgentCare, isTrue);
+    });
+
+    test('HADS-D throws on invalid answer count', () {
+      expect(() => scoreHadsD([0, 1]), throwsArgumentError);
+    });
+
+    test('CES-D throws on invalid answer count', () {
+      expect(() => scoreCesD([0, 1, 2]), throwsArgumentError);
+    });
+
+    test('BDI-II throws on invalid answer count', () {
+      expect(() => scoreBdi2([0, 1, 2, 3]), throwsArgumentError);
+    });
   });
 }

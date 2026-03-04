@@ -467,6 +467,33 @@ class AppLocalizationsKo extends AppLocalizations {
   String get moduleCesdDesc => '최근 1주 증상을 중심으로 한 지역사회 선별 모듈입니다.';
 
   @override
+  String get moduleStartButton => '모듈 시작';
+
+  @override
+  String get moduleHadsIntro =>
+      '최근 기간의 기분 관련 변화를 점검하는 HADS-D 기반 인앱 선별 흐름입니다. 진단이 아닌 선별 참고용입니다.';
+
+  @override
+  String get moduleCesdIntro =>
+      '최근 일상과 기분 변화를 점검하는 CES-D 스타일 인앱 선별 흐름입니다. 진단이 아닌 선별 참고용입니다.';
+
+  @override
+  String get moduleBdiIntro =>
+      '기분·인지 관련 상태를 구조적으로 확인하는 BDI-II 스타일 인앱 선별 흐름입니다. 진단이 아닌 선별 참고용입니다.';
+
+  @override
+  String get moduleBdiInAppNotice =>
+      'BDI-II 공식 저작권 문항 원문은 정식 라이선스가 필요합니다. 앱 내 문항은 안전·법적 준수를 위해 일반화된 표현을 사용합니다.';
+
+  @override
+  String get moduleBackToModules => '모듈 목록으로';
+
+  @override
+  String moduleQuestionLabel(String module, int index) {
+    return '$module 문항 $index';
+  }
+
+  @override
   String get moduleBdiNote => '라이선스 필요: 권한 없이 저작권 문항 원문 전체를 노출하면 안 됩니다.';
 
   @override

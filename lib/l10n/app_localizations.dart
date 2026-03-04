@@ -998,6 +998,48 @@ abstract class AppLocalizations {
   /// **'Community screening focused on recent week symptoms.'**
   String get moduleCesdDesc;
 
+  /// No description provided for @moduleStartButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Start module'**
+  String get moduleStartButton;
+
+  /// No description provided for @moduleHadsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'This in-app HADS-D flow helps you self-check mood-related symptoms over the recent period. It is for screening support only.'**
+  String get moduleHadsIntro;
+
+  /// No description provided for @moduleCesdIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'This in-app CES-D style flow helps you screen recent mood and daily-function symptoms. It is for screening support only.'**
+  String get moduleCesdIntro;
+
+  /// No description provided for @moduleBdiIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'This in-app BDI-II style flow provides a structured self-screening path for mood and cognition. It is for screening support only.'**
+  String get moduleBdiIntro;
+
+  /// No description provided for @moduleBdiInAppNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Official BDI-II copyrighted item text requires a proper license. This app keeps in-app wording generic for safety and legal compliance.'**
+  String get moduleBdiInAppNotice;
+
+  /// No description provided for @moduleBackToModules.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to modules'**
+  String get moduleBackToModules;
+
+  /// No description provided for @moduleQuestionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{module} Item {index}'**
+  String moduleQuestionLabel(String module, int index);
+
   /// No description provided for @moduleBdiNote.
   ///
   /// In en, this message translates to:

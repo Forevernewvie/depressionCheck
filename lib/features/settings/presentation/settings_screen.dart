@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vibemental_app/core/settings/app_settings.dart';
 import 'package:vibemental_app/core/settings/settings_controller.dart';
 import 'package:vibemental_app/core/config/layout_config.dart';
+import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -17,77 +18,79 @@ class SettingsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsTitle)),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Text(
-            l10n.settingsTheme,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 8),
-          _ResponsiveSegmentedControl<ThemePreference>(
-            selected: {settings.themePreference},
-            segments: [
-              ButtonSegment(
-                value: ThemePreference.system,
-                label: Text(l10n.themeSystem),
-              ),
-              ButtonSegment(
-                value: ThemePreference.light,
-                label: Text(l10n.themeLight),
-              ),
-              ButtonSegment(
-                value: ThemePreference.dark,
-                label: Text(l10n.themeDark),
-              ),
-            ],
-            onSelectionChanged: (selection) {
-              controller.updateTheme(selection.first);
-            },
-          ),
-          const SizedBox(height: 20),
-          Text(
-            l10n.settingsLanguage,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 8),
-          _ResponsiveSegmentedControl<LanguagePreference>(
-            selected: {settings.languagePreference},
-            segments: [
-              ButtonSegment(
-                value: LanguagePreference.system,
-                label: Text(l10n.languageSystem),
-              ),
-              ButtonSegment(
-                value: LanguagePreference.ko,
-                label: Text(l10n.languageKorean),
-              ),
-              ButtonSegment(
-                value: LanguagePreference.en,
-                label: Text(l10n.languageEnglish),
-              ),
-            ],
-            onSelectionChanged: (selection) {
-              controller.updateLanguage(selection.first);
-            },
-          ),
-          const SizedBox(height: 20),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(l10n.settingsFallback),
-                  const SizedBox(height: 6),
-                  Text(l10n.settingsPriority),
-                  const SizedBox(height: 6),
-                  Text(l10n.settingsPersistence),
-                ],
+      body: PageContentContainer(
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            Text(
+              l10n.settingsTheme,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 8),
+            _ResponsiveSegmentedControl<ThemePreference>(
+              selected: {settings.themePreference},
+              segments: [
+                ButtonSegment(
+                  value: ThemePreference.system,
+                  label: Text(l10n.themeSystem),
+                ),
+                ButtonSegment(
+                  value: ThemePreference.light,
+                  label: Text(l10n.themeLight),
+                ),
+                ButtonSegment(
+                  value: ThemePreference.dark,
+                  label: Text(l10n.themeDark),
+                ),
+              ],
+              onSelectionChanged: (selection) {
+                controller.updateTheme(selection.first);
+              },
+            ),
+            const SizedBox(height: 20),
+            Text(
+              l10n.settingsLanguage,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 8),
+            _ResponsiveSegmentedControl<LanguagePreference>(
+              selected: {settings.languagePreference},
+              segments: [
+                ButtonSegment(
+                  value: LanguagePreference.system,
+                  label: Text(l10n.languageSystem),
+                ),
+                ButtonSegment(
+                  value: LanguagePreference.ko,
+                  label: Text(l10n.languageKorean),
+                ),
+                ButtonSegment(
+                  value: LanguagePreference.en,
+                  label: Text(l10n.languageEnglish),
+                ),
+              ],
+              onSelectionChanged: (selection) {
+                controller.updateLanguage(selection.first);
+              },
+            ),
+            const SizedBox(height: 20),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(l10n.settingsFallback),
+                    const SizedBox(height: 6),
+                    Text(l10n.settingsPriority),
+                    const SizedBox(height: 6),
+                    Text(l10n.settingsPersistence),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:vibemental_app/core/config/screening_thresholds.dart';
+import 'package:vibemental_app/core/config/instrument_module_config.dart';
 import 'package:vibemental_app/features/screening/domain/screening_result.dart';
 import 'package:vibemental_app/features/screening/domain/severity.dart';
 
@@ -52,6 +53,72 @@ ScreeningResult scorePhq9(List<int> answers) {
     severity: severity,
     selfHarmPositive: selfHarmPositive,
     urgentCare: urgentCare,
+  );
+}
+
+/// Purpose: Score HADS-D responses and map total score to severity.
+ScreeningResult scoreHadsD(List<int> answers) {
+  if (answers.length != InstrumentModuleConfig.hadsDQuestionCount) {
+    throw ArgumentError(
+      'HADS-D requires exactly ${InstrumentModuleConfig.hadsDQuestionCount} answers.',
+    );
+  }
+
+  for (int i = 0; i < answers.length; i++) {
+    _validateLikertValue(answers[i], question: 'HADS-D Q${i + 1}');
+  }
+
+  final total = answers.fold<int>(0, (sum, value) => sum + value);
+  final severity = severityFromHadsD(total);
+  return ScreeningResult(
+    instrument: ScreeningInstrument.hadsD,
+    totalScore: total,
+    severity: severity,
+    urgentCare: severity == SeverityLevel.highRisk,
+  );
+}
+
+/// Purpose: Score CES-D responses and map total score to severity.
+ScreeningResult scoreCesD(List<int> answers) {
+  if (answers.length != InstrumentModuleConfig.cesDQuestionCount) {
+    throw ArgumentError(
+      'CES-D requires exactly ${InstrumentModuleConfig.cesDQuestionCount} answers.',
+    );
+  }
+
+  for (int i = 0; i < answers.length; i++) {
+    _validateLikertValue(answers[i], question: 'CES-D Q${i + 1}');
+  }
+
+  final total = answers.fold<int>(0, (sum, value) => sum + value);
+  final severity = severityFromCesD(total);
+  return ScreeningResult(
+    instrument: ScreeningInstrument.cesD,
+    totalScore: total,
+    severity: severity,
+    urgentCare: severity == SeverityLevel.highRisk,
+  );
+}
+
+/// Purpose: Score BDI-II responses and map total score to severity.
+ScreeningResult scoreBdi2(List<int> answers) {
+  if (answers.length != InstrumentModuleConfig.bdi2QuestionCount) {
+    throw ArgumentError(
+      'BDI-II requires exactly ${InstrumentModuleConfig.bdi2QuestionCount} answers.',
+    );
+  }
+
+  for (int i = 0; i < answers.length; i++) {
+    _validateLikertValue(answers[i], question: 'BDI-II Q${i + 1}');
+  }
+
+  final total = answers.fold<int>(0, (sum, value) => sum + value);
+  final severity = severityFromBdi2(total);
+  return ScreeningResult(
+    instrument: ScreeningInstrument.bdi2,
+    totalScore: total,
+    severity: severity,
+    urgentCare: severity == SeverityLevel.highRisk,
   );
 }
 

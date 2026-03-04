@@ -502,6 +502,33 @@ class AppLocalizationsEn extends AppLocalizations {
       'Community screening focused on recent week symptoms.';
 
   @override
+  String get moduleStartButton => 'Start module';
+
+  @override
+  String get moduleHadsIntro =>
+      'This in-app HADS-D flow helps you self-check mood-related symptoms over the recent period. It is for screening support only.';
+
+  @override
+  String get moduleCesdIntro =>
+      'This in-app CES-D style flow helps you screen recent mood and daily-function symptoms. It is for screening support only.';
+
+  @override
+  String get moduleBdiIntro =>
+      'This in-app BDI-II style flow provides a structured self-screening path for mood and cognition. It is for screening support only.';
+
+  @override
+  String get moduleBdiInAppNotice =>
+      'Official BDI-II copyrighted item text requires a proper license. This app keeps in-app wording generic for safety and legal compliance.';
+
+  @override
+  String get moduleBackToModules => 'Back to modules';
+
+  @override
+  String moduleQuestionLabel(String module, int index) {
+    return '$module Item $index';
+  }
+
+  @override
   String get moduleBdiNote =>
       'Licensed content required: do not expose full copyrighted items without rights.';
 
