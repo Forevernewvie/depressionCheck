@@ -47,6 +47,16 @@ class HomeScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             _primaryFlowCard(context, l10n),
+            const SizedBox(height: 12),
+            _featureCard(
+              context,
+              title: l10n.modulesTitle,
+              subtitle:
+                  '${l10n.moduleHadsTitle} · ${l10n.moduleCesdTitle} · ${l10n.moduleBdiTitle}',
+              buttonLabel: l10n.homeBrowseModules,
+              icon: Icons.library_books_outlined,
+              onTap: () => context.push(AppRoutes.modules),
+            ),
             const SizedBox(height: 20),
             Text(
               l10n.homeWellnessToolsTitle,
