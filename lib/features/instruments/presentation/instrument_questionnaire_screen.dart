@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibemental_app/core/config/app_routes.dart';
 import 'package:vibemental_app/core/config/instrument_module_config.dart';
 import 'package:vibemental_app/features/common/widgets/likert_question_card.dart';
 import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
+import 'package:vibemental_app/features/instruments/application/module_question_providers.dart';
 import 'package:vibemental_app/features/screening/domain/scoring.dart';
 import 'package:vibemental_app/features/screening/domain/screening_result.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
-class InstrumentQuestionnaireScreen extends StatefulWidget {
+class InstrumentQuestionnaireScreen extends ConsumerStatefulWidget {
   const InstrumentQuestionnaireScreen({required this.instrument, super.key});
 
   final ScreeningInstrument instrument;
 
   @override
-  State<InstrumentQuestionnaireScreen> createState() =>
+  ConsumerState<InstrumentQuestionnaireScreen> createState() =>
       _InstrumentQuestionnaireScreenState();
 }
 
 class _InstrumentQuestionnaireScreenState
-    extends State<InstrumentQuestionnaireScreen> {
+    extends ConsumerState<InstrumentQuestionnaireScreen> {
   late final List<int?> _answers = List<int?>.filled(_questionCount, null);
 
   int get _questionCount {
@@ -42,6 +44,12 @@ class _InstrumentQuestionnaireScreenState
     final l10n = AppLocalizations.of(context)!;
     final moduleTitle = _moduleTitle(l10n, widget.instrument);
     final moduleIntro = _moduleIntro(l10n, widget.instrument);
+    final content = ref
+        .watch(moduleQuestionContentServiceProvider)
+        .resolve(
+          instrument: widget.instrument,
+          locale: Localizations.localeOf(context),
+        );
 
     return Scaffold(
       appBar: AppBar(title: Text(moduleTitle)),
@@ -60,8 +68,9 @@ class _InstrumentQuestionnaireScreenState
             const SizedBox(height: 8),
             for (int i = 0; i < _answers.length; i++)
               LikertQuestionCard(
-                question: l10n.moduleQuestionLabel(moduleTitle, i + 1),
+                question: _questionForIndex(content.questions, i, l10n),
                 value: _answers[i],
+                optionLabels: content.optionLabels,
                 onChanged: (value) => setState(() => _answers[i] = value),
               ),
             const SizedBox(height: 12),
@@ -77,6 +86,21 @@ class _InstrumentQuestionnaireScreenState
           ],
         ),
       ),
+    );
+  }
+
+  /// Purpose: Return safe question text for the index without risking range errors.
+  String _questionForIndex(
+    List<String> questions,
+    int index,
+    AppLocalizations l10n,
+  ) {
+    if (index < questions.length) {
+      return questions[index];
+    }
+    return l10n.moduleQuestionLabel(
+      _moduleTitle(l10n, widget.instrument),
+      index + 1,
     );
   }
 
