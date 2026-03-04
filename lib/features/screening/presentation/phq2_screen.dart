@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibemental_app/core/config/app_routes.dart';
 import 'package:vibemental_app/features/common/widgets/likert_question_card.dart';
+import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
 import 'package:vibemental_app/features/screening/domain/scoring.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
@@ -21,25 +22,27 @@ class _Phq2ScreenState extends State<Phq2Screen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.phq2Title)),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          LikertQuestionCard(
-            question: l10n.phq2Question1,
-            value: _answers[0],
-            onChanged: (value) => setState(() => _answers[0] = value),
-          ),
-          LikertQuestionCard(
-            question: l10n.phq2Question2,
-            value: _answers[1],
-            onChanged: (value) => setState(() => _answers[1] = value),
-          ),
-          const SizedBox(height: 12),
-          FilledButton(
-            onPressed: _onSubmit,
-            child: Text(l10n.buttonViewResult),
-          ),
-        ],
+      body: PageContentContainer(
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            LikertQuestionCard(
+              question: l10n.phq2Question1,
+              value: _answers[0],
+              onChanged: (value) => setState(() => _answers[0] = value),
+            ),
+            LikertQuestionCard(
+              question: l10n.phq2Question2,
+              value: _answers[1],
+              onChanged: (value) => setState(() => _answers[1] = value),
+            ),
+            const SizedBox(height: 12),
+            FilledButton(
+              onPressed: _onSubmit,
+              child: Text(l10n.buttonViewResult),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vibemental_app/core/ads/ad_providers.dart';
 import 'package:vibemental_app/core/config/ad_config.dart';
 import 'package:vibemental_app/core/config/app_routes.dart';
+import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -31,47 +32,52 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Text(
-            l10n.homeTitle,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 12),
-          Text(l10n.homeSubtitle, style: Theme.of(context).textTheme.bodyLarge),
-          const SizedBox(height: 16),
-          _primaryFlowCard(context, l10n),
-          const SizedBox(height: 20),
-          Text(
-            l10n.homeWellnessToolsTitle,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 8),
-          _featureCard(
-            context,
-            title: l10n.homeDailyCheckInTitle,
-            subtitle: l10n.homeDailyCheckInSubtitle,
-            buttonLabel: l10n.homeDailyCheckInCta,
-            icon: Icons.calendar_today_outlined,
-            onTap: () => context.push(AppRoutes.checkIn),
-          ),
-          _featureCard(
-            context,
-            title: l10n.homeSafetyPlanTitle,
-            subtitle: l10n.homeSafetyPlanSubtitle,
-            buttonLabel: l10n.homeSafetyPlanCta,
-            icon: Icons.health_and_safety_outlined,
-            onTap: () => context.push(AppRoutes.safetyPlan),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            l10n.homeSafetyNote,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 12),
-          adService.buildBanner(placement: AdPlacement.homeBottomBanner),
-        ],
+      body: PageContentContainer(
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            Text(
+              l10n.homeTitle,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              l10n.homeSubtitle,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 16),
+            _primaryFlowCard(context, l10n),
+            const SizedBox(height: 20),
+            Text(
+              l10n.homeWellnessToolsTitle,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 8),
+            _featureCard(
+              context,
+              title: l10n.homeDailyCheckInTitle,
+              subtitle: l10n.homeDailyCheckInSubtitle,
+              buttonLabel: l10n.homeDailyCheckInCta,
+              icon: Icons.calendar_today_outlined,
+              onTap: () => context.push(AppRoutes.checkIn),
+            ),
+            _featureCard(
+              context,
+              title: l10n.homeSafetyPlanTitle,
+              subtitle: l10n.homeSafetyPlanSubtitle,
+              buttonLabel: l10n.homeSafetyPlanCta,
+              icon: Icons.health_and_safety_outlined,
+              onTap: () => context.push(AppRoutes.safetyPlan),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.homeSafetyNote,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 12),
+            adService.buildBanner(placement: AdPlacement.homeBottomBanner),
+          ],
+        ),
       ),
     );
   }
