@@ -1,0 +1,51 @@
+name: Firebase Hosting Deploy (Optional)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firebase-hosting-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-hosting:
+    name: Deploy Flutter Web to Firebase Hosting
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Validate required secrets
+        run: |
+          test -n "$FIREBASE_PROJECT_ID" || (echo "Missing FIREBASE_PROJECT_ID secret" && exit 1)
+          test -n "$FIREBASE_TOKEN" || (echo "Missing FIREBASE_TOKEN secret" && exit 1)
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Flutter web build
+        run: >-
+          flutter build web --release --no-wasm-dry-run
+          --dart-define=FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Deploy to Firebase Hosting
+        run: firebase deploy --only hosting --project "$FIREBASE_PROJECT_ID" --token "$FIREBASE_TOKEN"
