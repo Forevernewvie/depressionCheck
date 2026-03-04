@@ -41,7 +41,7 @@ jobs:
 
       - name: Flutter web build
         run: >-
-          flutter build web --release --no-wasm-dry-run
+          flutter build web --release --pwa-strategy=none --no-wasm-dry-run
           --dart-define=FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
 
       - name: Install Firebase CLI
