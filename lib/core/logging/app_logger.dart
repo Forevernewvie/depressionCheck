@@ -71,14 +71,56 @@ class DebugPrintAppLogger implements AppLogger {
   Map<String, Object?> _redact(Map<String, Object?> context) {
     final redacted = <String, Object?>{};
     for (final entry in context.entries) {
-      final lowerKey = entry.key.toLowerCase();
-      final shouldRedact =
-          lowerKey.contains('phone') ||
-          lowerKey.contains('address') ||
-          lowerKey.contains('token') ||
-          lowerKey.contains('email');
-      redacted[entry.key] = shouldRedact ? '[REDACTED]' : entry.value;
+      if (_isSensitiveKey(entry.key)) {
+        redacted[entry.key] = '[REDACTED]';
+        continue;
+      }
+      redacted[entry.key] = _redactValue(entry.value);
     }
     return redacted;
+  }
+
+  /// Purpose: Detect sensitive keys that should never be emitted in logs.
+  bool _isSensitiveKey(String key) {
+    final lowerKey = key.toLowerCase();
+    return lowerKey.contains('phone') ||
+        lowerKey.contains('address') ||
+        lowerKey.contains('token') ||
+        lowerKey.contains('email') ||
+        lowerKey.contains('lat') ||
+        lowerKey.contains('lon') ||
+        lowerKey.contains('location') ||
+        lowerKey.contains('coordinate') ||
+        lowerKey.contains('note') ||
+        lowerKey.contains('warning') ||
+        lowerKey.contains('coping') ||
+        lowerKey.contains('reason') ||
+        lowerKey.contains('emergency');
+  }
+
+  /// Purpose: Recursively redact nested payloads to avoid accidental PII leaks.
+  Object? _redactValue(Object? value) {
+    if (value is Map<String, Object?>) {
+      return _redact(value);
+    }
+
+    if (value is Map) {
+      final nested = <String, Object?>{};
+      for (final entry in value.entries) {
+        final key = entry.key.toString();
+        if (_isSensitiveKey(key)) {
+          nested[key] = '[REDACTED]';
+          continue;
+        }
+        nested[key] = _redactValue(entry.value);
+      }
+      return nested;
+    }
+
+    if (value is List) {
+      return value.map(_redactValue).toList(growable: false);
+    }
+
+    return value;
   }
 }

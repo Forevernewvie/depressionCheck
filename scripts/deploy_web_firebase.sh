@@ -10,4 +10,4 @@ flutter analyze
 flutter test
 flutter build web --release --no-wasm-dry-run --dart-define=FIREBASE_PROJECT_ID="${FIREBASE_PROJECT_ID}"
 
-firebase deploy --only hosting --project "${FIREBASE_PROJECT_ID}" --token "${FIREBASE_TOKEN}"
+firebase deploy --only hosting --project "${FIREBASE_PROJECT_ID}"
