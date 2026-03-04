@@ -112,7 +112,7 @@ class _ModuleCard extends StatelessWidget {
               const SizedBox(height: 12),
               SizedBox(
                 width: double.infinity,
-                child: FilledButton.tonal(
+                child: FilledButton(
                   onPressed: onTap,
                   child: Text(buttonLabel!),
                 ),

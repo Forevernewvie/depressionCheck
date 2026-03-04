@@ -47,6 +47,16 @@ class HomeScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             _primaryFlowCard(context, l10n),
+            const SizedBox(height: 12),
+            _featureCard(
+              context,
+              title: l10n.modulesTitle,
+              subtitle:
+                  '${l10n.moduleHadsTitle} · ${l10n.moduleCesdTitle} · ${l10n.moduleBdiTitle}',
+              buttonLabel: l10n.homeBrowseModules,
+              icon: Icons.library_books_outlined,
+              onTap: () => context.push(AppRoutes.modules),
+            ),
             const SizedBox(height: 20),
             Text(
               l10n.homeWellnessToolsTitle,
@@ -188,19 +198,24 @@ class HomeScreen extends ConsumerWidget {
 
   /// Purpose: Render one concise numbered guidance step on home.
   Widget _guideStep(BuildContext context, int index, String text) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DecoratedBox(
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primaryContainer,
+            color: colorScheme.surfaceContainerHighest,
+            border: Border.all(color: colorScheme.primary),
             borderRadius: BorderRadius.circular(999),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             child: Text(
               '$index',
-              style: Theme.of(context).textTheme.labelLarge,
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: colorScheme.primary,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ),
