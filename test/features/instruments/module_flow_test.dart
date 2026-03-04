@@ -36,7 +36,7 @@ void main() {
   ) async {
     await _pumpApp(tester);
 
-    await tester.tap(find.byIcon(Icons.library_books_outlined));
+    await tester.tap(find.byTooltip('Browse Modules'));
     await tester.pumpAndSettle();
 
     while (find.text('HADS-D').evaluate().isEmpty) {

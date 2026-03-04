@@ -72,7 +72,7 @@ void main() {
   testWidgets('korean modules screen renders without overflow', (tester) async {
     await pumpApp(tester, initialPrefs: {'language_preference': 'ko'});
 
-    await tester.tap(find.byIcon(Icons.library_books_outlined));
+    await tester.tap(find.byTooltip('설문 모듈 보기'));
     await tester.pumpAndSettle();
 
     expect(find.text('설문 모듈'), findsOneWidget);
