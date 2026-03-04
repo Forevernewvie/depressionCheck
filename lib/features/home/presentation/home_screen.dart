@@ -198,19 +198,24 @@ class HomeScreen extends ConsumerWidget {
 
   /// Purpose: Render one concise numbered guidance step on home.
   Widget _guideStep(BuildContext context, int index, String text) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DecoratedBox(
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primaryContainer,
+            color: colorScheme.surfaceContainerHighest,
+            border: Border.all(color: colorScheme.primary),
             borderRadius: BorderRadius.circular(999),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             child: Text(
               '$index',
-              style: Theme.of(context).textTheme.labelLarge,
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: colorScheme.primary,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ),
