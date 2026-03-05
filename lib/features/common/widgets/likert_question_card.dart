@@ -17,9 +17,11 @@ class LikertQuestionCard extends StatelessWidget {
   final Map<int, String>? optionLabels;
 
   @override
-  /// Purpose: Render a selectable Likert question card with safe label fallback.
+  /// Purpose: Render a selectable Likert question card with high-contrast chip
+  /// labels for light/dark accessibility.
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
     final options = _resolveOptions(l10n);
 
     return Card(
@@ -37,6 +39,18 @@ class LikertQuestionCard extends StatelessWidget {
                 final selected = value == entry.key;
                 return ChoiceChip(
                   selected: selected,
+                  showCheckmark: false,
+                  selectedColor: colorScheme.primary,
+                  backgroundColor: colorScheme.surfaceContainerHighest,
+                  side: BorderSide(
+                    color: selected
+                        ? colorScheme.primary
+                        : colorScheme.outlineVariant,
+                  ),
+                  labelStyle: _chipLabelStyle(
+                    context: context,
+                    selected: selected,
+                  ),
                   label: Text('${entry.key}  ${entry.value}'),
                   onSelected: (_) => onChanged(entry.key),
                 );
@@ -73,5 +87,21 @@ class LikertQuestionCard extends StatelessWidget {
     }
 
     return optionLabels!;
+  }
+
+  /// Purpose: Build deterministic chip label styles with explicit contrast
+  /// between selected and unselected states.
+  TextStyle _chipLabelStyle({
+    required BuildContext context,
+    required bool selected,
+  }) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final baseStyle = theme.textTheme.bodyMedium;
+
+    return (baseStyle ?? const TextStyle()).copyWith(
+      color: selected ? colorScheme.onPrimary : colorScheme.onSurface,
+      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+    );
   }
 }
