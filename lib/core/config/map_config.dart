@@ -18,4 +18,9 @@ class MapConfig {
 
   static const double fallbackCenterLat = 37.5665;
   static const double fallbackCenterLng = 126.9780;
+
+  static const String openStreetMapAttributionText =
+      '© OpenStreetMap contributors (ODbL)';
+  static const String openStreetMapCopyrightUrl =
+      'https://www.openstreetmap.org/copyright';
 }

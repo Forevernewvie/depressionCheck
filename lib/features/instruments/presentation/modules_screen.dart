@@ -37,32 +37,15 @@ class ModulesScreen extends ConsumerWidget {
               buttonLabel: l10n.moduleStartButton,
               onTap: () => context.push(AppRoutes.phq9),
             ),
-            _ModuleCard(
-              title: l10n.moduleBdiTitle,
-              description: l10n.moduleBdiDesc,
-              bands: ScreeningLabels.bdi2Bands,
-              note: l10n.moduleBdiNote,
-              buttonLabel: l10n.moduleStartButton,
-              onTap: () => context.push(AppRoutes.bdi2),
-            ),
-            _ModuleCard(
-              title: l10n.moduleHadsTitle,
-              description: l10n.moduleHadsDesc,
-              bands: ScreeningLabels.hadsDBands,
-              buttonLabel: l10n.moduleStartButton,
-              onTap: () => context.push(AppRoutes.hadsD),
-            ),
-            _ModuleCard(
-              title: l10n.moduleCesdTitle,
-              description: l10n.moduleCesdDesc,
-              bands: ScreeningLabels.cesDBands,
-              buttonLabel: l10n.moduleStartButton,
-              onTap: () => context.push(AppRoutes.cesD),
-            ),
             const SizedBox(height: 12),
-            OutlinedButton(
-              onPressed: () => context.push(AppRoutes.clinician),
-              child: Text(l10n.moduleClinicianButton),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  l10n.moduleBdiNote,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
             ),
             const SizedBox(height: 12),
             adService.buildBanner(placement: AdPlacement.modulesBottomBanner),
@@ -78,7 +61,6 @@ class _ModuleCard extends StatelessWidget {
     required this.title,
     required this.description,
     required this.bands,
-    this.note,
     this.buttonLabel,
     this.onTap,
   });
@@ -86,7 +68,6 @@ class _ModuleCard extends StatelessWidget {
   final String title;
   final String description;
   final String bands;
-  final String? note;
   final String? buttonLabel;
   final VoidCallback? onTap;
 
@@ -104,10 +85,6 @@ class _ModuleCard extends StatelessWidget {
             Text(description),
             const SizedBox(height: 8),
             Text(bands, style: Theme.of(context).textTheme.labelLarge),
-            if (note != null) ...[
-              const SizedBox(height: 8),
-              Text(note!, style: Theme.of(context).textTheme.bodySmall),
-            ],
             if (onTap != null && buttonLabel != null) ...[
               const SizedBox(height: 12),
               SizedBox(

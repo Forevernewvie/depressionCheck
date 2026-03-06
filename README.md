@@ -188,8 +188,8 @@ bash run_emulator_flutter_flow.sh
 | `EMERGENCY_PHONE` | `911` | 응급 전화번호 |
 | `CRISIS_PHONE` | `988` | 위기 상담 전화번호 |
 | `ENABLE_REMOTE_CLINIC_LOOKUP` | `true` | 원격 기관 조회 사용 여부 |
-| `ADMOB_APP_ID` | `ca-app-pub-9780094598585299~4755644674` | AdMob 앱 ID |
-| `ADMOB_BANNER_AD_UNIT_ID` | `ca-app-pub-9780094598585299/5932994973` | 배너 광고 유닛 ID |
+| `ADMOB_APP_ID` | `ca-app-pub-` | AdMob 앱 ID |
+| `ADMOB_BANNER_AD_UNIT_ID` | `ca-app-pub-` | 배너 광고 유닛 ID |
 | `ADS_ENABLED` | `true` | 광고 전체 on/off |
 | `ADS_HOME_BANNER_ENABLED` | `true` | 홈 배너 on/off |
 | `ADS_MODULES_BANNER_ENABLED` | `true` | 모듈 배너 on/off |
