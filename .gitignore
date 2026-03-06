@@ -32,6 +32,25 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+**/build/
+.flutter_sdk/
+.agent/
+.claude/
+.codebuddy/
+.codex/
+.continue/
+.cursor/
+.firebase/
+.gemini/
+.kiro/
+.opencode/
+.qoder/
+.roo/
+.tmp_web_capture*.png
+.trae/
+.windsurf/
+emulator_*.log
+test_artifacts/
 
 # Symbolication related
 app.*.symbols

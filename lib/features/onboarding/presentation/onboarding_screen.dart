@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibemental_app/core/config/app_routes.dart';
 import 'package:vibemental_app/core/settings/onboarding_controller.dart';
-import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
@@ -24,19 +23,32 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   @override
-  /// Purpose: Render localized onboarding pages with responsive-safe layout.
+  /// Purpose: Render multi-step onboarding with clearer visual hierarchy and
+  /// overflow-safe page content.
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final pages = [
-      _OnboardingData(title: l10n.onboardingTitle1, body: l10n.onboardingBody1),
-      _OnboardingData(title: l10n.onboardingTitle2, body: l10n.onboardingBody2),
-      _OnboardingData(title: l10n.onboardingTitle3, body: l10n.onboardingBody3),
+      _OnboardingData(
+        title: l10n.onboardingTitle1,
+        body: l10n.onboardingBody1,
+        icon: Icons.monitor_heart_outlined,
+      ),
+      _OnboardingData(
+        title: l10n.onboardingTitle2,
+        body: l10n.onboardingBody2,
+        icon: Icons.insights_outlined,
+      ),
+      _OnboardingData(
+        title: l10n.onboardingTitle3,
+        body: l10n.onboardingBody3,
+        icon: Icons.health_and_safety_outlined,
+      ),
     ];
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${l10n.onboardingLabel} ${_index + 1}/${pages.length}',
+          '${l10n.onboardingLabel} ${_index + 1}/3',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
@@ -44,97 +56,109 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           TextButton(onPressed: _finish, child: Text(l10n.onboardingSkip)),
         ],
       ),
-      body: PageContentContainer(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Expanded(
-                child: PageView.builder(
-                  controller: _controller,
-                  onPageChanged: (next) => setState(() => _index = next),
-                  itemCount: pages.length,
-                  itemBuilder: (context, i) {
-                    return _buildOnboardingCard(context, pages[i]);
-                  },
-                ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  pages.length,
-                  (i) => AnimatedContainer(
-                    duration: const Duration(milliseconds: 180),
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: _index == i ? 22 : 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: _index == i
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).colorScheme.outline,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 14),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: () {
-                    if (_index == pages.length - 1) {
-                      _finish();
-                      return;
-                    }
-                    _controller.nextPage(
-                      duration: const Duration(milliseconds: 240),
-                      curve: Curves.easeOut,
-                    );
-                  },
-                  child: Text(
-                    _index == pages.length - 1
-                        ? l10n.onboardingGetStarted
-                        : l10n.onboardingNext,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Expanded(
+              child: PageView.builder(
+                controller: _controller,
+                onPageChanged: (next) => setState(() => _index = next),
+                itemCount: pages.length,
+                itemBuilder: (context, i) {
+                  final data = pages[i];
+                  final colorScheme = Theme.of(context).colorScheme;
 
-  /// Purpose: Build one onboarding page card that avoids text overflow on small screens.
-  Widget _buildOnboardingCard(BuildContext context, _OnboardingData data) {
-    return Card(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      data.title,
-                      style: Theme.of(context).textTheme.headlineSmall,
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 52,
+                              height: 52,
+                              decoration: BoxDecoration(
+                                color: colorScheme.primaryContainer,
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                              alignment: Alignment.center,
+                              child: Icon(
+                                data.icon,
+                                color: colorScheme.primary,
+                                size: 28,
+                              ),
+                            ),
+                            const SizedBox(height: 18),
+                            Text(
+                              data.title,
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              data.body,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            if (i == 0) ...[
+                              const SizedBox(height: 16),
+                              _SupportiveNote(text: l10n.notDiagnosis),
+                            ],
+                          ],
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 14),
-                    Text(
-                      data.body,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ],
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                pages.length,
+                (i) => AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: _index == i ? 26 : 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: _index == i
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.outline,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
                 ),
               ),
             ),
-          );
-        },
+            const SizedBox(height: 14),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: () {
+                  if (_index == pages.length - 1) {
+                    _finish();
+                    return;
+                  }
+                  _controller.nextPage(
+                    duration: const Duration(milliseconds: 240),
+                    curve: Curves.easeOut,
+                  );
+                },
+                icon: Icon(
+                  _index == pages.length - 1
+                      ? Icons.check_rounded
+                      : Icons.arrow_forward_rounded,
+                ),
+                label: Text(
+                  _index == pages.length - 1
+                      ? l10n.onboardingGetStarted
+                      : l10n.onboardingNext,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -150,8 +174,41 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 }
 
 class _OnboardingData {
-  const _OnboardingData({required this.title, required this.body});
+  const _OnboardingData({
+    required this.title,
+    required this.body,
+    required this.icon,
+  });
 
   final String title;
   final String body;
+  final IconData icon;
+}
+
+class _SupportiveNote extends StatelessWidget {
+  const _SupportiveNote({required this.text});
+
+  final String text;
+
+  @override
+  /// Purpose: Reinforce the app's screening-only framing without adding new
+  /// onboarding copy.
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.verified_user_outlined, color: colorScheme.primary),
+          const SizedBox(width: 10),
+          Expanded(child: Text(text)),
+        ],
+      ),
+    );
+  }
 }

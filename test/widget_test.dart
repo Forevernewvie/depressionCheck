@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vibemental_app/app/app.dart';
+import 'package:vibemental_app/core/config/app_routes.dart';
 import 'package:vibemental_app/core/ads/ad_providers.dart';
 import 'package:vibemental_app/core/settings/app_settings.dart';
 import 'package:vibemental_app/core/settings/data/app_preferences_repository.dart';
@@ -46,8 +48,12 @@ void main() {
   testWidgets('home to PHQ-2 flow works', (tester) async {
     await pumpApp(tester);
 
+    final startButton = find.widgetWithText(FilledButton, 'Start Mild Screen');
+
     expect(find.text('Mind Check'), findsOneWidget);
-    await tester.tap(find.text('Start Mild Screen'));
+    await tester.ensureVisible(startButton);
+    await tester.pumpAndSettle();
+    await tester.tap(startButton, warnIfMissed: false);
     await tester.pumpAndSettle();
 
     expect(find.text('PHQ-2 Mild Screen'), findsOneWidget);
@@ -72,10 +78,39 @@ void main() {
   testWidgets('korean modules screen renders without overflow', (tester) async {
     await pumpApp(tester, initialPrefs: {'language_preference': 'ko'});
 
-    await tester.tap(find.byTooltip('설문 모듈 보기'));
+    await tester.tap(find.byIcon(Icons.library_books_outlined));
     await tester.pumpAndSettle();
 
     expect(find.text('설문 모듈'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('modules screen hides restricted modules', (tester) async {
+    await pumpApp(tester);
+
+    await tester.tap(find.byIcon(Icons.library_books_outlined));
+    await tester.pumpAndSettle();
+
+    expect(find.text('PHQ-2'), findsOneWidget);
+    expect(find.text('PHQ-9 / PHQ-A'), findsOneWidget);
+    expect(find.text('HADS-D'), findsNothing);
+    expect(find.text('CES-D'), findsNothing);
+    expect(find.text('BDI-II'), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('restricted module routes show unavailable notice', (
+    tester,
+  ) async {
+    await pumpApp(tester);
+
+    final context = tester.element(find.byType(Scaffold).first);
+    GoRouter.of(context).go(AppRoutes.hadsD);
+    await tester.pumpAndSettle();
+
+    expect(find.text('HADS-D'), findsWidgets);
+    expect(find.textContaining('Licensed content required'), findsOneWidget);
+    expect(find.text('Back to Modules'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

@@ -277,6 +277,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get safetyPlanTitle => 'Safety Plan';
 
   @override
+  String get safetyPlanIntroTitle => 'Keep support steps ready';
+
+  @override
+  String get safetyPlanIntroBody =>
+      'Save warning signs, calming steps, and trusted contacts so help is easier to reach.';
+
+  @override
   String get safetyPlanEmergencyTitle => 'If you feel unsafe right now';
 
   @override
@@ -426,6 +433,70 @@ class AppLocalizationsEn extends AppLocalizations {
       'Location service unavailable. Showing fallback clinic list.';
 
   @override
+  String get mapDataDisclaimer =>
+      'Specialist and operating-hours information may change. Please confirm by phone before visiting.';
+
+  @override
+  String get mapModeMapAndList => 'Map + List';
+
+  @override
+  String get mapModeListOnly => 'List only';
+
+  @override
+  String get mapFilterSpecialistOnly => 'Specialist only';
+
+  @override
+  String get mapFilterOpenNow => 'Open now only';
+
+  @override
+  String get mapSortDistance => 'Distance';
+
+  @override
+  String get mapSortOpenNow => 'Open now first';
+
+  @override
+  String get mapSortSpecialist => 'Specialist first';
+
+  @override
+  String get mapControlsTitle => 'How to view clinic options';
+
+  @override
+  String get mapSpecialistAvailable => 'Specialist available';
+
+  @override
+  String get mapSpecialistUnavailable => 'No specialist listed';
+
+  @override
+  String get mapSpecialistUnknown => 'Specialist info unavailable';
+
+  @override
+  String get mapHoursToday => 'Today hours';
+
+  @override
+  String get mapHoursWeekly => 'Weekly hours';
+
+  @override
+  String get mapHoursUnavailable => 'Hours unavailable';
+
+  @override
+  String get mapOpenNow => 'Open now';
+
+  @override
+  String get mapClosedNow => 'Closed now';
+
+  @override
+  String get mapOpenStateUnknown => 'Status unknown';
+
+  @override
+  String get mapCopyAddress => 'Copy address';
+
+  @override
+  String get mapCopyAddressSuccess => 'Address copied.';
+
+  @override
+  String get mapAddressUnavailable => 'Address information is unavailable.';
+
+  @override
   String get settingsTitle => 'Theme & Language';
 
   @override
@@ -467,6 +538,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get modulesTitle => 'Instrument Modules';
 
   @override
+  String get modulesIntroTitle => 'Choose a self-screening module';
+
+  @override
+  String get modulesIntroBody =>
+      'Start with PHQ-2 for a quick first pass, or open PHQ-9 directly when you need deeper screening.';
+
+  @override
+  String get modulesRestrictedTitle => 'Restricted and clinician-only content';
+
+  @override
   String get modulePhq2Title => 'PHQ-2';
 
   @override
@@ -502,30 +583,30 @@ class AppLocalizationsEn extends AppLocalizations {
       'Community screening focused on recent week symptoms.';
 
   @override
-  String get moduleStartButton => 'Start module';
+  String get moduleStartButton => 'Start Module';
 
   @override
   String get moduleHadsIntro =>
-      'This in-app HADS-D flow helps you self-check mood-related symptoms over the recent period. It is for screening support only.';
+      'Answer all HADS-D items for a depression-focused screening snapshot.';
 
   @override
   String get moduleCesdIntro =>
-      'This in-app CES-D style flow helps you screen recent mood and daily-function symptoms. It is for screening support only.';
+      'Answer all CES-D items based on your recent week.';
 
   @override
   String get moduleBdiIntro =>
-      'This in-app BDI-II style flow provides a structured self-screening path for mood and cognition. It is for screening support only.';
+      'Answer all BDI-II items. This module should be used with proper rights and governance.';
 
   @override
   String get moduleBdiInAppNotice =>
-      'Official BDI-II copyrighted item text requires a proper license. This app keeps in-app wording generic for safety and legal compliance.';
+      'Notice: BDI-II copyrighted wording must only be shown under valid license.';
 
   @override
-  String get moduleBackToModules => 'Back to modules';
+  String get moduleBackToModules => 'Back to Modules';
 
   @override
-  String moduleQuestionLabel(String module, int index) {
-    return '$module Item $index';
+  String moduleQuestionLabel(Object module, Object index) {
+    return '$module item $index';
   }
 
   @override
