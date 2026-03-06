@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vibemental_app/core/config/checkin_config.dart';
+import 'package:vibemental_app/core/theme/app_semantic_colors.dart';
 import 'package:vibemental_app/features/checkin/application/checkin_providers.dart';
 import 'package:vibemental_app/features/checkin/domain/daily_checkin_entry.dart';
-import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
 class CheckInScreen extends ConsumerStatefulWidget {
@@ -31,7 +31,8 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
   }
 
   @override
-  /// Purpose: Render check-in inputs and weekly trend in a scrollable layout.
+  /// Purpose: Render check-in inputs and weekly trend with clearer support
+  /// framing and theme-consistent visual hierarchy.
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final state = ref.watch(checkInControllerProvider);
@@ -39,85 +40,124 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.checkInTitle)),
-      body: PageContentContainer(
-        child: ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            Text(
-              l10n.checkInSubtitle,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(height: 12),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _ScoreSlider(
-                      label: l10n.checkInMoodLabel,
-                      value: state.mood,
-                      onChanged: controller.updateMood,
-                    ),
-                    const SizedBox(height: 8),
-                    _ScoreSlider(
-                      label: l10n.checkInEnergyLabel,
-                      value: state.energy,
-                      onChanged: controller.updateEnergy,
-                    ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      controller: _noteController,
-                      maxLength: CheckInConfig.maxNoteLength,
-                      decoration: InputDecoration(
-                        labelText: l10n.checkInNoteLabel,
-                        border: const OutlineInputBorder(),
+      body: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.favorite_border_rounded,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                       ),
-                      onChanged: controller.updateNote,
-                    ),
-                    const SizedBox(height: 6),
-                    SizedBox(
-                      width: double.infinity,
-                      child: FilledButton(
-                        onPressed: state.isSaving
-                            ? null
-                            : () => _save(context, ref),
-                        child: Text(l10n.checkInSaveButton),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.checkInSubtitle,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            const SizedBox(height: 8),
+                            _SecondarySupportPill(text: l10n.notDiagnosis),
+                          ],
+                        ),
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  _ScoreSlider(
+                    label: l10n.checkInMoodLabel,
+                    value: state.mood,
+                    color: Theme.of(context).colorScheme.primary,
+                    onChanged: controller.updateMood,
+                  ),
+                  const SizedBox(height: 12),
+                  _ScoreSlider(
+                    label: l10n.checkInEnergyLabel,
+                    value: state.energy,
+                    color: context.semanticColors.success,
+                    onChanged: controller.updateEnergy,
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: _noteController,
+                    maxLength: CheckInConfig.maxNoteLength,
+                    decoration: InputDecoration(
+                      labelText: l10n.checkInNoteLabel,
                     ),
-                  ],
-                ),
+                    onChanged: controller.updateNote,
+                  ),
+                  const SizedBox(height: 6),
+                  SizedBox(
+                    width: double.infinity,
+                    child: FilledButton.icon(
+                      onPressed: state.isSaving
+                          ? null
+                          : () => _save(context, ref),
+                      icon: const Icon(Icons.check_rounded),
+                      label: Text(l10n.checkInSaveButton),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 16),
-            Text(
-              l10n.checkInWeeklyTrendTitle,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 8),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: state.trend.entries.isEmpty
-                    ? Text(l10n.checkInNoTrendData)
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l10n.checkInWeeklyTrendTitle,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 8),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: state.trend.entries.isEmpty
+                  ? Text(l10n.checkInNoTrendData)
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest,
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          child: Text(
                             l10n.checkInWeeklyAverage(
                               state.trend.averageMood.toStringAsFixed(1),
                               state.trend.averageEnergy.toStringAsFixed(1),
                             ),
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
-                          const SizedBox(height: 12),
-                          for (final entry in state.trend.entries)
-                            _TrendRow(entry: entry),
-                        ],
-                      ),
-              ),
+                        ),
+                        const SizedBox(height: 12),
+                        for (final entry in state.trend.entries)
+                          _TrendRow(entry: entry),
+                      ],
+                    ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -143,30 +183,79 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
   }
 }
 
+class _SecondarySupportPill extends StatelessWidget {
+  const _SecondarySupportPill({required this.text});
+
+  final String text;
+
+  @override
+  /// Purpose: Reinforce that check-in is a support tool rather than a primary
+  /// clinical action.
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Text(text, style: Theme.of(context).textTheme.bodyMedium),
+      ),
+    );
+  }
+}
+
 class _ScoreSlider extends StatelessWidget {
   const _ScoreSlider({
     required this.label,
     required this.value,
+    required this.color,
     required this.onChanged,
   });
 
   final String label;
   final int value;
+  final Color color;
   final ValueChanged<int> onChanged;
 
   @override
-  /// Purpose: Render one bounded score slider row for mood/energy input.
+  /// Purpose: Render one bounded score slider row with a clear current value.
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('$label: $value'),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                label,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Text(
+                '$value',
+                style: Theme.of(
+                  context,
+                ).textTheme.labelLarge?.copyWith(color: color),
+              ),
+            ),
+          ],
+        ),
         Slider(
           value: value.toDouble(),
           min: CheckInConfig.scoreMin.toDouble(),
           max: CheckInConfig.scoreMax.toDouble(),
           divisions: CheckInConfig.scoreMax - CheckInConfig.scoreMin,
           label: '$value',
+          activeColor: color,
           onChanged: (raw) => onChanged(raw.round()),
         ),
       ],
@@ -183,23 +272,28 @@ class _TrendRow extends StatelessWidget {
   /// Purpose: Render one date row with mood/energy mini trend bars.
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final semanticColors = context.semanticColors;
+
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(_displayDate(entry.localDateKey)),
-          const SizedBox(height: 4),
+          Text(
+            _displayDate(entry.localDateKey),
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
+          const SizedBox(height: 6),
           _TrendBar(
             label: l10n.checkInMoodShort,
             value: entry.mood,
-            color: Colors.blue,
+            color: Theme.of(context).colorScheme.primary,
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           _TrendBar(
             label: l10n.checkInEnergyShort,
             value: entry.energy,
-            color: Colors.green,
+            color: semanticColors.success,
           ),
         ],
       ),
@@ -227,9 +321,11 @@ class _TrendBar extends StatelessWidget {
   final Color color;
 
   @override
-  /// Purpose: Render adaptive trend bar without fixed-width overflow.
+  /// Purpose: Render adaptive trend bars with a visible track and consistent
+  /// theme colors.
   Widget build(BuildContext context) {
     final ratio = (value / CheckInConfig.scoreMax).clamp(0.0, 1.0);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Row(
       children: [
@@ -240,16 +336,20 @@ class _TrendBar extends StatelessWidget {
         const SizedBox(width: 8),
         Expanded(
           flex: 5,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: FractionallySizedBox(
-              alignment: Alignment.centerLeft,
-              widthFactor: ratio,
-              child: Container(
-                height: 10,
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(6),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(999),
+            child: Container(
+              height: 12,
+              color: colorScheme.surfaceContainerHighest,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: FractionallySizedBox(
+                  alignment: Alignment.centerLeft,
+                  widthFactor: ratio,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(color: color),
+                    child: const SizedBox.expand(),
+                  ),
                 ),
               ),
             ),

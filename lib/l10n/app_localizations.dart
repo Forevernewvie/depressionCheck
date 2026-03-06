@@ -590,6 +590,18 @@ abstract class AppLocalizations {
   /// **'Safety Plan'**
   String get safetyPlanTitle;
 
+  /// No description provided for @safetyPlanIntroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep support steps ready'**
+  String get safetyPlanIntroTitle;
+
+  /// No description provided for @safetyPlanIntroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Save warning signs, calming steps, and trusted contacts so help is easier to reach.'**
+  String get safetyPlanIntroBody;
+
   /// No description provided for @safetyPlanEmergencyTitle.
   ///
   /// In en, this message translates to:
@@ -860,6 +872,132 @@ abstract class AppLocalizations {
   /// **'Location service unavailable. Showing fallback clinic list.'**
   String get mapUnavailable;
 
+  /// No description provided for @mapDataDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialist and operating-hours information may change. Please confirm by phone before visiting.'**
+  String get mapDataDisclaimer;
+
+  /// No description provided for @mapModeMapAndList.
+  ///
+  /// In en, this message translates to:
+  /// **'Map + List'**
+  String get mapModeMapAndList;
+
+  /// No description provided for @mapModeListOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'List only'**
+  String get mapModeListOnly;
+
+  /// No description provided for @mapFilterSpecialistOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialist only'**
+  String get mapFilterSpecialistOnly;
+
+  /// No description provided for @mapFilterOpenNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Open now only'**
+  String get mapFilterOpenNow;
+
+  /// No description provided for @mapSortDistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance'**
+  String get mapSortDistance;
+
+  /// No description provided for @mapSortOpenNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Open now first'**
+  String get mapSortOpenNow;
+
+  /// No description provided for @mapSortSpecialist.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialist first'**
+  String get mapSortSpecialist;
+
+  /// No description provided for @mapControlsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How to view clinic options'**
+  String get mapControlsTitle;
+
+  /// No description provided for @mapSpecialistAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialist available'**
+  String get mapSpecialistAvailable;
+
+  /// No description provided for @mapSpecialistUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No specialist listed'**
+  String get mapSpecialistUnavailable;
+
+  /// No description provided for @mapSpecialistUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialist info unavailable'**
+  String get mapSpecialistUnknown;
+
+  /// No description provided for @mapHoursToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today hours'**
+  String get mapHoursToday;
+
+  /// No description provided for @mapHoursWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly hours'**
+  String get mapHoursWeekly;
+
+  /// No description provided for @mapHoursUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours unavailable'**
+  String get mapHoursUnavailable;
+
+  /// No description provided for @mapOpenNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Open now'**
+  String get mapOpenNow;
+
+  /// No description provided for @mapClosedNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed now'**
+  String get mapClosedNow;
+
+  /// No description provided for @mapOpenStateUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Status unknown'**
+  String get mapOpenStateUnknown;
+
+  /// No description provided for @mapCopyAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy address'**
+  String get mapCopyAddress;
+
+  /// No description provided for @mapCopyAddressSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Address copied.'**
+  String get mapCopyAddressSuccess;
+
+  /// No description provided for @mapAddressUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Address information is unavailable.'**
+  String get mapAddressUnavailable;
+
   /// No description provided for @settingsTitle.
   ///
   /// In en, this message translates to:
@@ -938,6 +1076,24 @@ abstract class AppLocalizations {
   /// **'Instrument Modules'**
   String get modulesTitle;
 
+  /// No description provided for @modulesIntroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a self-screening module'**
+  String get modulesIntroTitle;
+
+  /// No description provided for @modulesIntroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with PHQ-2 for a quick first pass, or open PHQ-9 directly when you need deeper screening.'**
+  String get modulesIntroBody;
+
+  /// No description provided for @modulesRestrictedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restricted and clinician-only content'**
+  String get modulesRestrictedTitle;
+
   /// No description provided for @modulePhq2Title.
   ///
   /// In en, this message translates to:
@@ -1001,44 +1157,44 @@ abstract class AppLocalizations {
   /// No description provided for @moduleStartButton.
   ///
   /// In en, this message translates to:
-  /// **'Start module'**
+  /// **'Start Module'**
   String get moduleStartButton;
 
   /// No description provided for @moduleHadsIntro.
   ///
   /// In en, this message translates to:
-  /// **'This in-app HADS-D flow helps you self-check mood-related symptoms over the recent period. It is for screening support only.'**
+  /// **'Answer all HADS-D items for a depression-focused screening snapshot.'**
   String get moduleHadsIntro;
 
   /// No description provided for @moduleCesdIntro.
   ///
   /// In en, this message translates to:
-  /// **'This in-app CES-D style flow helps you screen recent mood and daily-function symptoms. It is for screening support only.'**
+  /// **'Answer all CES-D items based on your recent week.'**
   String get moduleCesdIntro;
 
   /// No description provided for @moduleBdiIntro.
   ///
   /// In en, this message translates to:
-  /// **'This in-app BDI-II style flow provides a structured self-screening path for mood and cognition. It is for screening support only.'**
+  /// **'Answer all BDI-II items. This module should be used with proper rights and governance.'**
   String get moduleBdiIntro;
 
   /// No description provided for @moduleBdiInAppNotice.
   ///
   /// In en, this message translates to:
-  /// **'Official BDI-II copyrighted item text requires a proper license. This app keeps in-app wording generic for safety and legal compliance.'**
+  /// **'Notice: BDI-II copyrighted wording must only be shown under valid license.'**
   String get moduleBdiInAppNotice;
 
   /// No description provided for @moduleBackToModules.
   ///
   /// In en, this message translates to:
-  /// **'Back to modules'**
+  /// **'Back to Modules'**
   String get moduleBackToModules;
 
   /// No description provided for @moduleQuestionLabel.
   ///
   /// In en, this message translates to:
-  /// **'{module} Item {index}'**
-  String moduleQuestionLabel(String module, int index);
+  /// **'{module} item {index}'**
+  String moduleQuestionLabel(Object module, Object index);
 
   /// No description provided for @moduleBdiNote.
   ///

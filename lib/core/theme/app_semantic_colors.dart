@@ -53,6 +53,14 @@ class AppSemanticColors extends ThemeExtension<AppSemanticColors> {
 }
 
 extension AppSemanticColorsX on BuildContext {
+  static const AppSemanticColors _fallback = AppSemanticColors(
+    success: Color(0xFF138766),
+    warning: Color(0xFFB76E12),
+    danger: Color(0xFFB42318),
+    emergencyBackground: Color(0xFF7A1F1A),
+    emergencyText: Color(0xFFFFF3F1),
+  );
+
   AppSemanticColors get semanticColors =>
-      Theme.of(this).extension<AppSemanticColors>()!;
+      Theme.of(this).extension<AppSemanticColors>() ?? _fallback;
 }

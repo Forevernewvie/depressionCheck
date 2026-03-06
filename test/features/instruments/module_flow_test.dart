@@ -66,7 +66,7 @@ void main() {
       ),
       findsOneWidget,
     );
-    expect(find.text('Back to modules'), findsOneWidget);
+    expect(find.text('Back to Modules'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

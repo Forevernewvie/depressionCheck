@@ -259,6 +259,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get safetyPlanTitle => '안전 플랜';
 
   @override
+  String get safetyPlanIntroTitle => '도움이 필요할 때를 미리 준비하세요';
+
+  @override
+  String get safetyPlanIntroBody =>
+      '위험 신호, 나를 진정시키는 방법, 신뢰 연락처를 미리 적어두면 위기 순간에 더 빠르게 도움을 받을 수 있습니다.';
+
+  @override
   String get safetyPlanEmergencyTitle => '지금 당장 안전이 걱정된다면';
 
   @override
@@ -398,6 +405,70 @@ class AppLocalizationsKo extends AppLocalizations {
   String get mapUnavailable => '위치 서비스를 사용할 수 없어 기본 병원 목록을 보여드립니다.';
 
   @override
+  String get mapDataDisclaimer =>
+      '전문의 여부와 운영시간 정보는 변경될 수 있으니 방문 전 전화로 반드시 확인해주세요.';
+
+  @override
+  String get mapModeMapAndList => '지도+목록';
+
+  @override
+  String get mapModeListOnly => '목록만';
+
+  @override
+  String get mapFilterSpecialistOnly => '전문의 있음만';
+
+  @override
+  String get mapFilterOpenNow => '지금 운영중만';
+
+  @override
+  String get mapSortDistance => '거리순';
+
+  @override
+  String get mapSortOpenNow => '운영중 우선';
+
+  @override
+  String get mapSortSpecialist => '전문의 우선';
+
+  @override
+  String get mapControlsTitle => '진료기관 보는 방식';
+
+  @override
+  String get mapSpecialistAvailable => '전문의 있음';
+
+  @override
+  String get mapSpecialistUnavailable => '전문의 없음';
+
+  @override
+  String get mapSpecialistUnknown => '전문의 정보 확인 필요';
+
+  @override
+  String get mapHoursToday => '오늘 운영시간';
+
+  @override
+  String get mapHoursWeekly => '주간 운영시간';
+
+  @override
+  String get mapHoursUnavailable => '운영시간 확인 필요';
+
+  @override
+  String get mapOpenNow => '운영중';
+
+  @override
+  String get mapClosedNow => '운영종료';
+
+  @override
+  String get mapOpenStateUnknown => '상태 확인 필요';
+
+  @override
+  String get mapCopyAddress => '주소 복사';
+
+  @override
+  String get mapCopyAddressSuccess => '주소가 복사되었습니다.';
+
+  @override
+  String get mapAddressUnavailable => '주소 정보를 확인할 수 없습니다.';
+
+  @override
   String get settingsTitle => '테마/언어 설정';
 
   @override
@@ -437,6 +508,16 @@ class AppLocalizationsKo extends AppLocalizations {
   String get modulesTitle => '설문 모듈';
 
   @override
+  String get modulesIntroTitle => '자가 선별 모듈을 선택하세요';
+
+  @override
+  String get modulesIntroBody =>
+      '빠르게 시작하려면 PHQ-2부터, 더 자세한 선별이 필요하면 PHQ-9를 바로 열 수 있습니다.';
+
+  @override
+  String get modulesRestrictedTitle => '제한 또는 임상의 전용 콘텐츠';
+
+  @override
   String get modulePhq2Title => 'PHQ-2';
 
   @override
@@ -470,27 +551,24 @@ class AppLocalizationsKo extends AppLocalizations {
   String get moduleStartButton => '모듈 시작';
 
   @override
-  String get moduleHadsIntro =>
-      '최근 기간의 기분 관련 변화를 점검하는 HADS-D 기반 인앱 선별 흐름입니다. 진단이 아닌 선별 참고용입니다.';
+  String get moduleHadsIntro => 'HADS-D 문항에 모두 응답해 현재 상태를 선별해보세요.';
 
   @override
-  String get moduleCesdIntro =>
-      '최근 일상과 기분 변화를 점검하는 CES-D 스타일 인앱 선별 흐름입니다. 진단이 아닌 선별 참고용입니다.';
+  String get moduleCesdIntro => '최근 1주를 기준으로 CES-D 문항에 모두 응답해주세요.';
 
   @override
   String get moduleBdiIntro =>
-      '기분·인지 관련 상태를 구조적으로 확인하는 BDI-II 스타일 인앱 선별 흐름입니다. 진단이 아닌 선별 참고용입니다.';
+      'BDI-II 문항에 모두 응답해주세요. 이 모듈은 권한/거버넌스 기준에 맞게 운영되어야 합니다.';
 
   @override
-  String get moduleBdiInAppNotice =>
-      'BDI-II 공식 저작권 문항 원문은 정식 라이선스가 필요합니다. 앱 내 문항은 안전·법적 준수를 위해 일반화된 표현을 사용합니다.';
+  String get moduleBdiInAppNotice => '안내: BDI-II 원문 문항은 라이선스가 있을 때만 노출해야 합니다.';
 
   @override
   String get moduleBackToModules => '모듈 목록으로';
 
   @override
-  String moduleQuestionLabel(String module, int index) {
-    return '$module 문항 $index';
+  String moduleQuestionLabel(Object module, Object index) {
+    return '$module $index번 문항';
   }
 
   @override

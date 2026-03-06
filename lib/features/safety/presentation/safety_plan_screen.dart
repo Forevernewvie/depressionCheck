@@ -6,7 +6,6 @@ import 'package:vibemental_app/core/platform/external_action_providers.dart';
 import 'package:vibemental_app/core/result/app_result.dart';
 import 'package:vibemental_app/core/theme/app_semantic_colors.dart';
 import 'package:vibemental_app/core/config/layout_config.dart';
-import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
 import 'package:vibemental_app/features/safety/application/safety_providers.dart';
 import 'package:vibemental_app/features/safety/domain/trusted_contact.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
@@ -51,158 +50,209 @@ class _SafetyPlanScreenState extends ConsumerState<SafetyPlanScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.safetyPlanTitle)),
-      body: PageContentContainer(
-        child: ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            Card(
-              color: context.semanticColors.emergencyBackground,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.safetyPlanEmergencyTitle,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: context.semanticColors.emergencyText,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        FilledButton.tonalIcon(
-                          onPressed: () =>
-                              _call(context, AppEnv.emergencyPhone),
-                          icon: const Icon(Icons.local_phone),
-                          label: Text(l10n.buttonCallEmergency),
-                        ),
-                        FilledButton.tonalIcon(
-                          onPressed: () => _call(context, AppEnv.crisisPhone),
-                          icon: const Icon(Icons.support_agent),
-                          label: Text(l10n.buttonCallCrisis),
-                        ),
-                        if (state.primaryContact != null)
-                          FilledButton.tonalIcon(
-                            onPressed: () =>
-                                _call(context, state.primaryContact!.phone),
-                            icon: const Icon(Icons.person_pin_circle_outlined),
-                            label: Text(l10n.safetyPlanCallPrimary),
-                          ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            _SectionField(
-              controller: _warningController,
-              label: l10n.safetyPlanWarningSigns,
-              onChanged: ref
-                  .read(safetyControllerProvider.notifier)
-                  .updateWarningSigns,
-            ),
-            _SectionField(
-              controller: _copingController,
-              label: l10n.safetyPlanCoping,
-              onChanged: ref
-                  .read(safetyControllerProvider.notifier)
-                  .updateCopingStrategies,
-            ),
-            _SectionField(
-              controller: _reasonsController,
-              label: l10n.safetyPlanReasons,
-              onChanged: ref
-                  .read(safetyControllerProvider.notifier)
-                  .updateReasonsToStaySafe,
-            ),
-            _SectionField(
-              controller: _emergencyController,
-              label: l10n.safetyPlanEmergencySteps,
-              onChanged: ref
-                  .read(safetyControllerProvider.notifier)
-                  .updateEmergencySteps,
-            ),
-            const SizedBox(height: 8),
-            FilledButton(
-              onPressed: state.isSaving ? null : () => _savePlan(context),
-              child: Text(l10n.safetyPlanSaveButton),
-            ),
-            const SizedBox(height: 20),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final textScale = MediaQuery.textScalerOf(context).scale(1);
-                final useCompactLayout =
-                    constraints.maxWidth <
-                        LayoutConfig.compactScreenWidthThreshold ||
-                    textScale > LayoutConfig.compactTextScaleThreshold;
-
-                if (useCompactLayout) {
-                  return Column(
+      body: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          _IntroCard(
+            title: l10n.safetyPlanIntroTitle,
+            body: l10n.safetyPlanIntroBody,
+          ),
+          const SizedBox(height: 12),
+          Card(
+            color: context.semanticColors.emergencyBackground,
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        l10n.safetyPlanContactsTitle,
-                        style: Theme.of(context).textTheme.titleLarge,
+                      Icon(
+                        Icons.health_and_safety_outlined,
+                        color: context.semanticColors.emergencyText,
                       ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        width: double.infinity,
-                        child: OutlinedButton.icon(
-                          onPressed:
-                              state.contacts.length >=
-                                  SafetyPlanConfig.maxTrustedContacts
-                              ? null
-                              : () => _showAddContactDialog(context),
-                          icon: const Icon(Icons.person_add_alt_1),
-                          label: Text(l10n.safetyPlanAddContact),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          l10n.safetyPlanEmergencyTitle,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(
+                                color: context.semanticColors.emergencyText,
+                              ),
                         ),
                       ),
                     ],
-                  );
-                }
-
-                return Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        l10n.safetyPlanContactsTitle,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.safetyPlanIntroBody,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: context.semanticColors.emergencyText,
                     ),
-                    OutlinedButton.icon(
-                      onPressed:
-                          state.contacts.length >=
-                              SafetyPlanConfig.maxTrustedContacts
-                          ? null
-                          : () => _showAddContactDialog(context),
-                      icon: const Icon(Icons.person_add_alt_1),
-                      label: Text(l10n.safetyPlanAddContact),
+                  ),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      FilledButton.tonalIcon(
+                        onPressed: () => _call(context, AppEnv.emergencyPhone),
+                        icon: const Icon(Icons.local_phone),
+                        label: Text(l10n.buttonCallEmergency),
+                      ),
+                      FilledButton.tonalIcon(
+                        onPressed: () => _call(context, AppEnv.crisisPhone),
+                        icon: const Icon(Icons.support_agent),
+                        label: Text(l10n.buttonCallCrisis),
+                      ),
+                      if (state.primaryContact != null)
+                        FilledButton.tonalIcon(
+                          onPressed: () =>
+                              _call(context, state.primaryContact!.phone),
+                          icon: const Icon(Icons.person_pin_circle_outlined),
+                          label: Text(l10n.safetyPlanCallPrimary),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          _SectionField(
+            controller: _warningController,
+            label: l10n.safetyPlanWarningSigns,
+            icon: Icons.visibility_outlined,
+            onChanged: ref
+                .read(safetyControllerProvider.notifier)
+                .updateWarningSigns,
+          ),
+          _SectionField(
+            controller: _copingController,
+            label: l10n.safetyPlanCoping,
+            icon: Icons.self_improvement_outlined,
+            onChanged: ref
+                .read(safetyControllerProvider.notifier)
+                .updateCopingStrategies,
+          ),
+          _SectionField(
+            controller: _reasonsController,
+            label: l10n.safetyPlanReasons,
+            icon: Icons.favorite_border_rounded,
+            onChanged: ref
+                .read(safetyControllerProvider.notifier)
+                .updateReasonsToStaySafe,
+          ),
+          _SectionField(
+            controller: _emergencyController,
+            label: l10n.safetyPlanEmergencySteps,
+            icon: Icons.rule_folder_outlined,
+            onChanged: ref
+                .read(safetyControllerProvider.notifier)
+                .updateEmergencySteps,
+          ),
+          const SizedBox(height: 8),
+          FilledButton.icon(
+            onPressed: state.isSaving ? null : () => _savePlan(context),
+            icon: const Icon(Icons.check_rounded),
+            label: Text(l10n.safetyPlanSaveButton),
+          ),
+          const SizedBox(height: 20),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final textScale = MediaQuery.textScalerOf(context).scale(1);
+              final useCompactLayout =
+                  constraints.maxWidth <
+                      LayoutConfig.compactScreenWidthThreshold ||
+                  textScale > LayoutConfig.compactTextScaleThreshold;
+
+              if (useCompactLayout) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            l10n.safetyPlanContactsTitle,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        ),
+                        Chip(
+                          label: Text(
+                            '${state.contacts.length}/${SafetyPlanConfig.maxTrustedContacts}',
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed:
+                            state.contacts.length >=
+                                SafetyPlanConfig.maxTrustedContacts
+                            ? null
+                            : () => _showAddContactDialog(context),
+                        icon: const Icon(Icons.person_add_alt_1),
+                        label: Text(l10n.safetyPlanAddContact),
+                      ),
                     ),
                   ],
                 );
-              },
-            ),
-            const SizedBox(height: 8),
-            if (state.contacts.isEmpty)
-              Text(l10n.safetyPlanContactsEmpty)
-            else
-              for (final contact in state.contacts)
-                _ContactCard(
-                  contact: contact,
-                  onCall: () => _call(context, contact.phone),
-                  onDelete: () => ref
-                      .read(safetyControllerProvider.notifier)
-                      .deleteContact(contact.id),
-                  onSetPrimary: () => ref
-                      .read(safetyControllerProvider.notifier)
-                      .setPrimary(contact.id),
-                ),
-          ],
-        ),
+              }
+
+              return Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            l10n.safetyPlanContactsTitle,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Chip(
+                          label: Text(
+                            '${state.contacts.length}/${SafetyPlanConfig.maxTrustedContacts}',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed:
+                        state.contacts.length >=
+                            SafetyPlanConfig.maxTrustedContacts
+                        ? null
+                        : () => _showAddContactDialog(context),
+                    icon: const Icon(Icons.person_add_alt_1),
+                    label: Text(l10n.safetyPlanAddContact),
+                  ),
+                ],
+              );
+            },
+          ),
+          const SizedBox(height: 8),
+          if (state.contacts.isEmpty)
+            Text(l10n.safetyPlanContactsEmpty)
+          else
+            for (final contact in state.contacts)
+              _ContactCard(
+                key: ValueKey(contact.id),
+                contact: contact,
+                onCall: () => _call(context, contact.phone),
+                onDelete: () => ref
+                    .read(safetyControllerProvider.notifier)
+                    .deleteContact(contact.id),
+                onSetPrimary: () => ref
+                    .read(safetyControllerProvider.notifier)
+                    .setPrimary(contact.id),
+              ),
+        ],
       ),
     );
   }
@@ -347,27 +397,62 @@ class _SectionField extends StatelessWidget {
   const _SectionField({
     required this.controller,
     required this.label,
+    required this.icon,
     required this.onChanged,
   });
 
   final TextEditingController controller;
   final String label;
+  final IconData icon;
   final ValueChanged<String> onChanged;
 
   @override
+  /// Purpose: Render one guided safety-plan writing section with consistent
+  /// iconography and card grouping.
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: TextField(
-        controller: controller,
-        minLines: 2,
-        maxLines: 4,
-        maxLength: SafetyPlanConfig.maxSectionLength,
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    alignment: Alignment.center,
+                    child: Icon(icon, color: colorScheme.primary),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      label,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: controller,
+                minLines: 2,
+                maxLines: 4,
+                maxLength: SafetyPlanConfig.maxSectionLength,
+                decoration: InputDecoration(labelText: label),
+                onChanged: onChanged,
+              ),
+            ],
+          ),
         ),
-        onChanged: onChanged,
       ),
     );
   }
@@ -375,6 +460,7 @@ class _SectionField extends StatelessWidget {
 
 class _ContactCard extends StatelessWidget {
   const _ContactCard({
+    super.key,
     required this.contact,
     required this.onCall,
     required this.onDelete,
@@ -387,6 +473,8 @@ class _ContactCard extends StatelessWidget {
   final VoidCallback onSetPrimary;
 
   @override
+  /// Purpose: Render trusted contacts as action-ready cards with clearer
+  /// operational affordances.
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Card(
@@ -397,6 +485,22 @@ class _ContactCard extends StatelessWidget {
           children: [
             Row(
               children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.person_outline_rounded,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     '${contact.name} (${contact.relation})',
@@ -432,6 +536,52 @@ class _ContactCard extends StatelessWidget {
                   label: Text(l10n.safetyPlanRemoveContact),
                 ),
               ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _IntroCard extends StatelessWidget {
+  const _IntroCard({required this.title, required this.body});
+
+  final String title;
+  final String body;
+
+  @override
+  /// Purpose: Frame the safety-plan screen as a calm preparation workflow
+  /// before users encounter the emergency block.
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              alignment: Alignment.center,
+              child: Icon(Icons.shield_outlined, color: colorScheme.primary),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: Theme.of(context).textTheme.titleMedium),
+                  const SizedBox(height: 6),
+                  Text(body, style: Theme.of(context).textTheme.bodyMedium),
+                ],
+              ),
             ),
           ],
         ),

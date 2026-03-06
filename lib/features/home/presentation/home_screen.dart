@@ -4,14 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:vibemental_app/core/ads/ad_providers.dart';
 import 'package:vibemental_app/core/config/ad_config.dart';
 import 'package:vibemental_app/core/config/app_routes.dart';
-import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
+import 'package:vibemental_app/core/theme/app_semantic_colors.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  /// Purpose: Render first-entry home with primary screening and support tools.
+  /// Purpose: Render first-entry home with a dominant screening path and
+  /// calmer, clinically trustworthy support hierarchy.
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final adService = ref.watch(adServiceProvider);
@@ -32,62 +33,308 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: PageContentContainer(
-        child: ListView(
-          padding: const EdgeInsets.all(20),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+        children: [
+          _heroCard(context, l10n),
+          const SizedBox(height: 8),
+          _primaryFlowCard(context, l10n),
+          const SizedBox(height: 16),
+          Text(
+            l10n.homeWellnessToolsTitle,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 6),
+          Text(
+            l10n.homeSubtitle,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          const SizedBox(height: 12),
+          _featureCard(
+            context,
+            title: l10n.homeDailyCheckInTitle,
+            subtitle: l10n.homeDailyCheckInSubtitle,
+            buttonLabel: l10n.homeDailyCheckInCta,
+            icon: Icons.calendar_today_outlined,
+            accentColor: Theme.of(context).colorScheme.primary,
+            onTap: () => context.push(AppRoutes.checkIn),
+          ),
+          _featureCard(
+            context,
+            title: l10n.homeSafetyPlanTitle,
+            subtitle: l10n.homeSafetyPlanSubtitle,
+            buttonLabel: l10n.homeSafetyPlanCta,
+            icon: Icons.health_and_safety_outlined,
+            accentColor: context.semanticColors.danger,
+            onTap: () => context.push(AppRoutes.safetyPlan),
+          ),
+          const SizedBox(height: 8),
+          _safetyBanner(context, l10n),
+          const SizedBox(height: 12),
+          adService.buildBanner(placement: AdPlacement.homeBottomBanner),
+        ],
+      ),
+    );
+  }
+
+  /// Purpose: Frame the app as a calm, screening-only experience with trust
+  /// cues and reduced first-use ambiguity.
+  Widget _heroCard(BuildContext context, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              l10n.homeTitle,
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              l10n.homeSubtitle,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(height: 16),
-            _primaryFlowCard(context, l10n),
-            const SizedBox(height: 12),
-            _featureCard(
-              context,
-              title: l10n.modulesTitle,
-              subtitle:
-                  '${l10n.moduleHadsTitle} · ${l10n.moduleCesdTitle} · ${l10n.moduleBdiTitle}',
-              buttonLabel: l10n.homeBrowseModules,
-              icon: Icons.library_books_outlined,
-              onTap: () => context.push(AppRoutes.modules),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              l10n.homeWellnessToolsTitle,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 8),
-            _featureCard(
-              context,
-              title: l10n.homeDailyCheckInTitle,
-              subtitle: l10n.homeDailyCheckInSubtitle,
-              buttonLabel: l10n.homeDailyCheckInCta,
-              icon: Icons.calendar_today_outlined,
-              onTap: () => context.push(AppRoutes.checkIn),
-            ),
-            _featureCard(
-              context,
-              title: l10n.homeSafetyPlanTitle,
-              subtitle: l10n.homeSafetyPlanSubtitle,
-              buttonLabel: l10n.homeSafetyPlanCta,
-              icon: Icons.health_and_safety_outlined,
-              onTap: () => context.push(AppRoutes.safetyPlan),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.monitor_heart_outlined,
+                    color: colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.homeTitle,
+                        style: theme.textTheme.headlineSmall,
+                      ),
+                      const SizedBox(height: 6),
+                      Text(l10n.homeSubtitle, style: theme.textTheme.bodyLarge),
+                    ],
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
-            Text(
-              l10n.homeSafetyNote,
-              style: Theme.of(context).textTheme.bodyMedium,
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _infoPill(
+                  context,
+                  label: l10n.notDiagnosis,
+                  icon: Icons.verified_user_outlined,
+                ),
+                _infoPill(
+                  context,
+                  label: l10n.phq2FlowStepLabel,
+                  icon: Icons.alt_route_outlined,
+                ),
+                _infoPill(
+                  context,
+                  label: l10n.phq2FlowEstimate,
+                  icon: Icons.schedule_outlined,
+                ),
+              ],
             ),
-            const SizedBox(height: 12),
-            adService.buildBanner(placement: AdPlacement.homeBottomBanner),
           ],
         ),
+      ),
+    );
+  }
+
+  /// Purpose: Highlight the first recommended user journey in one actionable
+  /// block so the screening path is visually dominant.
+  Widget _primaryFlowCard(BuildContext context, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Semantics(
+      button: true,
+      label: '${l10n.homeHowItWorksTitle}. ${l10n.homeStart}',
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: colorScheme.primaryContainer.withValues(alpha: 0.55),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        color: colorScheme.primary,
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.play_arrow_rounded,
+                        color: colorScheme.onPrimary,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.homeHowItWorksTitle,
+                            style: theme.textTheme.titleMedium,
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            l10n.notDiagnosis,
+                            style: theme.textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              _guideStep(context, 1, l10n.homeHowItWorksStep1),
+              const SizedBox(height: 10),
+              _guideStep(context, 2, l10n.homeHowItWorksStep2),
+              const SizedBox(height: 10),
+              _guideStep(context, 3, l10n.homeHowItWorksStep3),
+              const SizedBox(height: 16),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    _levelChip(context, l10n.levelNormal),
+                    _levelChip(context, l10n.levelMild),
+                    _levelChip(context, l10n.levelModerate),
+                    _levelChip(context, l10n.levelHighRisk),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: () => context.go(AppRoutes.phq2),
+                  icon: const Icon(Icons.arrow_forward_rounded),
+                  label: Text(l10n.homeStart),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Purpose: Render reusable entry cards for secondary wellbeing tools without
+  /// competing with the primary screening CTA.
+  Widget _featureCard(
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+    required String buttonLabel,
+    required IconData icon,
+    required Color accentColor,
+    required VoidCallback onTap,
+  }) {
+    final theme = Theme.of(context);
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: accentColor.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  alignment: Alignment.center,
+                  child: Icon(icon, color: accentColor),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title, style: theme.textTheme.titleMedium),
+                      const SizedBox(height: 6),
+                      Text(subtitle, style: theme.textTheme.bodyMedium),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: onTap,
+                icon: const Icon(Icons.arrow_forward_rounded),
+                label: Text(buttonLabel),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Purpose: Keep safety escalation visible but visually separate from the
+  /// normal home-task hierarchy.
+  Widget _safetyBanner(BuildContext context, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+    final semanticColors = context.semanticColors;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: semanticColors.danger.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: semanticColors.danger.withValues(alpha: 0.2)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.local_hospital_outlined, color: semanticColors.danger),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              l10n.homeSafetyNote,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: semanticColors.danger,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -107,89 +354,29 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  /// Purpose: Render reusable entry card for optional wellbeing tools.
-  Widget _featureCard(
+  /// Purpose: Render a lightweight info pill for trust and time cues.
+  Widget _infoPill(
     BuildContext context, {
-    required String title,
-    required String subtitle,
-    required String buttonLabel,
+    required String label,
     required IconData icon,
-    required VoidCallback onTap,
   }) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(icon),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(subtitle),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(onPressed: onTap, child: Text(buttonLabel)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
-  /// Purpose: Highlight the first recommended user journey in one actionable
-  /// card so users unfamiliar with features can start without confusion.
-  Widget _primaryFlowCard(BuildContext context, AppLocalizations l10n) {
-    return Card(
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: colorScheme.outlineVariant),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              l10n.homeHowItWorksTitle,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              l10n.notDiagnosis,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 12),
-            _guideStep(context, 1, l10n.homeHowItWorksStep1),
-            const SizedBox(height: 8),
-            _guideStep(context, 2, l10n.homeHowItWorksStep2),
-            const SizedBox(height: 8),
-            _guideStep(context, 3, l10n.homeHowItWorksStep3),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                _levelChip(context, l10n.levelNormal),
-                _levelChip(context, l10n.levelMild),
-                _levelChip(context, l10n.levelModerate),
-                _levelChip(context, l10n.levelHighRisk),
-              ],
-            ),
-            const SizedBox(height: 14),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: () => context.go(AppRoutes.phq2),
-                child: Text(l10n.homeStart),
-              ),
-            ),
+            Icon(icon, size: 18, color: colorScheme.primary),
+            const SizedBox(width: 6),
+            Text(label, style: theme.textTheme.bodyMedium),
           ],
         ),
       ),
@@ -199,28 +386,29 @@ class HomeScreen extends ConsumerWidget {
   /// Purpose: Render one concise numbered guidance step on home.
   Widget _guideStep(BuildContext context, int index, String text) {
     final colorScheme = Theme.of(context).colorScheme;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        DecoratedBox(
+        Container(
+          width: 30,
+          height: 30,
+          alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: colorScheme.surfaceContainerHighest,
-            border: Border.all(color: colorScheme.primary),
+            color: colorScheme.primary,
             borderRadius: BorderRadius.circular(999),
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            child: Text(
-              '$index',
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: colorScheme.primary,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+          child: Text(
+            '$index',
+            style: Theme.of(
+              context,
+            ).textTheme.labelLarge?.copyWith(color: colorScheme.onPrimary),
           ),
         ),
-        const SizedBox(width: 8),
-        Expanded(child: Text(text)),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(text, style: Theme.of(context).textTheme.bodyLarge),
+        ),
       ],
     );
   }
