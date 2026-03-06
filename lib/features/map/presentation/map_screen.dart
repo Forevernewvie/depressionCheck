@@ -100,6 +100,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 8),
+              SelectableText(
+                MapConfig.openStreetMapAttributionText,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              SelectableText(
+                MapConfig.openStreetMapCopyrightUrl,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
               const SizedBox(height: 12),
             ],
             ..._clinics.map((clinic) => _ClinicCard(clinic: clinic)),
