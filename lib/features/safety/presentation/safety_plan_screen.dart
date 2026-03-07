@@ -7,6 +7,7 @@ import 'package:vibemental_app/core/result/app_result.dart';
 import 'package:vibemental_app/core/theme/app_semantic_colors.dart';
 import 'package:vibemental_app/core/config/layout_config.dart';
 import 'package:vibemental_app/features/safety/application/safety_providers.dart';
+import 'package:vibemental_app/features/safety/domain/safety_validators.dart';
 import 'package:vibemental_app/features/safety/domain/trusted_contact.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
@@ -86,7 +87,7 @@ class _SafetyPlanScreenState extends ConsumerState<SafetyPlanScreen> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    l10n.safetyPlanIntroBody,
+                    l10n.safetyPlanEmergencyBody,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: context.semanticColors.emergencyText,
                     ),
@@ -299,97 +300,190 @@ class _SafetyPlanScreenState extends ConsumerState<SafetyPlanScreen> {
     final relationController = TextEditingController();
     final phoneController = TextEditingController();
     bool isPrimary = false;
+    bool isSubmitting = false;
+    String? validationMessage;
 
-    final submitted = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) {
-        return StatefulBuilder(
-          builder: (context, setDialogState) {
-            return AlertDialog(
-              title: Text(l10n.safetyPlanAddContact),
-              content: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: nameController,
-                      decoration: InputDecoration(
-                        labelText: l10n.safetyPlanContactName,
-                      ),
+    Future<void> submitContact(
+      StateSetter setDialogState,
+      BuildContext dialogContext,
+    ) async {
+      final errorMessage = _validateContactDraft(
+        l10n,
+        name: nameController.text,
+        relation: relationController.text,
+        phone: phoneController.text,
+      );
+      if (errorMessage != null) {
+        setDialogState(() {
+          validationMessage = errorMessage;
+        });
+        return;
+      }
+
+      setDialogState(() {
+        isSubmitting = true;
+        validationMessage = null;
+      });
+
+      final success = await ref
+          .read(safetyControllerProvider.notifier)
+          .addContact(
+            name: nameController.text,
+            relation: relationController.text,
+            phone: phoneController.text,
+            isPrimary: isPrimary,
+          );
+
+      if (!dialogContext.mounted) {
+        return;
+      }
+
+      if (!success) {
+        setDialogState(() {
+          isSubmitting = false;
+          validationMessage = l10n.safetyPlanContactInvalid;
+        });
+        return;
+      }
+
+      Navigator.of(dialogContext).pop(true);
+    }
+
+    try {
+      final submitted = await showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        builder: (dialogContext) {
+          return StatefulBuilder(
+            builder: (context, setDialogState) {
+              return PopScope(
+                canPop: false,
+                child: AlertDialog(
+                  title: Text(l10n.safetyPlanAddContact),
+                  content: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextField(
+                          controller: nameController,
+                          keyboardType: TextInputType.name,
+                          textCapitalization: TextCapitalization.words,
+                          textInputAction: TextInputAction.next,
+                          autofillHints: const [AutofillHints.name],
+                          decoration: InputDecoration(
+                            labelText: l10n.safetyPlanContactName,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: relationController,
+                          textCapitalization: TextCapitalization.words,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            labelText: l10n.safetyPlanContactRelation,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: phoneController,
+                          keyboardType: TextInputType.phone,
+                          textInputAction: TextInputAction.done,
+                          autofillHints: const [AutofillHints.telephoneNumber],
+                          decoration: InputDecoration(
+                            labelText: l10n.safetyPlanContactPhone,
+                          ),
+                          onSubmitted: (_) =>
+                              submitContact(setDialogState, dialogContext),
+                        ),
+                        const SizedBox(height: 8),
+                        CheckboxListTile(
+                          contentPadding: EdgeInsets.zero,
+                          value: isPrimary,
+                          onChanged: isSubmitting
+                              ? null
+                              : (value) {
+                                  setDialogState(
+                                    () => isPrimary = value ?? false,
+                                  );
+                                },
+                          title: Text(l10n.safetyPlanSetPrimary),
+                        ),
+                        if (validationMessage != null) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            validationMessage!,
+                            style: Theme.of(dialogContext).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    dialogContext,
+                                  ).colorScheme.error,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                        ],
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      controller: relationController,
-                      decoration: InputDecoration(
-                        labelText: l10n.safetyPlanContactRelation,
-                      ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: isSubmitting
+                          ? null
+                          : () => Navigator.of(dialogContext).pop(false),
+                      child: Text(l10n.safetyPlanDialogCancel),
                     ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      controller: phoneController,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        labelText: l10n.safetyPlanContactPhone,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    CheckboxListTile(
-                      contentPadding: EdgeInsets.zero,
-                      value: isPrimary,
-                      onChanged: (value) {
-                        setDialogState(() => isPrimary = value ?? false);
-                      },
-                      title: Text(l10n.safetyPlanSetPrimary),
+                    FilledButton(
+                      onPressed: isSubmitting
+                          ? null
+                          : () => submitContact(setDialogState, dialogContext),
+                      child: isSubmitting
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : Text(l10n.safetyPlanDialogSave),
                     ),
                   ],
                 ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(dialogContext).pop(false),
-                  child: Text(l10n.safetyPlanDialogCancel),
-                ),
-                FilledButton(
-                  onPressed: () => Navigator.of(dialogContext).pop(true),
-                  child: Text(l10n.safetyPlanDialogSave),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
+              );
+            },
+          );
+        },
+      );
 
-    if (submitted != true || !context.mounted) {
+      if (submitted != true || !context.mounted) {
+        return;
+      }
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.safetyPlanContactSaved)));
+    } finally {
       nameController.dispose();
       relationController.dispose();
       phoneController.dispose();
-      return;
+    }
+  }
+
+  /// Purpose: Validate contact draft input before dismissing the dialog so
+  /// user-entered values are preserved on correction.
+  String? _validateContactDraft(
+    AppLocalizations l10n, {
+    required String name,
+    required String relation,
+    required String phone,
+  }) {
+    final normalizedName = name.trim();
+    final normalizedRelation = relation.trim();
+    final normalizedPhone = normalizeContactPhone(phone);
+
+    if (!isValidContactName(normalizedName) ||
+        !isValidContactRelation(normalizedRelation) ||
+        !isValidContactPhone(normalizedPhone)) {
+      return l10n.safetyPlanContactInvalid;
     }
 
-    final success = await ref
-        .read(safetyControllerProvider.notifier)
-        .addContact(
-          name: nameController.text,
-          relation: relationController.text,
-          phone: phoneController.text,
-          isPrimary: isPrimary,
-        );
-
-    if (!context.mounted) {
-      return;
-    }
-
-    final message = success
-        ? l10n.safetyPlanContactSaved
-        : l10n.safetyPlanContactInvalid;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
-
-    nameController.dispose();
-    relationController.dispose();
-    phoneController.dispose();
+    return null;
   }
 }
 

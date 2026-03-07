@@ -107,7 +107,7 @@ class _InstrumentQuestionnaireScreenState
           'severity': result.severity.name,
         },
       );
-      context.go(AppRoutes.result, extra: result);
+      context.push(AppRoutes.result, extra: result);
     } on ArgumentError catch (error, stackTrace) {
       logger.error(
         'instrument_submit_failed_validation',

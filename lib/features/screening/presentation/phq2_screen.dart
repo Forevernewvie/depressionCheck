@@ -74,11 +74,11 @@ class _Phq2ScreenState extends State<Phq2Screen> {
 
     final result = scorePhq2(q1: _answers[0]!, q2: _answers[1]!);
     if (result.shouldEscalateToStage2) {
-      context.go(AppRoutes.phq9);
+      context.push(AppRoutes.phq9);
       return;
     }
 
-    context.go(AppRoutes.result, extra: result);
+    context.push(AppRoutes.result, extra: result);
   }
 }
 

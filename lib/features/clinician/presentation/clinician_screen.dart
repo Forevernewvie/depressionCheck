@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vibemental_app/core/config/app_routes.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
 class ClinicianScreen extends StatelessWidget {
@@ -65,6 +67,32 @@ class ClinicianScreen extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: () => context.push(AppRoutes.map),
+              icon: const Icon(Icons.map_outlined),
+              label: Text(l10n.clinicianNearbyClinicsAction),
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: () => context.push(AppRoutes.safetyPlan),
+              icon: const Icon(Icons.health_and_safety_outlined),
+              label: Text(l10n.clinicianSafetyPlanAction),
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: double.infinity,
+            child: TextButton(
+              onPressed: () => context.go(AppRoutes.modules),
+              child: Text(l10n.moduleBackToModules),
             ),
           ),
         ],

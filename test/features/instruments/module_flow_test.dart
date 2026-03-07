@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -66,6 +67,43 @@ void main() {
       ),
       findsOneWidget,
     );
+    expect(find.text('Back to Modules'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('restricted clinician details explain unavailability clearly', (
+    tester,
+  ) async {
+    await _pumpApp(tester);
+
+    await tester.tap(find.byTooltip('Browse Modules'));
+    await tester.pumpAndSettle();
+
+    final restrictionDetailsButton = find.widgetWithText(
+      OutlinedButton,
+      'View restriction details',
+    );
+    await tester.scrollUntilVisible(
+      restrictionDetailsButton,
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.ensureVisible(restrictionDetailsButton);
+    expect(restrictionDetailsButton, findsOneWidget);
+
+    final modulesContext = tester.element(find.byType(ModulesScreen));
+    GoRouter.of(modulesContext).go(AppRoutes.clinician);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Clinician-administered modules'), findsOneWidget);
+    expect(
+      find.text(
+        'HAM-D and MADRS depend on clinician interviews and are not available in the self-screening app.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.text('Open Nearby Clinics'), findsOneWidget);
+    expect(find.text('Open Safety Plan'), findsOneWidget);
     expect(find.text('Back to Modules'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });

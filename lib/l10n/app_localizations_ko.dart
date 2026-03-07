@@ -269,6 +269,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get safetyPlanEmergencyTitle => '지금 당장 안전이 걱정된다면';
 
   @override
+  String get safetyPlanEmergencyBody =>
+      '지금 즉시 응급전화, 위기상담, 또는 주요 연락처로 연결하세요. 아래 단계는 안전할 때만 확인하세요.';
+
+  @override
   String get safetyPlanCallPrimary => '주요 연락처에 전화';
 
   @override
@@ -341,6 +345,16 @@ class AppLocalizationsKo extends AppLocalizations {
   String get resultTitle => '선별 결과';
 
   @override
+  String get resultUnavailableTitle => '표시할 선별 결과가 없습니다';
+
+  @override
+  String get resultUnavailableBody =>
+      '이 화면은 완료된 선별 결과가 필요합니다. 다시 선별을 시작해 안내를 확인해주세요.';
+
+  @override
+  String get resultUnavailableStart => '선별 다시 시작';
+
+  @override
   String get resultScore => '점수';
 
   @override
@@ -383,6 +397,16 @@ class AppLocalizationsKo extends AppLocalizations {
   String get mapUseMyLocation => '내 위치로 검색';
 
   @override
+  String get mapRefreshNearby => '주변 결과 새로고침';
+
+  @override
+  String get mapOpenSettings => '시스템 설정 열기';
+
+  @override
+  String get mapOpenSettingsFailed =>
+      '시스템 설정을 열 수 없습니다. 직접 설정을 열어 위치 권한을 허용해주세요.';
+
+  @override
   String get mapLocating => '위치 확인 및 주변 병원을 검색하고 있습니다...';
 
   @override
@@ -390,6 +414,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get mapNoResultFallback => '실시간 결과가 없어 기본 병원 목록을 보여드립니다.';
+
+  @override
+  String get mapNoFilteredResults => '현재 필터와 일치하는 진료기관이 없습니다. 필터를 하나 해제해보세요.';
 
   @override
   String get mapNetworkFallback => '네트워크 문제로 기본 병원 목록을 보여드립니다.';
@@ -518,6 +545,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get modulesRestrictedTitle => '제한 또는 임상의 전용 콘텐츠';
 
   @override
+  String get modulesRestrictedBody =>
+      '일부 도구는 임상의 면담이나 별도 라이선스가 필요해 자가 선별 흐름에서는 제공되지 않습니다.';
+
+  @override
   String get modulePhq2Title => 'PHQ-2';
 
   @override
@@ -575,17 +606,24 @@ class AppLocalizationsKo extends AppLocalizations {
   String get moduleBdiNote => '라이선스 필요: 권한 없이 저작권 문항 원문 전체를 노출하면 안 됩니다.';
 
   @override
-  String get moduleClinicianButton => '임상의 전용 HAM-D / MADRS 열기';
+  String get moduleClinicianButton => '제한 사유 보기';
 
   @override
-  String get clinicianTitle => '임상의 전용 모듈';
+  String get clinicianTitle => '임상의 면담 기반 모듈';
 
   @override
   String get clinicianBody =>
-      'HAM-D와 MADRS는 임상의 면담 기반입니다. 실제 서비스에서는 자가 선별 사용자에게 숨겨야 합니다.';
+      'HAM-D와 MADRS는 임상의 면담이 필요한 도구로, 자가 선별 앱에서는 제공되지 않습니다.';
 
   @override
-  String get clinicianEmergencyPath => '중증 결과 경로: 응급 지원 + 병원 지도 + 추적 예약 연결.';
+  String get clinicianEmergencyPath =>
+      '즉각적인 위험이 있다면 이 화면 대신 응급 지원과 주변 병원 안내를 사용하세요.';
+
+  @override
+  String get clinicianNearbyClinicsAction => '주변 병원 안내 열기';
+
+  @override
+  String get clinicianSafetyPlanAction => '안전 플랜 열기';
 
   @override
   String get commonMissingAnswer => '모든 문항에 응답한 뒤 계속해주세요.';

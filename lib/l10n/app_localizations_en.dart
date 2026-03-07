@@ -287,6 +287,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get safetyPlanEmergencyTitle => 'If you feel unsafe right now';
 
   @override
+  String get safetyPlanEmergencyBody =>
+      'Call emergency services, a crisis line, or your primary contact now. Use the steps below only if it is safe to do so.';
+
+  @override
   String get safetyPlanCallPrimary => 'Call Primary Contact';
 
   @override
@@ -360,6 +364,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resultTitle => 'Screening Result';
 
   @override
+  String get resultUnavailableTitle => 'No screening result available';
+
+  @override
+  String get resultUnavailableBody =>
+      'This screen needs a completed screening result. Start the screening again to see guidance.';
+
+  @override
+  String get resultUnavailableStart => 'Start Screening Again';
+
+  @override
   String get resultScore => 'Score';
 
   @override
@@ -407,6 +421,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapUseMyLocation => 'Use My Location';
 
   @override
+  String get mapRefreshNearby => 'Refresh Nearby Results';
+
+  @override
+  String get mapOpenSettings => 'Open System Settings';
+
+  @override
+  String get mapOpenSettingsFailed =>
+      'Unable to open system settings. Please open them manually and allow location.';
+
+  @override
   String get mapLocating => 'Checking location and searching nearby clinics...';
 
   @override
@@ -415,6 +439,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get mapNoResultFallback =>
       'No nearby result from network. Showing fallback clinic list.';
+
+  @override
+  String get mapNoFilteredResults =>
+      'No clinics match the current filters. Try removing a filter.';
 
   @override
   String get mapNetworkFallback =>
@@ -548,6 +576,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get modulesRestrictedTitle => 'Restricted and clinician-only content';
 
   @override
+  String get modulesRestrictedBody =>
+      'Some tools require clinician interviews or separate licensing, so they are not available in the self-screening flow.';
+
+  @override
   String get modulePhq2Title => 'PHQ-2';
 
   @override
@@ -614,18 +646,24 @@ class AppLocalizationsEn extends AppLocalizations {
       'Licensed content required: do not expose full copyrighted items without rights.';
 
   @override
-  String get moduleClinicianButton => 'Open Clinician-only HAM-D / MADRS';
+  String get moduleClinicianButton => 'View restriction details';
 
   @override
-  String get clinicianTitle => 'Clinician-only Module';
+  String get clinicianTitle => 'Clinician-administered modules';
 
   @override
   String get clinicianBody =>
-      'HAM-D and MADRS are clinician-administered. This flow should stay hidden from self-screen users in production.';
+      'HAM-D and MADRS depend on clinician interviews and are not available in the self-screening app.';
 
   @override
   String get clinicianEmergencyPath =>
-      'Severe result path: emergency support + hospital map + follow-up scheduling.';
+      'If someone is at immediate risk, use emergency support and nearby clinic guidance instead.';
+
+  @override
+  String get clinicianNearbyClinicsAction => 'Open Nearby Clinics';
+
+  @override
+  String get clinicianSafetyPlanAction => 'Open Safety Plan';
 
   @override
   String get commonMissingAnswer =>

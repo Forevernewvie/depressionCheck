@@ -83,7 +83,7 @@ class _Phq9ScreenState extends State<Phq9Screen> {
     }
 
     final result = scorePhq9(_answers.cast<int>());
-    context.go(AppRoutes.result, extra: result);
+    context.push(AppRoutes.result, extra: result);
   }
 }
 

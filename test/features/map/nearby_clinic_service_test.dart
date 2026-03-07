@@ -19,6 +19,9 @@ class _FakeLocationService implements LocationService {
 
   @override
   Future<AppResult<Position>> getCurrentPosition() async => result;
+
+  @override
+  Future<bool> openAppSettings() async => true;
 }
 
 class _FakeClinicRepository implements ClinicRepository {

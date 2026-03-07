@@ -9,6 +9,7 @@ import 'package:vibemental_app/features/map/presentation/map_screen.dart';
 import 'package:vibemental_app/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:vibemental_app/features/onboarding/presentation/splash_screen.dart';
 import 'package:vibemental_app/features/results/presentation/result_screen.dart';
+import 'package:vibemental_app/features/results/presentation/result_unavailable_screen.dart';
 import 'package:vibemental_app/features/safety/presentation/safety_plan_screen.dart';
 import 'package:vibemental_app/features/screening/domain/screening_result.dart';
 import 'package:vibemental_app/features/screening/presentation/phq2_screen.dart';
@@ -44,10 +45,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.result,
         builder: (context, state) {
-          final result = state.extra is ScreeningResult
-              ? state.extra! as ScreeningResult
-              : ScreeningResult.fallback();
-          return ResultScreen(result: result);
+          final extra = state.extra;
+          if (extra is! ScreeningResult) {
+            return const ResultUnavailableScreen();
+          }
+          return ResultScreen(result: extra);
         },
       ),
       GoRoute(
