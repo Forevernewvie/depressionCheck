@@ -18,12 +18,4 @@ class ScreeningResult {
   final bool selfHarmPositive;
   final bool urgentCare;
   final bool shouldEscalateToStage2;
-
-  factory ScreeningResult.fallback() {
-    return const ScreeningResult(
-      instrument: ScreeningInstrument.phq2,
-      totalScore: 0,
-      severity: SeverityLevel.normal,
-    );
-  }
 }

@@ -57,6 +57,25 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('PHQ-2 Mild Screen'), findsOneWidget);
+    expect(find.byType(BackButton), findsOneWidget);
+
+    await tester.tap(find.byType(BackButton));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Mind Check'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('home guide card tap also starts PHQ-2 flow', (tester) async {
+    await pumpApp(tester);
+
+    final guideTitle = find.text('Quick guide for first-time users');
+
+    await tester.ensureVisible(guideTitle);
+    await tester.tap(guideTitle, warnIfMissed: false);
+    await tester.pumpAndSettle();
+
+    expect(find.text('PHQ-2 Mild Screen'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -111,6 +130,21 @@ void main() {
     expect(find.text('HADS-D'), findsWidgets);
     expect(find.textContaining('Licensed content required'), findsOneWidget);
     expect(find.text('Back to Modules'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('direct result route shows unavailable state without payload', (
+    tester,
+  ) async {
+    await pumpApp(tester);
+
+    final context = tester.element(find.byType(Scaffold).first);
+    GoRouter.of(context).go(AppRoutes.result);
+    await tester.pumpAndSettle();
+
+    expect(find.text('No screening result available'), findsOneWidget);
+    expect(find.text('Start Screening Again'), findsOneWidget);
+    expect(find.text('0'), findsNothing);
     expect(tester.takeException(), isNull);
   });
 

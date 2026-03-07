@@ -9,7 +9,6 @@ import 'package:vibemental_app/core/config/layout_config.dart';
 import 'package:vibemental_app/core/config/map_config.dart';
 import 'package:vibemental_app/core/platform/external_action_providers.dart';
 import 'package:vibemental_app/core/result/app_result.dart';
-import 'package:vibemental_app/core/theme/app_semantic_colors.dart';
 import 'package:vibemental_app/features/map/application/map_providers.dart';
 import 'package:vibemental_app/features/map/application/models/nearby_clinic_load_result.dart';
 import 'package:vibemental_app/features/map/domain/clinic.dart';
@@ -29,25 +28,49 @@ class MapScreen extends ConsumerStatefulWidget {
   ConsumerState<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapScreenState extends ConsumerState<MapScreen> {
+class _MapScreenState extends ConsumerState<MapScreen>
+    with WidgetsBindingObserver {
   bool _isLoading = false;
   String? _statusMessage;
+  NearbyClinicStatus? _lastStatus;
   LatLng? _currentLocation;
   List<Clinic> _clinics = const [];
   bool _filterSpecialistOnly = false;
   bool _filterOpenNowOnly = false;
   _ClinicSortOption _sortOption = _ClinicSortOption.distance;
   _MapContentMode _contentMode = _MapContentMode.mapAndList;
+  bool _shouldReloadAfterSettingsReturn = false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
       }
       _loadNearby();
     });
+  }
+
+  @override
+  /// Purpose: Re-check nearby clinics after users return from system settings
+  /// so granted permissions can immediately recover the nearby-care flow.
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed ||
+        !_shouldReloadAfterSettingsReturn ||
+        _isLoading) {
+      return;
+    }
+
+    _shouldReloadAfterSettingsReturn = false;
+    _loadNearby();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
@@ -99,7 +122,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Text(l10n.mapNoResultFallback),
+                child: Text(_emptyStateMessage(l10n)),
               ),
             ),
           ...visibleClinics.map(
@@ -146,20 +169,16 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               ],
             ),
             const SizedBox(height: 8),
-            Text(l10n.mapNoLocation),
+            Text(_loadCardBodyText(l10n)),
             const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
               child: FilledButton.icon(
-                onPressed: _isLoading ? null : _loadNearby,
-                icon: const Icon(Icons.my_location),
-                label: Text(l10n.mapUseMyLocation),
+                onPressed: _isLoading ? null : _handlePrimaryLocationAction,
+                icon: Icon(_loadCardPrimaryIcon()),
+                label: Text(_loadCardPrimaryLabel(l10n)),
               ),
             ),
-            if (_statusMessage != null) ...[
-              const SizedBox(height: 10),
-              _StatusBanner(message: _statusMessage!, isLoading: _isLoading),
-            ],
           ],
         ),
       ),
@@ -383,9 +402,21 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     setState(() {
       _currentLocation = result.center;
       _clinics = result.clinics;
+      _lastStatus = result.status;
       _statusMessage = _statusMessageFor(l10n, result.status);
       _isLoading = false;
     });
+  }
+
+  /// Purpose: Execute the load-card primary action so permanently denied
+  /// permission states lead to settings recovery instead of a dead retry.
+  Future<void> _handlePrimaryLocationAction() async {
+    if (_lastStatus == NearbyClinicStatus.permissionDeniedForever) {
+      await _openLocationSettings();
+      return;
+    }
+
+    await _loadNearby();
   }
 
   /// Purpose: Translate service status values into localized messages.
@@ -399,6 +430,63 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         l10n.mapPermissionDeniedForever,
       NearbyClinicStatus.unavailable => l10n.mapUnavailable,
     };
+  }
+
+  /// Purpose: Keep the load-card body aligned with the real current state
+  /// instead of always describing the initial permission hint.
+  String _loadCardBodyText(AppLocalizations l10n) {
+    return _statusMessage ?? l10n.mapNoLocation;
+  }
+
+  /// Purpose: Resolve the primary action label so the card offers a truthful
+  /// next step for refresh and permission-recovery states.
+  String _loadCardPrimaryLabel(AppLocalizations l10n) {
+    return switch (_lastStatus) {
+      NearbyClinicStatus.permissionDeniedForever => l10n.mapOpenSettings,
+      NearbyClinicStatus.realtimeLoaded ||
+      NearbyClinicStatus.noResultFallback ||
+      NearbyClinicStatus.networkFallback ||
+      NearbyClinicStatus.permissionDenied ||
+      NearbyClinicStatus.unavailable => l10n.mapRefreshNearby,
+      null => l10n.mapUseMyLocation,
+    };
+  }
+
+  /// Purpose: Resolve the primary action icon to reinforce whether the card
+  /// will retry location search or open system settings.
+  IconData _loadCardPrimaryIcon() {
+    return _lastStatus == NearbyClinicStatus.permissionDeniedForever
+        ? Icons.settings_outlined
+        : (_lastStatus == null ? Icons.my_location : Icons.refresh_rounded);
+  }
+
+  /// Purpose: Open system settings for permanently denied permission and show
+  /// fallback feedback if the platform cannot launch settings.
+  Future<void> _openLocationSettings() async {
+    final l10n = AppLocalizations.of(context)!;
+    final didOpen = await ref.read(locationServiceProvider).openAppSettings();
+    if (!mounted) {
+      return;
+    }
+
+    if (didOpen) {
+      _shouldReloadAfterSettingsReturn = true;
+      return;
+    }
+
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.mapOpenSettingsFailed)));
+  }
+
+  /// Purpose: Separate filter-empty messaging from network/location fallback
+  /// states so users understand why no clinics are currently visible.
+  String _emptyStateMessage(AppLocalizations l10n) {
+    final hasActiveFilters = _filterSpecialistOnly || _filterOpenNowOnly;
+    if (_clinics.isNotEmpty && hasActiveFilters) {
+      return l10n.mapNoFilteredResults;
+    }
+    return l10n.mapNoResultFallback;
   }
 
   /// Purpose: Build map markers for current location and clinic points.
@@ -437,40 +525,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   }
 }
 
-class _StatusBanner extends StatelessWidget {
-  const _StatusBanner({required this.message, required this.isLoading});
-
-  final String message;
-  final bool isLoading;
-
-  @override
-  /// Purpose: Present location/load status in a distinct trust-oriented banner
-  /// instead of plain body text.
-  Widget build(BuildContext context) {
-    final semanticColors = context.semanticColors;
-    final color = isLoading
-        ? Theme.of(context).colorScheme.primary
-        : semanticColors.warning;
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(isLoading ? Icons.sync : Icons.info_outline, color: color),
-          const SizedBox(width: 8),
-          Expanded(child: Text(message)),
-        ],
-      ),
-    );
-  }
-}
-
 class _ClinicCard extends ConsumerWidget {
   const _ClinicCard({required this.clinic, super.key});
 
@@ -482,6 +536,7 @@ class _ClinicCard extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final now = DateTime.now();
     final openState = clinic.resolveOpenState(now);
+    final hasAddress = clinic.address?.trim().isNotEmpty ?? false;
 
     return Card(
       child: Padding(
@@ -489,21 +544,7 @@ class _ClinicCard extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(
-                    clinic.name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                _OpenStateChip(openState: openState),
-              ],
-            ),
+            _buildClinicHeader(context, openState),
             const SizedBox(height: 6),
             Text(
               '${clinic.distanceLabel} · ${clinic.category}',
@@ -571,8 +612,9 @@ class _ClinicCard extends ConsumerWidget {
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton(
-                          onPressed: () =>
-                              _copyAddress(context, clinic.address),
+                          onPressed: hasAddress
+                              ? () => _copyAddress(context, clinic.address)
+                              : null,
                           child: Text(l10n.mapCopyAddress),
                         ),
                       ),
@@ -600,7 +642,9 @@ class _ClinicCard extends ConsumerWidget {
                     const SizedBox(width: 10),
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: () => _copyAddress(context, clinic.address),
+                        onPressed: hasAddress
+                            ? () => _copyAddress(context, clinic.address)
+                            : null,
                         child: Text(l10n.mapCopyAddress),
                       ),
                     ),
@@ -611,6 +655,44 @@ class _ClinicCard extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+
+  /// Purpose: Keep the clinic title and open-state chip readable without
+  /// horizontal overflow on narrow widths or larger accessibility text sizes.
+  Widget _buildClinicHeader(BuildContext context, ClinicOpenState openState) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final textScale = MediaQuery.textScalerOf(context).scale(1);
+        final useCompactHeader =
+            constraints.maxWidth <
+                LayoutConfig.compactMapHeaderWidthThreshold ||
+            textScale > LayoutConfig.compactTextScaleThreshold;
+
+        final title = Text(
+          clinic.name,
+          maxLines: useCompactHeader ? 3 : 2,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.titleMedium,
+        );
+        final openStateChip = _OpenStateChip(openState: openState);
+
+        if (useCompactHeader) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [title, const SizedBox(height: 8), openStateChip],
+          );
+        }
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(child: title),
+            const SizedBox(width: 8),
+            openStateChip,
+          ],
+        );
+      },
     );
   }
 

@@ -151,6 +151,9 @@ class _DeniedLocationService implements LocationService {
       ),
     );
   }
+
+  @override
+  Future<bool> openAppSettings() async => true;
 }
 
 class _UnusedClinicRepository implements ClinicRepository {

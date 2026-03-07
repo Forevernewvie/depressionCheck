@@ -8,6 +8,10 @@ abstract class LocationService {
   /// Purpose: Get the current position or a typed failure describing why it is
   /// unavailable.
   Future<AppResult<Position>> getCurrentPosition();
+
+  /// Purpose: Open platform app settings so permanently denied location
+  /// permission can be recovered through a real user action.
+  Future<bool> openAppSettings();
 }
 
 /// Purpose: Production implementation using the `geolocator` plugin.
@@ -70,6 +74,20 @@ class GeolocatorLocationService implements LocationService {
           code: 'location_unknown',
         ),
       );
+    }
+  }
+
+  @override
+  Future<bool> openAppSettings() async {
+    try {
+      return Geolocator.openAppSettings();
+    } catch (error, stackTrace) {
+      _logger.error(
+        'Failed to open app settings.',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      return false;
     }
   }
 }

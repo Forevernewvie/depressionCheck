@@ -90,7 +90,7 @@ class ModulesScreen extends ConsumerWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          l10n.moduleBdiNote,
+                          l10n.modulesRestrictedBody,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),

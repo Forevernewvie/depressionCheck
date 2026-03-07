@@ -127,6 +127,13 @@ void main() {
 
     await pumpScreen(tester, repository: repository, actions: actions);
 
+    expect(
+      find.text(
+        'Call emergency services, a crisis line, or your primary contact now. Use the steps below only if it is safe to do so.',
+      ),
+      findsOneWidget,
+    );
+
     await tester.tap(find.text('Call Emergency'));
     await tester.pumpAndSettle();
 
@@ -154,5 +161,84 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(actions.calledPhones, contains('+821012345678'));
+  });
+
+  testWidgets(
+    'invalid contact input keeps dialog open and preserves entered values',
+    (tester) async {
+      final repository = _FakeSafetyRepository();
+      final actions = _SpyExternalActionService();
+
+      await pumpScreen(tester, repository: repository, actions: actions);
+
+      final addContactButton = find.widgetWithText(
+        OutlinedButton,
+        'Add Contact',
+      );
+      await tester.scrollUntilVisible(
+        addContactButton,
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.tap(addContactButton);
+      await tester.pumpAndSettle();
+
+      await tester.enterText(
+        find.widgetWithText(TextField, 'Name'),
+        'Alex Example',
+      );
+      await tester.enterText(
+        find.widgetWithText(TextField, 'Relationship'),
+        'Friend',
+      );
+      await tester.enterText(find.widgetWithText(TextField, 'Phone'), '12');
+
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AlertDialog), findsOneWidget);
+      expect(
+        find.text('Please check contact inputs and try again.'),
+        findsOneWidget,
+      );
+      expect(find.text('Alex Example'), findsOneWidget);
+      expect(repository.readSnapshot().contacts, isEmpty);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets('contact dialog ignores accidental dismiss gestures', (
+    tester,
+  ) async {
+    final repository = _FakeSafetyRepository();
+    final actions = _SpyExternalActionService();
+
+    await pumpScreen(tester, repository: repository, actions: actions);
+
+    final addContactButton = find.widgetWithText(OutlinedButton, 'Add Contact');
+    await tester.scrollUntilVisible(
+      addContactButton,
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.tap(addContactButton);
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.widgetWithText(TextField, 'Name'), 'Jamie');
+    await tester.pumpAndSettle();
+
+    await tester.tapAt(const Offset(5, 5));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(AlertDialog), findsOneWidget);
+    expect(find.text('Jamie'), findsOneWidget);
+
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+
+    expect(find.byType(AlertDialog), findsOneWidget);
+    expect(find.text('Jamie'), findsOneWidget);
+    expect(repository.readSnapshot().contacts, isEmpty);
+    expect(tester.takeException(), isNull);
   });
 }

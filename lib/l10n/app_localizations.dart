@@ -608,6 +608,12 @@ abstract class AppLocalizations {
   /// **'If you feel unsafe right now'**
   String get safetyPlanEmergencyTitle;
 
+  /// No description provided for @safetyPlanEmergencyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Call emergency services, a crisis line, or your primary contact now. Use the steps below only if it is safe to do so.'**
+  String get safetyPlanEmergencyBody;
+
   /// No description provided for @safetyPlanCallPrimary.
   ///
   /// In en, this message translates to:
@@ -752,6 +758,24 @@ abstract class AppLocalizations {
   /// **'Screening Result'**
   String get resultTitle;
 
+  /// No description provided for @resultUnavailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No screening result available'**
+  String get resultUnavailableTitle;
+
+  /// No description provided for @resultUnavailableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This screen needs a completed screening result. Start the screening again to see guidance.'**
+  String get resultUnavailableBody;
+
+  /// No description provided for @resultUnavailableStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Screening Again'**
+  String get resultUnavailableStart;
+
   /// No description provided for @resultScore.
   ///
   /// In en, this message translates to:
@@ -830,6 +854,24 @@ abstract class AppLocalizations {
   /// **'Use My Location'**
   String get mapUseMyLocation;
 
+  /// No description provided for @mapRefreshNearby.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh Nearby Results'**
+  String get mapRefreshNearby;
+
+  /// No description provided for @mapOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open System Settings'**
+  String get mapOpenSettings;
+
+  /// No description provided for @mapOpenSettingsFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to open system settings. Please open them manually and allow location.'**
+  String get mapOpenSettingsFailed;
+
   /// No description provided for @mapLocating.
   ///
   /// In en, this message translates to:
@@ -847,6 +889,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No nearby result from network. Showing fallback clinic list.'**
   String get mapNoResultFallback;
+
+  /// No description provided for @mapNoFilteredResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No clinics match the current filters. Try removing a filter.'**
+  String get mapNoFilteredResults;
 
   /// No description provided for @mapNetworkFallback.
   ///
@@ -1094,6 +1142,12 @@ abstract class AppLocalizations {
   /// **'Restricted and clinician-only content'**
   String get modulesRestrictedTitle;
 
+  /// No description provided for @modulesRestrictedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Some tools require clinician interviews or separate licensing, so they are not available in the self-screening flow.'**
+  String get modulesRestrictedBody;
+
   /// No description provided for @modulePhq2Title.
   ///
   /// In en, this message translates to:
@@ -1205,26 +1259,38 @@ abstract class AppLocalizations {
   /// No description provided for @moduleClinicianButton.
   ///
   /// In en, this message translates to:
-  /// **'Open Clinician-only HAM-D / MADRS'**
+  /// **'View restriction details'**
   String get moduleClinicianButton;
 
   /// No description provided for @clinicianTitle.
   ///
   /// In en, this message translates to:
-  /// **'Clinician-only Module'**
+  /// **'Clinician-administered modules'**
   String get clinicianTitle;
 
   /// No description provided for @clinicianBody.
   ///
   /// In en, this message translates to:
-  /// **'HAM-D and MADRS are clinician-administered. This flow should stay hidden from self-screen users in production.'**
+  /// **'HAM-D and MADRS depend on clinician interviews and are not available in the self-screening app.'**
   String get clinicianBody;
 
   /// No description provided for @clinicianEmergencyPath.
   ///
   /// In en, this message translates to:
-  /// **'Severe result path: emergency support + hospital map + follow-up scheduling.'**
+  /// **'If someone is at immediate risk, use emergency support and nearby clinic guidance instead.'**
   String get clinicianEmergencyPath;
+
+  /// No description provided for @clinicianNearbyClinicsAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Nearby Clinics'**
+  String get clinicianNearbyClinicsAction;
+
+  /// No description provided for @clinicianSafetyPlanAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Safety Plan'**
+  String get clinicianSafetyPlanAction;
 
   /// No description provided for @commonMissingAnswer.
   ///

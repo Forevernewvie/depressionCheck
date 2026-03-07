@@ -156,10 +156,10 @@ class HomeScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Semantics(
-      button: true,
-      label: '${l10n.homeHowItWorksTitle}. ${l10n.homeStart}',
-      child: Card(
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => context.push(AppRoutes.phq2),
         child: Padding(
           padding: AppInsets.screen,
           child: Column(
@@ -236,7 +236,7 @@ class HomeScreen extends ConsumerWidget {
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.icon(
-                  onPressed: () => context.go(AppRoutes.phq2),
+                  onPressed: () => context.push(AppRoutes.phq2),
                   icon: const Icon(Icons.arrow_forward_rounded),
                   label: Text(l10n.homeStart),
                 ),
