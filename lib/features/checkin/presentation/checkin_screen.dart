@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vibemental_app/core/config/checkin_config.dart';
 import 'package:vibemental_app/core/theme/app_semantic_colors.dart';
+import 'package:vibemental_app/core/theme/app_ui_tokens.dart';
 import 'package:vibemental_app/features/checkin/application/checkin_providers.dart';
 import 'package:vibemental_app/features/checkin/domain/daily_checkin_entry.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
@@ -41,11 +42,11 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.checkInTitle)),
       body: ListView(
-        padding: const EdgeInsets.all(20),
+        padding: AppInsets.screen,
         children: [
           Card(
             child: Padding(
-              padding: const EdgeInsets.all(18),
+              padding: AppInsets.card,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -65,7 +66,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.medium),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,28 +75,28 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
                               l10n.checkInSubtitle,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: AppSpacing.small),
                             _SecondarySupportPill(text: l10n.notDiagnosis),
                           ],
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 18),
+                  const SizedBox(height: AppSpacing.largePlus),
                   _ScoreSlider(
                     label: l10n.checkInMoodLabel,
                     value: state.mood,
                     color: Theme.of(context).colorScheme.primary,
                     onChanged: controller.updateMood,
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: AppSpacing.medium),
                   _ScoreSlider(
                     label: l10n.checkInEnergyLabel,
                     value: state.energy,
                     color: context.semanticColors.success,
                     onChanged: controller.updateEnergy,
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: AppSpacing.medium),
                   TextField(
                     controller: _noteController,
                     maxLength: CheckInConfig.maxNoteLength,
@@ -104,7 +105,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
                     ),
                     onChanged: controller.updateNote,
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.xSmall),
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton.icon(
@@ -119,15 +120,15 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.small),
           Text(
             l10n.checkInWeeklyTrendTitle,
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.small),
           Card(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: AppInsets.section,
               child: state.trend.entries.isEmpty
                   ? Text(l10n.checkInNoTrendData)
                   : Column(
@@ -135,7 +136,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
                       children: [
                         Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.all(14),
+                          padding: AppInsets.inset,
                           decoration: BoxDecoration(
                             color: Theme.of(
                               context,
@@ -150,7 +151,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: AppSpacing.medium),
                         for (final entry in state.trend.entries)
                           _TrendRow(entry: entry),
                       ],
@@ -200,7 +201,7 @@ class _SecondarySupportPill extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: AppInsets.chip,
         child: Text(text, style: Theme.of(context).textTheme.bodyMedium),
       ),
     );
@@ -235,7 +236,7 @@ class _ScoreSlider extends StatelessWidget {
               ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              padding: AppInsets.compactChip,
               decoration: BoxDecoration(
                 color: color.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(999),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibemental_app/core/theme/app_ui_tokens.dart';
 
 class FlowHeaderCard extends StatelessWidget {
   const FlowHeaderCard({
@@ -23,7 +24,7 @@ class FlowHeaderCard extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(18),
+        padding: AppInsets.card,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -43,23 +44,23 @@ class FlowHeaderCard extends StatelessWidget {
                     color: colorScheme.primary,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.medium),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(title, style: theme.textTheme.titleMedium),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: AppSpacing.xSmall),
                       Text(description, style: theme.textTheme.bodyMedium),
                     ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: AppSpacing.mediumPlus),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: AppSpacing.small,
+              runSpacing: AppSpacing.small,
               children: [
                 _FlowInfoChip(label: stepLabel, icon: Icons.alt_route_outlined),
                 _FlowInfoChip(
@@ -94,12 +95,12 @@ class _FlowInfoChip extends StatelessWidget {
         border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: AppInsets.chip,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon, size: 16, color: colorScheme.primary),
-            const SizedBox(width: 6),
+            const SizedBox(width: AppSpacing.xSmall),
             Text(label, style: theme.textTheme.bodyMedium),
           ],
         ),

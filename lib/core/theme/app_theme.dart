@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibemental_app/core/theme/app_semantic_colors.dart';
+import 'package:vibemental_app/core/theme/app_ui_tokens.dart';
 
 class AppTheme {
   const AppTheme._();
@@ -78,7 +79,7 @@ class AppTheme {
         color: surface,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
-        margin: const EdgeInsets.symmetric(vertical: 8),
+        margin: AppInsets.cardMarginVertical,
         shape: RoundedRectangleBorder(
           borderRadius: const BorderRadius.all(Radius.circular(24)),
           side: const BorderSide(color: border),
@@ -87,9 +88,7 @@ class AppTheme {
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
           minimumSize: const WidgetStatePropertyAll(Size(0, 52)),
-          padding: const WidgetStatePropertyAll(
-            EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          ),
+          padding: const WidgetStatePropertyAll(AppInsets.button),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
           ),
@@ -101,9 +100,7 @@ class AppTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
           minimumSize: const WidgetStatePropertyAll(Size(0, 52)),
-          padding: const WidgetStatePropertyAll(
-            EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-          ),
+          padding: const WidgetStatePropertyAll(AppInsets.outlinedButton),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
           ),
@@ -124,15 +121,15 @@ class AppTheme {
         side: const BorderSide(color: border),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(999)),
         labelStyle: textTheme.bodyMedium!,
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.small,
+          vertical: AppSpacing.tiny,
+        ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: colorScheme.surfaceContainerLowest,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 14,
-        ),
+        contentPadding: AppInsets.field,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(18),
           borderSide: const BorderSide(color: border),
@@ -244,7 +241,7 @@ class AppTheme {
         color: surface,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
-        margin: const EdgeInsets.symmetric(vertical: 8),
+        margin: AppInsets.cardMarginVertical,
         shape: RoundedRectangleBorder(
           borderRadius: const BorderRadius.all(Radius.circular(24)),
           side: const BorderSide(color: border),
@@ -253,9 +250,7 @@ class AppTheme {
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
           minimumSize: const WidgetStatePropertyAll(Size(0, 52)),
-          padding: const WidgetStatePropertyAll(
-            EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          ),
+          padding: const WidgetStatePropertyAll(AppInsets.button),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
           ),
@@ -267,9 +262,7 @@ class AppTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
           minimumSize: const WidgetStatePropertyAll(Size(0, 52)),
-          padding: const WidgetStatePropertyAll(
-            EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-          ),
+          padding: const WidgetStatePropertyAll(AppInsets.outlinedButton),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
           ),
@@ -290,15 +283,15 @@ class AppTheme {
         side: const BorderSide(color: border),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(999)),
         labelStyle: textTheme.bodyMedium!,
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.small,
+          vertical: AppSpacing.tiny,
+        ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: colorScheme.surfaceContainerLowest,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 14,
-        ),
+        contentPadding: AppInsets.field,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(18),
           borderSide: const BorderSide(color: border),

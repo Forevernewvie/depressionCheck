@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibemental_app/core/theme/app_ui_tokens.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
 class LikertQuestionCard extends StatelessWidget {
@@ -28,13 +29,13 @@ class LikertQuestionCard extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: AppInsets.section,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(14),
+              padding: AppInsets.inset,
               decoration: BoxDecoration(
                 color: colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(18),
@@ -46,10 +47,10 @@ class LikertQuestionCard extends StatelessWidget {
                 ).textTheme.titleMedium?.copyWith(height: 1.35),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.medium),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: AppSpacing.small,
+              runSpacing: AppSpacing.small,
               children: options.entries.map((entry) {
                 final selected = value == entry.key;
                 return Semantics(
@@ -66,10 +67,7 @@ class LikertQuestionCard extends StatelessWidget {
                           ? colorScheme.primary
                           : colorScheme.outlineVariant,
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 10,
-                    ),
+                    padding: AppInsets.pill,
                     labelStyle: _chipLabelStyle(
                       context: context,
                       selected: selected,

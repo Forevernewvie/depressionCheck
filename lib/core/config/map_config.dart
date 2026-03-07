@@ -10,6 +10,9 @@ class MapConfig {
 
   static const int minSearchRadiusMeters = 500;
   static const int maxSearchRadiusMeters = 15000;
+  static const int overpassQueryTimeoutSeconds = 25;
+  static const int overpassOutputLimit = 80;
+  static const int clinicDedupePrecision = 5;
 
   static const double defaultMapZoom = 13;
   static const double markerIconSize = 30;
@@ -18,6 +21,9 @@ class MapConfig {
 
   static const double fallbackCenterLat = 37.5665;
   static const double fallbackCenterLng = 126.9780;
+  static const String unknownClinicName = 'Unknown Clinic';
+  static const String defaultClinicCategory = 'clinic';
+  static const String alwaysOpenHoursLabel = '00:00-23:59';
 
   static const List<int> weekdayOrder = <int>[
     DateTime.monday,

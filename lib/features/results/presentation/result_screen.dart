@@ -6,6 +6,7 @@ import 'package:vibemental_app/core/config/app_routes.dart';
 import 'package:vibemental_app/core/platform/external_action_providers.dart';
 import 'package:vibemental_app/core/result/app_result.dart';
 import 'package:vibemental_app/core/theme/app_semantic_colors.dart';
+import 'package:vibemental_app/core/theme/app_ui_tokens.dart';
 import 'package:vibemental_app/features/common/widgets/severity_chip.dart';
 import 'package:vibemental_app/features/screening/domain/screening_result.dart';
 import 'package:vibemental_app/features/screening/domain/severity.dart';
@@ -28,11 +29,11 @@ class ResultScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.resultTitle)),
       body: ListView(
-        padding: const EdgeInsets.all(20),
+        padding: AppInsets.screen,
         children: [
           Card(
             child: Padding(
-              padding: const EdgeInsets.all(18),
+              padding: AppInsets.card,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -56,7 +57,7 @@ class ResultScreen extends ConsumerWidget {
                           color: _accentColor(semanticColors),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.medium),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +66,7 @@ class ResultScreen extends ConsumerWidget {
                               l10n.resultScore,
                               style: theme.textTheme.bodyMedium,
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: AppSpacing.xxSmall),
                             Text(
                               '${result.totalScore}',
                               style: theme.textTheme.headlineMedium,
@@ -75,15 +76,15 @@ class ResultScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: AppSpacing.medium),
                   SeverityChip(severity: result.severity),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: AppSpacing.mediumPlus),
                   Text(l10n.notDiagnosis, style: theme.textTheme.bodyMedium),
                   if (result.selfHarmPositive) ...[
-                    const SizedBox(height: 14),
+                    const SizedBox(height: AppSpacing.mediumPlus),
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(14),
+                      padding: AppInsets.inset,
                       decoration: BoxDecoration(
                         color: semanticColors.danger.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(18),
@@ -105,11 +106,11 @@ class ResultScreen extends ConsumerWidget {
             ),
           ),
           if (result.urgentCare) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.small),
             Card(
               color: semanticColors.emergencyBackground,
               child: Padding(
-                padding: const EdgeInsets.all(18),
+                padding: AppInsets.card,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -119,7 +120,7 @@ class ResultScreen extends ConsumerWidget {
                         color: semanticColors.emergencyText,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: AppSpacing.small),
                     Text(
                       l10n.emergencyBody,
                       style: theme.textTheme.bodyMedium?.copyWith(
@@ -130,31 +131,31 @@ class ResultScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.small),
             FilledButton.icon(
               onPressed: () => _callNumber(context, ref, AppEnv.emergencyPhone),
               icon: const Icon(Icons.local_phone),
               label: Text(l10n.buttonCallEmergency),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.small),
             FilledButton.tonalIcon(
               onPressed: () => _callNumber(context, ref, AppEnv.crisisPhone),
               icon: const Icon(Icons.support_agent),
               label: Text(l10n.buttonCallCrisis),
             ),
           ],
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.small),
           Card(
             child: Padding(
-              padding: const EdgeInsets.all(18),
+              padding: AppInsets.card,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(l10n.resultNextStep, style: theme.textTheme.titleLarge),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.small),
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(14),
+                    padding: AppInsets.inset,
                     decoration: BoxDecoration(
                       color: colorScheme.surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(18),
@@ -166,7 +167,7 @@ class ResultScreen extends ConsumerWidget {
                   ),
                   if (result.severity == SeverityLevel.moderate ||
                       result.urgentCare) ...[
-                    const SizedBox(height: 14),
+                    const SizedBox(height: AppSpacing.mediumPlus),
                     SizedBox(
                       width: double.infinity,
                       child: FilledButton.icon(
@@ -176,7 +177,7 @@ class ResultScreen extends ConsumerWidget {
                       ),
                     ),
                   ],
-                  const SizedBox(height: 10),
+                  const SizedBox(height: AppSpacing.smallPlus),
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(

@@ -22,6 +22,13 @@ class AppEnv {
     defaultValue: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
   );
 
+  /// Purpose: Configure external directions endpoint without hardcoding a
+  /// provider directly inside service logic.
+  static const String directionsEndpoint = String.fromEnvironment(
+    'DIRECTIONS_ENDPOINT',
+    defaultValue: 'https://www.google.com/maps/search/',
+  );
+
   /// Purpose: Configure map tile user-agent package identifier for platform
   /// compatibility and runtime overrides.
   static const String mapUserAgentPackage = String.fromEnvironment(

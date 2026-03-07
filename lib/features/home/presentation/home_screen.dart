@@ -5,6 +5,7 @@ import 'package:vibemental_app/core/ads/ad_providers.dart';
 import 'package:vibemental_app/core/config/ad_config.dart';
 import 'package:vibemental_app/core/config/app_routes.dart';
 import 'package:vibemental_app/core/theme/app_semantic_colors.dart';
+import 'package:vibemental_app/core/theme/app_ui_tokens.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -34,22 +35,22 @@ class HomeScreen extends ConsumerWidget {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+        padding: AppInsets.screenBody,
         children: [
           _heroCard(context, l10n),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.small),
           _primaryFlowCard(context, l10n),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.large),
           Text(
             l10n.homeWellnessToolsTitle,
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: AppSpacing.xSmall),
           Text(
             l10n.homeSubtitle,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.medium),
           _featureCard(
             context,
             title: l10n.homeDailyCheckInTitle,
@@ -68,9 +69,9 @@ class HomeScreen extends ConsumerWidget {
             accentColor: context.semanticColors.danger,
             onTap: () => context.push(AppRoutes.safetyPlan),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.small),
           _safetyBanner(context, l10n),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.medium),
           adService.buildBanner(placement: AdPlacement.homeBottomBanner),
         ],
       ),
@@ -85,7 +86,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: AppInsets.screen,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -105,7 +106,7 @@ class HomeScreen extends ConsumerWidget {
                     color: colorScheme.primary,
                   ),
                 ),
-                const SizedBox(width: 14),
+                const SizedBox(width: AppSpacing.mediumPlus),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,17 +115,17 @@ class HomeScreen extends ConsumerWidget {
                         l10n.homeTitle,
                         style: theme.textTheme.headlineSmall,
                       ),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: AppSpacing.xSmall),
                       Text(l10n.homeSubtitle, style: theme.textTheme.bodyLarge),
                     ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.large),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: AppSpacing.small,
+              runSpacing: AppSpacing.small,
               children: [
                 _infoPill(
                   context,
@@ -160,12 +161,12 @@ class HomeScreen extends ConsumerWidget {
       label: '${l10n.homeHowItWorksTitle}. ${l10n.homeStart}',
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: AppInsets.screen,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: AppInsets.section,
                 decoration: BoxDecoration(
                   color: colorScheme.primaryContainer.withValues(alpha: 0.55),
                   borderRadius: BorderRadius.circular(20),
@@ -186,7 +187,7 @@ class HomeScreen extends ConsumerWidget {
                         color: colorScheme.onPrimary,
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: AppSpacing.medium),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,7 +196,7 @@ class HomeScreen extends ConsumerWidget {
                             l10n.homeHowItWorksTitle,
                             style: theme.textTheme.titleMedium,
                           ),
-                          const SizedBox(height: 6),
+                          const SizedBox(height: AppSpacing.xSmall),
                           Text(
                             l10n.notDiagnosis,
                             style: theme.textTheme.bodyMedium,
@@ -206,23 +207,23 @@ class HomeScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.large),
               _guideStep(context, 1, l10n.homeHowItWorksStep1),
-              const SizedBox(height: 10),
+              const SizedBox(height: AppSpacing.smallPlus),
               _guideStep(context, 2, l10n.homeHowItWorksStep2),
-              const SizedBox(height: 10),
+              const SizedBox(height: AppSpacing.smallPlus),
               _guideStep(context, 3, l10n.homeHowItWorksStep3),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.large),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(14),
+                padding: AppInsets.inset,
                 decoration: BoxDecoration(
                   color: colorScheme.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(18),
                 ),
                 child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                  spacing: AppSpacing.small,
+                  runSpacing: AppSpacing.small,
                   children: [
                     _levelChip(context, l10n.levelNormal),
                     _levelChip(context, l10n.levelMild),
@@ -231,7 +232,7 @@ class HomeScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.large),
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.icon(
@@ -262,7 +263,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: AppInsets.section,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -279,20 +280,20 @@ class HomeScreen extends ConsumerWidget {
                   alignment: Alignment.center,
                   child: Icon(icon, color: accentColor),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.medium),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(title, style: theme.textTheme.titleMedium),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: AppSpacing.xSmall),
                       Text(subtitle, style: theme.textTheme.bodyMedium),
                     ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: AppSpacing.mediumPlus),
             SizedBox(
               width: double.infinity,
               child: OutlinedButton.icon(
@@ -314,7 +315,7 @@ class HomeScreen extends ConsumerWidget {
     final semanticColors = context.semanticColors;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: AppInsets.section,
       decoration: BoxDecoration(
         color: semanticColors.danger.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(20),
@@ -324,7 +325,7 @@ class HomeScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(Icons.local_hospital_outlined, color: semanticColors.danger),
-          const SizedBox(width: 10),
+          const SizedBox(width: AppSpacing.smallPlus),
           Expanded(
             child: Text(
               l10n.homeSafetyNote,
@@ -348,7 +349,7 @@ class HomeScreen extends ConsumerWidget {
         border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        padding: AppInsets.compactChip,
         child: Text(label, style: Theme.of(context).textTheme.labelLarge),
       ),
     );
@@ -370,12 +371,12 @@ class HomeScreen extends ConsumerWidget {
         border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: AppInsets.chip,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon, size: 18, color: colorScheme.primary),
-            const SizedBox(width: 6),
+            const SizedBox(width: AppSpacing.xSmall),
             Text(label, style: theme.textTheme.bodyMedium),
           ],
         ),
@@ -405,7 +406,7 @@ class HomeScreen extends ConsumerWidget {
             ).textTheme.labelLarge?.copyWith(color: colorScheme.onPrimary),
           ),
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: AppSpacing.smallPlus),
         Expanded(
           child: Text(text, style: Theme.of(context).textTheme.bodyLarge),
         ),

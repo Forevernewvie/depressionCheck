@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibemental_app/core/config/app_routes.dart';
 import 'package:vibemental_app/core/settings/onboarding_controller.dart';
+import 'package:vibemental_app/core/theme/app_ui_tokens.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
@@ -57,7 +58,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: AppInsets.screen,
         child: Column(
           children: [
             Expanded(
@@ -71,7 +72,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
                   return Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: AppInsets.screen,
                       child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,18 +91,18 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                                 size: 28,
                               ),
                             ),
-                            const SizedBox(height: 18),
+                            const SizedBox(height: AppSpacing.largePlus),
                             Text(
                               data.title,
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: AppSpacing.medium),
                             Text(
                               data.body,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                             if (i == 0) ...[
-                              const SizedBox(height: 16),
+                              const SizedBox(height: AppSpacing.large),
                               _SupportiveNote(text: l10n.notDiagnosis),
                             ],
                           ],
@@ -112,14 +113,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 },
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.medium),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
                 pages.length,
                 (i) => AnimatedContainer(
-                  duration: const Duration(milliseconds: 180),
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  duration: AppMotion.quick,
+                  margin: AppInsets.indicatorMargin,
                   width: _index == i ? 26 : 8,
                   height: 8,
                   decoration: BoxDecoration(
@@ -131,7 +132,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: AppSpacing.mediumPlus),
             SizedBox(
               width: double.infinity,
               child: FilledButton.icon(
@@ -141,7 +142,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     return;
                   }
                   _controller.nextPage(
-                    duration: const Duration(milliseconds: 240),
+                    duration: AppMotion.standard,
                     curve: Curves.easeOut,
                   );
                 },
@@ -197,7 +198,7 @@ class _SupportiveNote extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: AppInsets.inset,
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(18),
@@ -205,7 +206,7 @@ class _SupportiveNote extends StatelessWidget {
       child: Row(
         children: [
           Icon(Icons.verified_user_outlined, color: colorScheme.primary),
-          const SizedBox(width: 10),
+          const SizedBox(width: AppSpacing.smallPlus),
           Expanded(child: Text(text)),
         ],
       ),
