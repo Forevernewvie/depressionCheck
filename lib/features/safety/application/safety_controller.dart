@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vibemental_app/core/config/safety_plan_config.dart';
 import 'package:vibemental_app/core/logging/app_logger.dart';
+import 'package:vibemental_app/features/safety/application/safety_contact_draft.dart';
 import 'package:vibemental_app/features/safety/application/safety_state.dart';
 import 'package:vibemental_app/features/safety/data/safety_repository.dart';
 import 'package:vibemental_app/features/safety/domain/safety_plan_data.dart';
@@ -89,35 +90,21 @@ class SafetyController extends StateNotifier<SafetyState> {
   }
 
   /// Purpose: Add a new trusted contact after validation and sanitization.
-  Future<bool> addContact({
-    required String name,
-    required String relation,
-    required String phone,
-    required bool isPrimary,
-  }) async {
+  Future<bool> addContact(SafetyContactDraft draft) async {
     if (state.contacts.length >= SafetyPlanConfig.maxTrustedContacts) {
       return false;
     }
 
-    final normalizedName = name.trim();
-    final normalizedRelation = relation.trim();
-    final normalizedPhone = normalizeContactPhone(phone);
-
-    if (!isValidContactName(normalizedName) ||
-        !isValidContactRelation(normalizedRelation) ||
-        !isValidContactPhone(normalizedPhone)) {
+    if (!draft.isValid) {
       return false;
     }
 
     try {
       _repository.upsertContact(
-        TrustedContact(
+        draft.toTrustedContact(
           id: 0,
-          name: normalizedName,
-          relation: normalizedRelation,
-          phone: normalizedPhone,
-          isPrimary: isPrimary || state.contacts.isEmpty,
           sortOrder: state.contacts.length,
+          enforcePrimary: state.contacts.isEmpty,
         ),
       );
       _restore();
