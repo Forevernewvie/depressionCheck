@@ -7,12 +7,14 @@ class LikertQuestionCard extends StatelessWidget {
     required this.question,
     required this.value,
     required this.onChanged,
+    this.optionLabels,
     super.key,
   });
 
   final String question;
   final int? value;
   final ValueChanged<int> onChanged;
+  final Map<int, String>? optionLabels;
 
   @override
   /// Purpose: Render one question card with calmer hierarchy and accessible,
@@ -20,7 +22,7 @@ class LikertQuestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
-    final options = <int, String>{
+    final options = optionLabels ?? <int, String>{
       0: l10n.answer0,
       1: l10n.answer1,
       2: l10n.answer2,
