@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:vibemental_app/core/logging/logging_providers.dart';
 import 'package:vibemental_app/features/map/application/location_service.dart';
+import 'package:vibemental_app/features/map/application/map_view_controller.dart';
+import 'package:vibemental_app/features/map/application/map_view_state.dart';
 import 'package:vibemental_app/features/map/application/nearby_clinic_service.dart';
 import 'package:vibemental_app/features/map/data/clinic_repository.dart';
 import 'package:vibemental_app/features/map/data/overpass_clinic_repository.dart';
@@ -34,3 +36,14 @@ final nearbyClinicServiceProvider = Provider<NearbyClinicService>((ref) {
     logger: ref.watch(appLoggerProvider),
   );
 });
+
+/// Purpose: Provide map view controller so presentation state transitions stay
+/// outside the widget tree and remain unit-testable.
+final mapViewControllerProvider =
+    StateNotifierProvider<MapViewController, MapViewState>((ref) {
+      return MapViewController(
+        ref.watch(nearbyClinicServiceProvider),
+        ref.watch(locationServiceProvider),
+        ref.watch(appLoggerProvider),
+      );
+    });
