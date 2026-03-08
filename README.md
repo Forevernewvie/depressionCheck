@@ -98,7 +98,8 @@
 ├── .github/workflows
 │   └── flutter_ci.yml
 ├── docs
-│   └── prompts
+│   ├── legal
+│   └── seo
 ├── lib
 │   ├── app
 │   ├── core
@@ -233,7 +234,7 @@ flutter test
 - 지도는 기본적으로 외부 API(Overpass) 조회를 사용하며, 실패 시 fallback 데이터를 사용합니다.
 - 전화/길찾기 액션은 플랫폼 외부 앱 실행(`url_launcher`)을 사용합니다.
 - 로깅은 구조화되어 있으나 민감정보 직접 로깅을 피하도록 설계되어 있습니다.
-- TODO: 보존 기간/사용자 삭제 정책 문서화를 추가하세요.
+- 개인정보 처리방침 문서는 `docs/legal/privacy_policy_ko.md`에 정리되어 있습니다.
 
 ## 13. Git Flow 협업 규칙
 

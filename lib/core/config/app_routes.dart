@@ -11,6 +11,7 @@ class AppRoutes {
   static const String result = '/result';
   static const String map = '/map';
   static const String settings = '/settings';
+  static const String privacyPolicy = '/settings/privacy-policy';
   static const String modules = '/modules';
   static const String hadsD = '/modules/hads-d';
   static const String cesD = '/modules/ces-d';

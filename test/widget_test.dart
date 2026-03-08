@@ -94,6 +94,23 @@ void main() {
     expect(repository.snapshot.languagePreference, LanguagePreference.ko);
   });
 
+  testWidgets('settings opens privacy policy screen', (tester) async {
+    await pumpApp(tester);
+
+    await tester.tap(find.byIcon(Icons.settings_outlined));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Privacy Policy'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Privacy Policy'), findsWidgets);
+    expect(
+      find.textContaining('current app implementation processes'),
+      findsOneWidget,
+    );
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('korean modules screen renders without overflow', (tester) async {
     await pumpApp(tester, initialPrefs: {'language_preference': 'ko'});
 
