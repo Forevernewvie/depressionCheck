@@ -17,8 +17,7 @@ class WebCheckInRepository implements CheckInRepository {
 
   @override
   /// Purpose: Read check-ins for a trailing window sorted newest-first.
-  List<DailyCheckInEntry> readRecentEntries({required int days}) {
-    final from = DateTime.now().subtract(Duration(days: days));
+  List<DailyCheckInEntry> readRecentEntries({required DateTime from}) {
     final values =
         _readPayload().values
             .map(_tryParseEntry)

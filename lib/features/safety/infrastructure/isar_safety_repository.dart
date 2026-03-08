@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:vibemental_app/core/logging/app_logger.dart';
+import 'package:vibemental_app/core/time/clock.dart';
 import 'package:vibemental_app/features/safety/data/safety_plan_record.dart';
 import 'package:vibemental_app/features/safety/data/safety_repository.dart';
 import 'package:vibemental_app/features/safety/data/trusted_contact_record.dart';
@@ -8,10 +9,11 @@ import 'package:vibemental_app/features/safety/domain/trusted_contact.dart';
 
 /// Purpose: Isar-backed implementation of safety-plan repository contracts.
 class IsarSafetyRepository implements SafetyRepository {
-  IsarSafetyRepository(this._isar, this._logger);
+  IsarSafetyRepository(this._isar, this._logger, this._clock);
 
   final Isar _isar;
   final AppLogger _logger;
+  final Clock _clock;
 
   @override
   SafetySnapshot readSnapshot() {
@@ -39,7 +41,7 @@ class IsarSafetyRepository implements SafetyRepository {
     existing.copingStrategies = plan.copingStrategies;
     existing.reasonsToStaySafe = plan.reasonsToStaySafe;
     existing.emergencySteps = plan.emergencySteps;
-    existing.updatedAt = DateTime.now();
+    existing.updatedAt = _clock.now();
 
     _isar.writeTxnSync(() {
       _isar.safetyPlanRecords.putSync(existing);
@@ -69,7 +71,7 @@ class IsarSafetyRepository implements SafetyRepository {
       record.phone = contact.phone;
       record.isPrimary = contact.isPrimary;
       record.sortOrder = contact.sortOrder;
-      record.updatedAt = DateTime.now();
+      record.updatedAt = _clock.now();
 
       _isar.trustedContactRecords.putSync(record);
     });
@@ -91,7 +93,7 @@ class IsarSafetyRepository implements SafetyRepository {
       return existing;
     }
 
-    final created = SafetyPlanRecord()..updatedAt = DateTime.now();
+    final created = SafetyPlanRecord()..updatedAt = _clock.now();
     _isar.writeTxnSync(() {
       _isar.safetyPlanRecords.putSync(created);
     });

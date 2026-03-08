@@ -82,7 +82,7 @@ class _FakeCheckInRepository implements CheckInRepository {
   DailyCheckInEntry? readByDateKey(String localDateKey) => null;
 
   @override
-  List<DailyCheckInEntry> readRecentEntries({required int days}) {
+  List<DailyCheckInEntry> readRecentEntries({required DateTime from}) {
     return const <DailyCheckInEntry>[];
   }
 

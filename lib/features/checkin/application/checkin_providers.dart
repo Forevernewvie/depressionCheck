@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vibemental_app/core/logging/logging_providers.dart';
+import 'package:vibemental_app/core/time/clock_providers.dart';
 import 'package:vibemental_app/features/checkin/application/checkin_controller.dart';
 import 'package:vibemental_app/features/checkin/application/checkin_repository_factory.dart';
 import 'package:vibemental_app/features/checkin/application/checkin_state.dart';
@@ -17,5 +18,6 @@ final checkInControllerProvider =
       return CheckInController(
         ref.watch(checkInRepositoryProvider),
         ref.watch(appLoggerProvider),
+        ref.watch(clockProvider),
       );
     });
