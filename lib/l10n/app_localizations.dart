@@ -1118,6 +1118,30 @@ abstract class AppLocalizations {
   /// **'Persistence: save locally immediately, sync to profile when signed in'**
   String get settingsPersistence;
 
+  /// No description provided for @settingsLegal.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal'**
+  String get settingsLegal;
+
+  /// No description provided for @settingsPrivacyPolicyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get settingsPrivacyPolicyTitle;
+
+  /// No description provided for @settingsPrivacyPolicySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the public policy document published on GitHub Pages.'**
+  String get settingsPrivacyPolicySubtitle;
+
+  /// No description provided for @settingsPrivacyPolicyOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to open the privacy policy page. Please try again later.'**
+  String get settingsPrivacyPolicyOpenFailed;
+
   /// No description provided for @modulesTitle.
   ///
   /// In en, this message translates to:

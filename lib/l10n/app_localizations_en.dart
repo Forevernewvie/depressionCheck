@@ -563,6 +563,20 @@ class AppLocalizationsEn extends AppLocalizations {
       'Persistence: save locally immediately, sync to profile when signed in';
 
   @override
+  String get settingsLegal => 'Legal';
+
+  @override
+  String get settingsPrivacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get settingsPrivacyPolicySubtitle =>
+      'Open the public policy document published on GitHub Pages.';
+
+  @override
+  String get settingsPrivacyPolicyOpenFailed =>
+      'Unable to open the privacy policy page. Please try again later.';
+
+  @override
   String get modulesTitle => 'Instrument Modules';
 
   @override

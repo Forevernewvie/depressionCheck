@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:vibemental_app/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vibemental_app/core/settings/app_settings.dart';
 import 'package:vibemental_app/core/settings/settings_controller.dart';
 import 'package:vibemental_app/core/config/layout_config.dart';
 import 'package:vibemental_app/features/common/widgets/page_content_container.dart';
+import 'package:vibemental_app/features/settings/application/privacy_policy_providers.dart';
+import 'package:vibemental_app/l10n/app_localizations.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -89,11 +90,41 @@ class SettingsScreen extends ConsumerWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 20),
+            Text(
+              l10n.settingsLegal,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 8),
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.privacy_tip_outlined),
+                title: Text(l10n.settingsPrivacyPolicyTitle),
+                subtitle: Text(l10n.settingsPrivacyPolicySubtitle),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => _openPrivacyPolicy(context, ref),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+}
+
+/// Purpose: Open the public privacy-policy page and show user feedback when
+/// the external browser cannot be launched.
+Future<void> _openPrivacyPolicy(BuildContext context, WidgetRef ref) async {
+  final l10n = AppLocalizations.of(context)!;
+  final launcher = ref.read(privacyPolicyLauncherProvider);
+  final opened = await launcher.openPrivacyPolicy();
+  if (!context.mounted || opened) {
+    return;
+  }
+
+  ScaffoldMessenger.of(
+    context,
+  ).showSnackBar(SnackBar(content: Text(l10n.settingsPrivacyPolicyOpenFailed)));
 }
 
 class _ResponsiveSegmentedControl<T> extends StatelessWidget {

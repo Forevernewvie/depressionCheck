@@ -29,6 +29,14 @@ class AppEnv {
     defaultValue: 'https://www.google.com/maps/search/',
   );
 
+  /// Purpose: Configure the public privacy-policy document URL so legal
+  /// hosting can move without app code changes.
+  static const String privacyPolicyUrl = String.fromEnvironment(
+    'PRIVACY_POLICY_URL',
+    defaultValue:
+        'https://forevernewvie.github.io/depressionCheck/privacy-policy/',
+  );
+
   /// Purpose: Configure map tile user-agent package identifier for platform
   /// compatibility and runtime overrides.
   static const String mapUserAgentPackage = String.fromEnvironment(

@@ -532,6 +532,20 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settingsPersistence => '저장 규칙: 로컬 즉시 저장, 로그인 시 프로필 동기화';
 
   @override
+  String get settingsLegal => '법적 안내';
+
+  @override
+  String get settingsPrivacyPolicyTitle => '개인정보 처리방침';
+
+  @override
+  String get settingsPrivacyPolicySubtitle =>
+      'GitHub Pages에 게시된 공개 정책 문서를 엽니다.';
+
+  @override
+  String get settingsPrivacyPolicyOpenFailed =>
+      '개인정보 처리방침 페이지를 열 수 없습니다. 잠시 후 다시 시도해주세요.';
+
+  @override
   String get modulesTitle => '설문 모듈';
 
   @override
