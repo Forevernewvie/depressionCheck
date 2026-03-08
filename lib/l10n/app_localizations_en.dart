@@ -570,77 +570,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsPrivacyPolicySubtitle =>
-      'Review what the app processes and how it is stored.';
+      'Open the public policy document published on GitHub Pages.';
 
   @override
-  String get privacyPolicyTitle => 'Privacy Policy';
-
-  @override
-  String get privacyPolicySummary =>
-      'This document explains what information the current app implementation processes on your device and through external services.';
-
-  @override
-  String get privacyPolicyLastUpdatedLabel => 'Last updated';
-
-  @override
-  String get privacyPolicyLastUpdatedValue => '2026-03-08';
-
-  @override
-  String get privacyPolicyDataTitle => '1. Information processed';
-
-  @override
-  String get privacyPolicyDataBody =>
-      'The app may process settings data (theme, language, onboarding state), check-in data (mood, energy, note, timestamp), safety-plan data (warning signs, coping steps, reasons to stay safe, emergency steps), trusted-contact data (name, relationship, phone number, primary status), location data when you search nearby clinics, and technical logs used for error handling.';
-
-  @override
-  String get privacyPolicyPurposeTitle => '2. Why the data is used';
-
-  @override
-  String get privacyPolicyPurposeBody =>
-      'This information is used to provide the screening flow, show result guidance, save check-ins and safety plans, search nearby clinics, launch phone or directions actions, keep theme and language settings, render ads on non-critical screens, and investigate failures.';
-
-  @override
-  String get privacyPolicyStorageTitle => '3. Storage and retention';
-
-  @override
-  String get privacyPolicyStorageBody =>
-      'On mobile and desktop builds, data is stored in the local Isar database. On web builds, data is stored in browser localStorage. The app does not create a default account backend, so most information stays on your device.';
-
-  @override
-  String get privacyPolicySharingTitle =>
-      '4. External transfers and third parties';
-
-  @override
-  String get privacyPolicySharingBody =>
-      'When you run nearby-clinic search, your current location and search radius may be sent to the configured Overpass endpoint. If you tap phone or directions actions, control moves to the operating system or another app and that platform\'s policies apply. Screening answers, check-ins, safety plans, and trusted contacts are not uploaded to a default server.';
-
-  @override
-  String get privacyPolicyAdsTitle => '5. Ads and external SDKs';
-
-  @override
-  String get privacyPolicyAdsBody =>
-      'When ads are enabled, Google Mobile Ads SDK may process ad requests. Based on the current repository, no separate user-behavior analytics SDK was found, but advertising providers may still process technical information under their own policies.';
-
-  @override
-  String get privacyPolicySecurityTitle => '6. Security';
-
-  @override
-  String get privacyPolicySecurityBody =>
-      'The app uses structured logging and masking logic to reduce direct exposure of sensitive values. Even so, local data may still be exposed on shared devices, lost devices, or compromised systems.';
-
-  @override
-  String get privacyPolicyControlTitle => '7. Your choices';
-
-  @override
-  String get privacyPolicyControlBody =>
-      'You can deny location permission and the app will fall back to a default clinic list. You can add, remove, or reprioritize trusted contacts in the app. There is currently no dedicated full-data erase flow, so full deletion may require uninstalling the app or clearing browser storage.';
-
-  @override
-  String get privacyPolicyContactTitle => '8. Contact and notice';
-
-  @override
-  String get privacyPolicyContactBody =>
-      'This repository does not currently embed an operator support contact. Before external release, publish a support contact and the latest policy link in your store listing or support page.';
+  String get settingsPrivacyPolicyOpenFailed =>
+      'Unable to open the privacy policy page. Please try again later.';
 
   @override
   String get modulesTitle => 'Instrument Modules';

@@ -8,11 +8,14 @@ import 'package:vibemental_app/core/ads/ad_providers.dart';
 import 'package:vibemental_app/core/settings/app_settings.dart';
 import 'package:vibemental_app/core/settings/data/app_preferences_repository.dart';
 import 'package:vibemental_app/features/onboarding/presentation/splash_screen.dart';
+import 'package:vibemental_app/features/settings/application/privacy_policy_launcher.dart';
+import 'package:vibemental_app/features/settings/application/privacy_policy_providers.dart';
 import 'fakes/fake_app_preferences_repository.dart';
 import 'fakes/fake_ad_service.dart';
 
 void main() {
   late FakeAppPreferencesRepository repository;
+  late _FakePrivacyPolicyLauncher privacyPolicyLauncher;
 
   Future<void> pumpApp(
     WidgetTester tester, {
@@ -31,12 +34,16 @@ void main() {
           : LanguagePreference.system,
       onboardingCompleted: initialPrefs['onboarding_completed'] != false,
     );
+    privacyPolicyLauncher = _FakePrivacyPolicyLauncher();
 
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           appPreferencesRepositoryProvider.overrideWithValue(repository),
           adServiceProvider.overrideWithValue(FakeAdService()),
+          privacyPolicyLauncherProvider.overrideWithValue(
+            privacyPolicyLauncher,
+          ),
           splashDurationProvider.overrideWithValue(Duration.zero),
         ],
         child: const MindCheckApp(),
@@ -94,7 +101,9 @@ void main() {
     expect(repository.snapshot.languagePreference, LanguagePreference.ko);
   });
 
-  testWidgets('settings opens privacy policy screen', (tester) async {
+  testWidgets('settings opens privacy policy GitHub Pages link', (
+    tester,
+  ) async {
     await pumpApp(tester);
 
     await tester.tap(find.byIcon(Icons.settings_outlined));
@@ -103,11 +112,7 @@ void main() {
     await tester.tap(find.text('Privacy Policy'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Privacy Policy'), findsWidgets);
-    expect(
-      find.textContaining('current app implementation processes'),
-      findsOneWidget,
-    );
+    expect(privacyPolicyLauncher.openCount, 1);
     expect(tester.takeException(), isNull);
   });
 
@@ -180,4 +185,16 @@ void main() {
 
     expect(find.text('마음체크'), findsOneWidget);
   });
+}
+
+/// Purpose: Record privacy-policy open requests in widget tests without
+/// launching an actual browser.
+class _FakePrivacyPolicyLauncher implements PrivacyPolicyLauncher {
+  int openCount = 0;
+
+  @override
+  Future<bool> openPrivacyPolicy() async {
+    openCount += 1;
+    return true;
+  }
 }

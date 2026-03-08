@@ -15,7 +15,6 @@ import 'package:vibemental_app/features/screening/domain/screening_result.dart';
 import 'package:vibemental_app/features/screening/presentation/phq2_screen.dart';
 import 'package:vibemental_app/features/screening/presentation/phq9_screen.dart';
 import 'package:vibemental_app/features/settings/presentation/settings_screen.dart';
-import 'package:vibemental_app/features/settings/presentation/privacy_policy_screen.dart';
 import 'package:vibemental_app/features/checkin/presentation/checkin_screen.dart';
 
 /// Purpose: Build centralized router configuration for all app flows.
@@ -60,10 +59,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.settings,
         builder: (context, state) => const SettingsScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.privacyPolicy,
-        builder: (context, state) => const PrivacyPolicyScreen(),
       ),
       GoRoute(
         path: AppRoutes.modules,

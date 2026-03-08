@@ -1133,128 +1133,14 @@ abstract class AppLocalizations {
   /// No description provided for @settingsPrivacyPolicySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Review what the app processes and how it is stored.'**
+  /// **'Open the public policy document published on GitHub Pages.'**
   String get settingsPrivacyPolicySubtitle;
 
-  /// No description provided for @privacyPolicyTitle.
+  /// No description provided for @settingsPrivacyPolicyOpenFailed.
   ///
   /// In en, this message translates to:
-  /// **'Privacy Policy'**
-  String get privacyPolicyTitle;
-
-  /// No description provided for @privacyPolicySummary.
-  ///
-  /// In en, this message translates to:
-  /// **'This document explains what information the current app implementation processes on your device and through external services.'**
-  String get privacyPolicySummary;
-
-  /// No description provided for @privacyPolicyLastUpdatedLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Last updated'**
-  String get privacyPolicyLastUpdatedLabel;
-
-  /// No description provided for @privacyPolicyLastUpdatedValue.
-  ///
-  /// In en, this message translates to:
-  /// **'2026-03-08'**
-  String get privacyPolicyLastUpdatedValue;
-
-  /// No description provided for @privacyPolicyDataTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'1. Information processed'**
-  String get privacyPolicyDataTitle;
-
-  /// No description provided for @privacyPolicyDataBody.
-  ///
-  /// In en, this message translates to:
-  /// **'The app may process settings data (theme, language, onboarding state), check-in data (mood, energy, note, timestamp), safety-plan data (warning signs, coping steps, reasons to stay safe, emergency steps), trusted-contact data (name, relationship, phone number, primary status), location data when you search nearby clinics, and technical logs used for error handling.'**
-  String get privacyPolicyDataBody;
-
-  /// No description provided for @privacyPolicyPurposeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'2. Why the data is used'**
-  String get privacyPolicyPurposeTitle;
-
-  /// No description provided for @privacyPolicyPurposeBody.
-  ///
-  /// In en, this message translates to:
-  /// **'This information is used to provide the screening flow, show result guidance, save check-ins and safety plans, search nearby clinics, launch phone or directions actions, keep theme and language settings, render ads on non-critical screens, and investigate failures.'**
-  String get privacyPolicyPurposeBody;
-
-  /// No description provided for @privacyPolicyStorageTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'3. Storage and retention'**
-  String get privacyPolicyStorageTitle;
-
-  /// No description provided for @privacyPolicyStorageBody.
-  ///
-  /// In en, this message translates to:
-  /// **'On mobile and desktop builds, data is stored in the local Isar database. On web builds, data is stored in browser localStorage. The app does not create a default account backend, so most information stays on your device.'**
-  String get privacyPolicyStorageBody;
-
-  /// No description provided for @privacyPolicySharingTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'4. External transfers and third parties'**
-  String get privacyPolicySharingTitle;
-
-  /// No description provided for @privacyPolicySharingBody.
-  ///
-  /// In en, this message translates to:
-  /// **'When you run nearby-clinic search, your current location and search radius may be sent to the configured Overpass endpoint. If you tap phone or directions actions, control moves to the operating system or another app and that platform\'s policies apply. Screening answers, check-ins, safety plans, and trusted contacts are not uploaded to a default server.'**
-  String get privacyPolicySharingBody;
-
-  /// No description provided for @privacyPolicyAdsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'5. Ads and external SDKs'**
-  String get privacyPolicyAdsTitle;
-
-  /// No description provided for @privacyPolicyAdsBody.
-  ///
-  /// In en, this message translates to:
-  /// **'When ads are enabled, Google Mobile Ads SDK may process ad requests. Based on the current repository, no separate user-behavior analytics SDK was found, but advertising providers may still process technical information under their own policies.'**
-  String get privacyPolicyAdsBody;
-
-  /// No description provided for @privacyPolicySecurityTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'6. Security'**
-  String get privacyPolicySecurityTitle;
-
-  /// No description provided for @privacyPolicySecurityBody.
-  ///
-  /// In en, this message translates to:
-  /// **'The app uses structured logging and masking logic to reduce direct exposure of sensitive values. Even so, local data may still be exposed on shared devices, lost devices, or compromised systems.'**
-  String get privacyPolicySecurityBody;
-
-  /// No description provided for @privacyPolicyControlTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'7. Your choices'**
-  String get privacyPolicyControlTitle;
-
-  /// No description provided for @privacyPolicyControlBody.
-  ///
-  /// In en, this message translates to:
-  /// **'You can deny location permission and the app will fall back to a default clinic list. You can add, remove, or reprioritize trusted contacts in the app. There is currently no dedicated full-data erase flow, so full deletion may require uninstalling the app or clearing browser storage.'**
-  String get privacyPolicyControlBody;
-
-  /// No description provided for @privacyPolicyContactTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'8. Contact and notice'**
-  String get privacyPolicyContactTitle;
-
-  /// No description provided for @privacyPolicyContactBody.
-  ///
-  /// In en, this message translates to:
-  /// **'This repository does not currently embed an operator support contact. Before external release, publish a support contact and the latest policy link in your store listing or support page.'**
-  String get privacyPolicyContactBody;
+  /// **'Unable to open the privacy policy page. Please try again later.'**
+  String get settingsPrivacyPolicyOpenFailed;
 
   /// No description provided for @modulesTitle.
   ///

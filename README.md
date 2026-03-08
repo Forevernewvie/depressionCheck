@@ -99,6 +99,7 @@
 │   └── flutter_ci.yml
 ├── docs
 │   ├── legal
+│   ├── privacy-policy
 │   └── seo
 ├── lib
 │   ├── app
@@ -181,6 +182,7 @@ bash run_emulator_flutter_flow.sh
 | `OVERPASS_ENDPOINT` | `https://overpass-api.de/api/interpreter` | 기관 조회 API |
 | `OSM_TILE_URL_TEMPLATE` | `https://tile.openstreetmap.org/{z}/{x}/{y}.png` | 지도 타일 URL |
 | `MAP_USER_AGENT_PACKAGE` | `com.example.vibemental_app` | 지도 요청 User-Agent |
+| `PRIVACY_POLICY_URL` | `https://forevernewvie.github.io/depressionCheck/privacy-policy/` | 공개 개인정보 처리방침 URL |
 | `CLINIC_SEARCH_TIMEOUT_MS` | `18000` | 지도 조회 타임아웃(ms) |
 | `CLINIC_SEARCH_MAX_ATTEMPTS` | `3` | 지도 조회 재시도 횟수 |
 | `CLINIC_SEARCH_BASE_BACKOFF_MS` | `400` | 재시도 백오프(ms) |
@@ -234,7 +236,7 @@ flutter test
 - 지도는 기본적으로 외부 API(Overpass) 조회를 사용하며, 실패 시 fallback 데이터를 사용합니다.
 - 전화/길찾기 액션은 플랫폼 외부 앱 실행(`url_launcher`)을 사용합니다.
 - 로깅은 구조화되어 있으나 민감정보 직접 로깅을 피하도록 설계되어 있습니다.
-- 개인정보 처리방침 문서는 `docs/legal/privacy_policy_ko.md`에 정리되어 있습니다.
+- 개인정보 처리방침 원문은 `docs/legal/privacy_policy_ko.md`에 있고, 공개 페이지는 `docs/privacy-policy/index.html`에서 GitHub Pages로 배포됩니다.
 
 ## 13. Git Flow 협업 규칙
 
