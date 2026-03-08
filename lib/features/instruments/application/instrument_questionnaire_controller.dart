@@ -26,10 +26,7 @@ class InstrumentQuestionnaireController
   final AppLogger _logger;
 
   /// Purpose: Update one answer slot without mutating the full answer list.
-  void updateAnswer({
-    required int index,
-    required int value,
-  }) {
+  void updateAnswer({required int index, required int value}) {
     final nextAnswers = List<int?>.from(state.answers);
     nextAnswers[index] = value;
     state = state.copyWith(answers: nextAnswers);

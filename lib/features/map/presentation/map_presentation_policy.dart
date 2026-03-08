@@ -51,7 +51,9 @@ class MapPresentationPolicy {
     final sorted = List<Clinic>.from(filtered);
     sorted.sort((a, b) {
       return switch (sortOption) {
-        ClinicSortOption.distance => a.distanceMeters.compareTo(b.distanceMeters),
+        ClinicSortOption.distance => a.distanceMeters.compareTo(
+          b.distanceMeters,
+        ),
         ClinicSortOption.openNow =>
           _openNowSortRank(a, now)
               .compareTo(_openNowSortRank(b, now))

@@ -23,9 +23,15 @@ void main() {
   });
 
   test('catalog scoring delegates preserve selected instrument', () {
-    final hads = InstrumentQuestionnaireCatalog.lookup(ScreeningInstrument.hadsD)!;
-    final cesd = InstrumentQuestionnaireCatalog.lookup(ScreeningInstrument.cesD)!;
-    final bdi = InstrumentQuestionnaireCatalog.lookup(ScreeningInstrument.bdi2)!;
+    final hads = InstrumentQuestionnaireCatalog.lookup(
+      ScreeningInstrument.hadsD,
+    )!;
+    final cesd = InstrumentQuestionnaireCatalog.lookup(
+      ScreeningInstrument.cesD,
+    )!;
+    final bdi = InstrumentQuestionnaireCatalog.lookup(
+      ScreeningInstrument.bdi2,
+    )!;
 
     expect(
       hads.score(List<int>.filled(7, 0)).instrument,

@@ -3,7 +3,8 @@ import 'package:vibemental_app/features/screening/domain/screening_result.dart';
 import 'package:vibemental_app/l10n/app_localizations.dart';
 
 typedef QuestionnaireTextResolver = String Function(AppLocalizations l10n);
-typedef QuestionnaireScoreResolver = ScreeningResult Function(List<int> answers);
+typedef QuestionnaireScoreResolver =
+    ScreeningResult Function(List<int> answers);
 
 /// Purpose: Describe one supported module questionnaire without scattering
 /// presentation and scoring rules across the screen widget.

@@ -12,46 +12,52 @@ void main() {
     policy = MapPresentationPolicy(_FakeClock(DateTime.utc(2026, 3, 8, 9)));
   });
 
-  test('visibleClinics prioritizes specialist filter and distance fallback', () {
-    final clinics = <Clinic>[
-      const Clinic(
-        name: 'Far Specialist',
-        latitude: 37.0,
-        longitude: 127.0,
-        category: 'Mental Health Clinic',
-        distanceMeters: 1200,
-        specialistAvailability: ClinicSpecialistAvailability.available,
-      ),
-      const Clinic(
-        name: 'Near General',
-        latitude: 37.0,
-        longitude: 127.0,
-        category: 'Mental Health Clinic',
-        distanceMeters: 150,
-        specialistAvailability: ClinicSpecialistAvailability.unavailable,
-      ),
-    ];
+  test(
+    'visibleClinics prioritizes specialist filter and distance fallback',
+    () {
+      final clinics = <Clinic>[
+        const Clinic(
+          name: 'Far Specialist',
+          latitude: 37.0,
+          longitude: 127.0,
+          category: 'Mental Health Clinic',
+          distanceMeters: 1200,
+          specialistAvailability: ClinicSpecialistAvailability.available,
+        ),
+        const Clinic(
+          name: 'Near General',
+          latitude: 37.0,
+          longitude: 127.0,
+          category: 'Mental Health Clinic',
+          distanceMeters: 150,
+          specialistAvailability: ClinicSpecialistAvailability.unavailable,
+        ),
+      ];
 
-    final visible = policy.visibleClinics(
-      clinics: clinics,
-      specialistOnly: true,
-      openNowOnly: false,
-      sortOption: ClinicSortOption.specialist,
-    );
+      final visible = policy.visibleClinics(
+        clinics: clinics,
+        specialistOnly: true,
+        openNowOnly: false,
+        sortOption: ClinicSortOption.specialist,
+      );
 
-    expect(visible.map((clinic) => clinic.name), <String>['Far Specialist']);
-  });
+      expect(visible.map((clinic) => clinic.name), <String>['Far Specialist']);
+    },
+  );
 
-  test('primaryActionKind opens settings when permission is denied forever', () {
-    expect(
-      policy.primaryActionKind(NearbyClinicStatus.permissionDeniedForever),
-      MapPrimaryActionKind.openSettings,
-    );
-    expect(
-      policy.primaryActionIcon(MapPrimaryActionKind.openSettings),
-      Icons.settings_outlined,
-    );
-  });
+  test(
+    'primaryActionKind opens settings when permission is denied forever',
+    () {
+      expect(
+        policy.primaryActionKind(NearbyClinicStatus.permissionDeniedForever),
+        MapPrimaryActionKind.openSettings,
+      );
+      expect(
+        policy.primaryActionIcon(MapPrimaryActionKind.openSettings),
+        Icons.settings_outlined,
+      );
+    },
+  );
 }
 
 class _FakeClock implements Clock {

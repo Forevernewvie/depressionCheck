@@ -60,7 +60,9 @@ class _AddContactDialogState extends State<AddContactDialog> {
                 textCapitalization: TextCapitalization.words,
                 textInputAction: TextInputAction.next,
                 autofillHints: const [AutofillHints.name],
-                decoration: InputDecoration(labelText: l10n.safetyPlanContactName),
+                decoration: InputDecoration(
+                  labelText: l10n.safetyPlanContactName,
+                ),
               ),
               const SizedBox(height: 8),
               TextField(

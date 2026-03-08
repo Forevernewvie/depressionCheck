@@ -98,15 +98,13 @@ void main() {
     );
 
     final controller = MapViewController(
-      _SequencedNearbyClinicService(
-        const [
-          NearbyClinicLoadResult(
-            center: LatLng(37.5665, 126.9780),
-            clinics: <Clinic>[clinic],
-            status: NearbyClinicStatus.realtimeLoaded,
-          ),
-        ],
-      ),
+      _SequencedNearbyClinicService(const [
+        NearbyClinicLoadResult(
+          center: LatLng(37.5665, 126.9780),
+          clinics: <Clinic>[clinic],
+          status: NearbyClinicStatus.realtimeLoaded,
+        ),
+      ]),
       _StubLocationService(),
       _SilentLogger(),
     );
@@ -119,52 +117,59 @@ void main() {
     expect(controller.state.lastStatus, NearbyClinicStatus.realtimeLoaded);
   });
 
-  test('handlePrimaryAction opens settings when permission is denied forever', () async {
-    final locationService = _StubLocationService(openSettingsResult: true);
-    final service = _SequencedNearbyClinicService(
-      const [
+  test(
+    'handlePrimaryAction opens settings when permission is denied forever',
+    () async {
+      final locationService = _StubLocationService(openSettingsResult: true);
+      final service = _SequencedNearbyClinicService(const [
         NearbyClinicLoadResult(
           center: LatLng(37.5665, 126.9780),
           clinics: <Clinic>[],
           status: NearbyClinicStatus.permissionDeniedForever,
         ),
-      ],
-    );
-    final controller = MapViewController(service, locationService, _SilentLogger());
+      ]);
+      final controller = MapViewController(
+        service,
+        locationService,
+        _SilentLogger(),
+      );
 
-    controller.setSortOption(ClinicSortOption.specialist);
-    controller.setContentMode(MapContentMode.listOnly);
-    controller.setFilterOpenNowOnly(true);
-    controller.setFilterSpecialistOnly(true);
-    await controller.loadNearby();
+      controller.setSortOption(ClinicSortOption.specialist);
+      controller.setContentMode(MapContentMode.listOnly);
+      controller.setFilterOpenNowOnly(true);
+      controller.setFilterSpecialistOnly(true);
+      await controller.loadNearby();
 
-    final didSucceed = await controller.handlePrimaryAction();
+      final didSucceed = await controller.handlePrimaryAction();
 
-    expect(didSucceed, isTrue);
-    expect(locationService.openSettingsCalls, 1);
-    expect(controller.state.shouldReloadAfterSettingsReturn, isTrue);
-    expect(controller.state.sortOption, ClinicSortOption.specialist);
-    expect(controller.state.contentMode, MapContentMode.listOnly);
-    expect(controller.state.hasActiveFilters, isTrue);
-  });
+      expect(didSucceed, isTrue);
+      expect(locationService.openSettingsCalls, 1);
+      expect(controller.state.shouldReloadAfterSettingsReturn, isTrue);
+      expect(controller.state.sortOption, ClinicSortOption.specialist);
+      expect(controller.state.contentMode, MapContentMode.listOnly);
+      expect(controller.state.hasActiveFilters, isTrue);
+    },
+  );
 
   test('handleAppResumed reloads once after returning from settings', () async {
     final locationService = _StubLocationService(openSettingsResult: true);
-    final service = _SequencedNearbyClinicService(
-      const [
-        NearbyClinicLoadResult(
-          center: LatLng(37.5665, 126.9780),
-          clinics: <Clinic>[],
-          status: NearbyClinicStatus.permissionDeniedForever,
-        ),
-        NearbyClinicLoadResult(
-          center: LatLng(37.5665, 126.9780),
-          clinics: <Clinic>[],
-          status: NearbyClinicStatus.realtimeLoaded,
-        ),
-      ],
+    final service = _SequencedNearbyClinicService(const [
+      NearbyClinicLoadResult(
+        center: LatLng(37.5665, 126.9780),
+        clinics: <Clinic>[],
+        status: NearbyClinicStatus.permissionDeniedForever,
+      ),
+      NearbyClinicLoadResult(
+        center: LatLng(37.5665, 126.9780),
+        clinics: <Clinic>[],
+        status: NearbyClinicStatus.realtimeLoaded,
+      ),
+    ]);
+    final controller = MapViewController(
+      service,
+      locationService,
+      _SilentLogger(),
     );
-    final controller = MapViewController(service, locationService, _SilentLogger());
 
     await controller.loadNearby();
     await controller.openLocationSettings();

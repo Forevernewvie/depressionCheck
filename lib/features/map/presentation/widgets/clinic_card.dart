@@ -88,7 +88,8 @@ class ClinicCard extends ConsumerWidget {
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton(
-                          onPressed: () => _openDirections(context, ref, clinic),
+                          onPressed: () =>
+                              _openDirections(context, ref, clinic),
                           child: Text(l10n.buttonDirections),
                         ),
                       ),

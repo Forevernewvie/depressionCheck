@@ -22,12 +22,14 @@ class LikertQuestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
-    final options = optionLabels ?? <int, String>{
-      0: l10n.answer0,
-      1: l10n.answer1,
-      2: l10n.answer2,
-      3: l10n.answer3,
-    };
+    final options =
+        optionLabels ??
+        <int, String>{
+          0: l10n.answer0,
+          1: l10n.answer1,
+          2: l10n.answer2,
+          3: l10n.answer3,
+        };
 
     return Card(
       child: Padding(
