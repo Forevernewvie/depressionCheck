@@ -13,8 +13,7 @@ class IsarCheckInRepository implements CheckInRepository {
   final AppLogger _logger;
 
   @override
-  List<DailyCheckInEntry> readRecentEntries({required int days}) {
-    final from = DateTime.now().subtract(Duration(days: days));
+  List<DailyCheckInEntry> readRecentEntries({required DateTime from}) {
     final records = _isar.dailyCheckInRecords
         .where()
         .createdAtGreaterThan(from)

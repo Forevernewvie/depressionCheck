@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vibemental_app/core/config/checkin_config.dart';
 import 'package:vibemental_app/core/logging/app_logger.dart';
+import 'package:vibemental_app/core/time/clock.dart';
 import 'package:vibemental_app/features/checkin/application/checkin_state.dart';
 import 'package:vibemental_app/features/checkin/data/checkin_repository.dart';
 import 'package:vibemental_app/features/checkin/domain/checkin_date_key.dart';
@@ -8,20 +9,22 @@ import 'package:vibemental_app/features/checkin/domain/checkin_validators.dart';
 
 /// Purpose: Manage daily check-in input and weekly trend state transitions.
 class CheckInController extends StateNotifier<CheckInState> {
-  CheckInController(this._repository, this._logger)
+  CheckInController(this._repository, this._logger, this._clock)
     : super(const CheckInState()) {
     _restore();
   }
 
   final CheckInRepository _repository;
   final AppLogger _logger;
+  final Clock _clock;
 
   /// Purpose: Restore today's check-in and weekly entries from local storage.
   void _restore() {
-    final todayKey = buildLocalDateKey(DateTime.now());
+    final now = _clock.now();
+    final todayKey = buildLocalDateKey(now);
     final today = _repository.readByDateKey(todayKey);
     final recent = _repository.readRecentEntries(
-      days: CheckInConfig.weeklyTrendDays,
+      from: now.subtract(Duration(days: CheckInConfig.weeklyTrendDays)),
     );
 
     state = state.copyWith(
@@ -68,7 +71,7 @@ class CheckInController extends StateNotifier<CheckInState> {
     state = state.copyWith(isSaving: true, clearSaveResult: true);
 
     try {
-      final now = DateTime.now();
+      final now = _clock.now();
       _repository.saveEntry(
         localDateKey: buildLocalDateKey(now),
         mood: state.mood,
@@ -78,7 +81,7 @@ class CheckInController extends StateNotifier<CheckInState> {
       );
 
       final recent = _repository.readRecentEntries(
-        days: CheckInConfig.weeklyTrendDays,
+        from: now.subtract(Duration(days: CheckInConfig.weeklyTrendDays)),
       );
       state = state.copyWith(
         isSaving: false,

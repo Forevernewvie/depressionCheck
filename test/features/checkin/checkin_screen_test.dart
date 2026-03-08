@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vibemental_app/core/logging/logging_providers.dart';
+import 'package:vibemental_app/core/time/clock.dart';
+import 'package:vibemental_app/core/time/clock_providers.dart';
 import 'package:vibemental_app/features/checkin/application/checkin_providers.dart';
 import 'package:vibemental_app/features/checkin/data/checkin_repository.dart';
 import 'package:vibemental_app/features/checkin/domain/daily_checkin_entry.dart';
@@ -18,8 +20,9 @@ class _FakeCheckInRepository implements CheckInRepository {
       _storage[localDateKey];
 
   @override
-  List<DailyCheckInEntry> readRecentEntries({required int days}) {
-    final entries = _storage.values.toList(growable: false);
+  List<DailyCheckInEntry> readRecentEntries({required DateTime from}) {
+    final entries = _storage.values.toList();
+    entries.retainWhere((entry) => entry.createdAt.isAfter(from));
     entries.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     return entries;
   }
@@ -50,12 +53,16 @@ void main() {
   Future<void> pumpScreen(
     WidgetTester tester, {
     required _FakeCheckInRepository repository,
+    Clock? clock,
   }) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           appLoggerProvider.overrideWithValue(TestAppLogger()),
           checkInRepositoryProvider.overrideWithValue(repository),
+          clockProvider.overrideWithValue(
+            clock ?? _FakeClock(DateTime.parse('2026-03-08T09:00:00')),
+          ),
         ],
         child: MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -78,7 +85,10 @@ void main() {
     await tester.tap(find.text('Save Today'));
     await tester.pumpAndSettle();
 
-    expect(repository.readRecentEntries(days: 7), isNotEmpty);
+    expect(
+      repository.readRecentEntries(from: DateTime.parse('2026-03-01T00:00:00')),
+      isNotEmpty,
+    );
     expect(find.text('Check-in saved.'), findsOneWidget);
   });
 
@@ -105,10 +115,26 @@ void main() {
         ),
       );
 
-    await pumpScreen(tester, repository: repository);
+    await pumpScreen(
+      tester,
+      repository: repository,
+      clock: _FakeClock(DateTime.parse('2026-02-26T09:00:00')),
+    );
 
     expect(find.text('7-day Trend'), findsOneWidget);
     expect(find.textContaining('Weekly average'), findsOneWidget);
     expect(find.text('Mood'), findsWidgets);
   });
+}
+
+class _FakeClock implements Clock {
+  _FakeClock(this._now);
+
+  final DateTime _now;
+
+  @override
+  /// Purpose: Return deterministic time for check-in widget tests.
+  DateTime now() {
+    return _now;
+  }
 }
